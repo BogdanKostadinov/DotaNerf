@@ -1,0 +1,6 @@
+@DotaNerf_HostAddress = http://localhost:5185
+
+GET {{DotaNerf_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
