@@ -1,0 +1,27 @@
+.table-container {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 12px; 
+    overflow: hidden; 
+}
+  
+th.mat-sort-header-sorted {
+    color: black;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.mat-column-id {
+    width: 32px;
+    border-right: 1px solid currentColor;
+    padding-right: 24px;
+    text-align: left;
+}
+
+.mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+    margin-bottom: -1.35rem;
+}
