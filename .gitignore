@@ -1,0 +1,17 @@
+
+# Ignore build output (DLLs, EXEs, etc.)
+# Ignore all bin and obj folders in the Back-end repository
+Back-end/DotaNerf/DotaNerf/bin/
+Back-end/DotaNerf/DotaNerf/obj/
+Back-end/DotaNerf/.vs/
+Back-end/DotaNerf/vs/
+*.dll
+*.exe
+*.pdb
+*.cache
+
+# Ignore Visual Studio and VS Code specific files in the Front-end
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
