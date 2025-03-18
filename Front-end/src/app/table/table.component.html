@@ -1,5 +1,5 @@
 <div class="table-container">
-  <mat-form-field>
+  <mat-form-field class="search-field">
     <mat-label>Search...</mat-label>
     <input
       matInput
@@ -45,14 +45,32 @@
     <ng-container matColumnDef="edit">
       <th mat-header-cell *matHeaderCellDef class="align-right">Edit stats</th>
       <td mat-cell *matCellDef="let element" class="align-right">
-        <button mat-icon-button (click)="onEdit(element)">
+        <!-- <button mat-icon-button (click)="onEdit(element)">
           <mat-icon>edit</mat-icon>
+        </button> -->
+
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
         </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="addGameStats(element)">
+            <mat-icon>add</mat-icon>
+            <span>Add game stats</span>
+          </button>
+          <button mat-menu-item (click)="editPlayerStats()">
+            <mat-icon>edit</mat-icon>
+            <span>Edit player stats</span>
+          </button>
+        </mat-menu>
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      (click)="clickedRows.add(row)"
+    ></tr>
 
     <tr class="mat-row" *matNoDataRow>
       <td class="mat-cell" colspan="4">

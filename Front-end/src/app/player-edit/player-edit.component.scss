@@ -1,3 +1,24 @@
 mat-form-field {
     width: 100%;
 }
+
+.row {
+    display: flex;
+    gap: 16px; 
+    margin-bottom: 16px; 
+}
+  
+.flex-item {
+    flex: 1; 
+}
+
+.mat-radio-group {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    margin: 16px 0; 
+  }
+  
+  .mat-radio-button {
+    margin: 0 8px; 
+  }

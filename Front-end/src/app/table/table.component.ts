@@ -4,16 +4,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { PlayerEditComponent } from '../player-edit/player-edit.component';
+import { Player } from '../models/player.model';
 
-export interface PlayerElement {
-  id: number;
-  name: string;
-  winrate: number;
-  totalGames: number;
-  gamesWon: number;
-  gamesLost: number;
-}
-const ELEMENT_DATA: PlayerElement[] = [
+const ELEMENT_DATA: Player[] = [
   {
     id: 0,
     name: 'dummy',
@@ -21,6 +14,7 @@ const ELEMENT_DATA: PlayerElement[] = [
     totalGames: 9,
     gamesWon: 6,
     gamesLost: 3,
+    games: [],
   },
   {
     id: 1,
@@ -29,6 +23,7 @@ const ELEMENT_DATA: PlayerElement[] = [
     totalGames: 9,
     gamesWon: 6,
     gamesLost: 3,
+    games: [],
   },
   {
     id: 2,
@@ -37,6 +32,7 @@ const ELEMENT_DATA: PlayerElement[] = [
     totalGames: 19,
     gamesWon: 12,
     gamesLost: 7,
+    games: [],
   },
   {
     id: 3,
@@ -45,6 +41,7 @@ const ELEMENT_DATA: PlayerElement[] = [
     totalGames: 15,
     gamesWon: 9,
     gamesLost: 6,
+    games: [],
   },
   {
     id: 4,
@@ -53,6 +50,7 @@ const ELEMENT_DATA: PlayerElement[] = [
     totalGames: 17,
     gamesWon: 10,
     gamesLost: 7,
+    games: [],
   },
   {
     id: 5,
@@ -61,6 +59,7 @@ const ELEMENT_DATA: PlayerElement[] = [
     totalGames: 14,
     gamesWon: 7,
     gamesLost: 7,
+    games: [],
   },
   {
     id: 6,
@@ -69,6 +68,7 @@ const ELEMENT_DATA: PlayerElement[] = [
     totalGames: 19,
     gamesWon: 10,
     gamesLost: 9,
+    games: [],
   },
   {
     id: 7,
@@ -77,6 +77,7 @@ const ELEMENT_DATA: PlayerElement[] = [
     totalGames: 15,
     gamesWon: 6,
     gamesLost: 9,
+    games: [],
   },
   {
     id: 8,
@@ -85,6 +86,7 @@ const ELEMENT_DATA: PlayerElement[] = [
     totalGames: 16,
     gamesWon: 6,
     gamesLost: 10,
+    games: [],
   },
   {
     id: 9,
@@ -93,14 +95,16 @@ const ELEMENT_DATA: PlayerElement[] = [
     totalGames: 19,
     gamesWon: 7,
     gamesLost: 12,
+    games: [],
   },
   {
     id: 10,
-    name: 'Sofiqnece',
+    name: 'Sofiqneca',
     winrate: 20,
     totalGames: 5,
     gamesWon: 1,
     gamesLost: 4,
+    games: [],
   },
   {
     id: 11,
@@ -109,6 +113,7 @@ const ELEMENT_DATA: PlayerElement[] = [
     totalGames: 8,
     gamesWon: 2,
     gamesLost: 6,
+    games: [],
   },
   {
     id: 12,
@@ -117,6 +122,7 @@ const ELEMENT_DATA: PlayerElement[] = [
     totalGames: 6,
     gamesWon: 0,
     gamesLost: 6,
+    games: [],
   },
 ];
 
@@ -135,6 +141,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     'edit',
   ];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
+  clickedRows = new Set<Player>();
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -142,7 +149,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.dataSource.filterPredicate = (data: PlayerElement, filter: string) => {
+    this.dataSource.filterPredicate = (data: Player, filter: string) => {
       return data.name.toLowerCase().includes(filter);
     };
   }
@@ -154,10 +161,10 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  onEdit(player: PlayerElement): void {
+  addGameStats(player: Player): void {
     const dialogRef = this.dialog.open(PlayerEditComponent, {
-      width: '400px',
-      data: { action: 'edit', player },
+      width: '600px',
+      data: { action: 'addStats', player },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -165,5 +172,9 @@ export class TableComponent implements OnInit, AfterViewInit {
         console.log('Dialog result:', result);
       }
     });
+  }
+
+  editPlayerStats() {
+    console.log('delete player');
   }
 }

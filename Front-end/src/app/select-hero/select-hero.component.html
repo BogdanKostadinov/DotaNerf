@@ -1,0 +1,11 @@
+<mat-form-field>
+  <mat-label>Hero played</mat-label>
+  <mat-select [formControl]="control">
+    <mat-option *ngFor="let hero of heroes" [value]="hero">{{
+      hero
+    }}</mat-option>
+  </mat-select>
+  <mat-error *ngIf="control.hasError('required')"
+    >Hero selection is required</mat-error
+  >
+</mat-form-field>

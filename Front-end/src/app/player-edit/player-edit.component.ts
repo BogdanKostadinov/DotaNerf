@@ -1,7 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { PlayerElement } from '../table/table.component';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { GameStats, Player } from '../models/player.model';
 
 @Component({
   selector: 'app-player-edit',
@@ -11,36 +16,34 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class PlayerEditComponent implements OnInit {
   title = '';
   form!: FormGroup;
+  heroSelectCtrl = new FormControl<string>('', Validators.required);
 
   constructor(
     public dialogRef: MatDialogRef<PlayerEditComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { action: 'add' | 'edit'; player?: PlayerElement },
+    public data: { action: 'addStats' | 'editStats'; player?: Player },
     public fb: FormBuilder,
   ) {}
   ngOnInit(): void {
-    this.title = this.data.action === 'edit' ? 'Edit player' : 'Add player';
+    this.title =
+      this.data.action === 'editStats'
+        ? 'Edit stats for: ' + this.data.player?.name
+        : 'Add stats for: ' + this.data.player?.name;
+
     this.initializeForm();
   }
 
   initializeForm(): void {
     this.form = this.fb.group({
-      name: [
-        this.data.player?.name || '',
-        [
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(50),
-        ],
-      ],
-      winrate: [
-        this.data.player?.winrate || '',
-        [Validators.required, Validators.min(0), Validators.max(100)],
-      ],
-      games: [
-        this.data.player?.totalGames || '',
-        [Validators.required, Validators.min(0)],
-      ],
+      heroPlayed: this.heroSelectCtrl,
+      xpm: [''],
+      gpm: [''],
+      lastHits: [''],
+      kills: [''],
+      deaths: [''],
+      assists: [''],
+      gameDuration: [''],
+      gameResult: [null, Validators.required],
     });
   }
 
@@ -52,6 +55,8 @@ export class PlayerEditComponent implements OnInit {
   }
 
   onSave(): void {
+    const gameStats: GameStats = this.form.value;
+    console.log('Game Result:', gameStats);
     this.dialogRef.close(this.data);
   }
 

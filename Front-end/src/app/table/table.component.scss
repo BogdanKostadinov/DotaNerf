@@ -2,7 +2,8 @@
     width: 100%;
     border: 1px solid #ccc;
     border-radius: 12px; 
-    overflow: hidden; 
+    overflow: auto; 
+    height: 540px;
 }
   
 th.mat-sort-header-sorted {
@@ -24,4 +25,22 @@ th.mat-sort-header-sorted {
     font-size: 14px;
     width: 100%;
     margin-bottom: -1.35rem;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+    border-color: currentColor;
+}
+
+mat-paginator {
+    flex-shrink: 0;
+    bottom: 0; 
+    background: white; 
+    z-index: 1; 
+    position: sticky;
 }

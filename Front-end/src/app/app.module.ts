@@ -18,6 +18,10 @@ import { PlayerEditComponent } from './player-edit/player-edit.component';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSortModule } from '@angular/material/sort';
+import { MatRadioModule } from '@angular/material/radio';
+import { SelectHeroComponent } from './select-hero/select-hero.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -25,6 +29,7 @@ import { MatSortModule } from '@angular/material/sort';
     TableComponent,
     ToolbarComponent,
     PlayerEditComponent,
+    SelectHeroComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,6 +44,9 @@ import { MatSortModule } from '@angular/material/sort';
     FormsModule,
     ReactiveFormsModule,
     MatSortModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatMenuModule,
   ],
   providers: [provideClientHydration(), provideAnimationsAsync()],
   bootstrap: [AppComponent],
