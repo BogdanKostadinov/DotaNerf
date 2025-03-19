@@ -1,11 +1,12 @@
-﻿using System.Text.Json.Serialization;
+﻿using DotaNerf.Data;
+using System.Text.Json.Serialization;
 
 namespace DotaNerf.Models;
 
 public class GameStats
 {
     public Guid Id { get; set; }
-    public required string HeroPlayed { get; set; }
+    public required Hero HeroPlayed { get; set; }
     public double? Xpm { get; set; }  
     public double? Gpm { get; set; }  
     public int? LastHits { get; set; }  

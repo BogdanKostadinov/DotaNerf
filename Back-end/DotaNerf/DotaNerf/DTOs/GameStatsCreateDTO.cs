@@ -4,7 +4,7 @@ namespace DotaNerf.DTOs;
 
 public class GameStatsCreateDTO
 {
-    public required string HeroPlayed { get; set; }
+    public required HeroDTO HeroPlayed { get; set; }
     public double? Xpm { get; set; }
     public double? Gpm { get; set; }
     public int? LastHits { get; set; }
