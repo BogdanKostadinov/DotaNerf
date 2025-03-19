@@ -12,7 +12,7 @@ export class SelectHeroComponent {
   heroes: string[] = [];
 
   constructor(private heroService: HeroService) {
-    this.heroService.getHeroes().subscribe((heroes) => {
+    this.heroService.getHeroes$().subscribe((heroes) => {
       this.heroes = heroes.map((hero) => hero.name);
     });
   }

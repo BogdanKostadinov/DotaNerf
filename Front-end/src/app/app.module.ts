@@ -22,6 +22,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { SelectHeroComponent } from './select-hero/select-hero.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { CdkAccordionModule } from '@angular/cdk/accordion';
 import {
   HttpClientModule,
   provideHttpClient,
@@ -55,6 +57,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatRadioModule,
     MatSelectModule,
     MatMenuModule,
+    MatExpansionModule,
+    CdkAccordionModule,
   ],
   providers: [provideHttpClient(withFetch()), provideAnimationsAsync()],
   bootstrap: [AppComponent],

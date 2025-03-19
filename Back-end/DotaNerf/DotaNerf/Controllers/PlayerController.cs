@@ -65,7 +65,15 @@ public class PlayerController : ControllerBase
         gameStats.Id = Guid.NewGuid();
         gameStats.PlayerId = id;
 
-        //player.Games.Add(gameStats);
+        // Check if the Hero exists
+        var hero = await _context.Heroes.FirstOrDefaultAsync(h => h.Name == gameStatsDTO.HeroPlayed.Name);
+        if (hero == null)
+        {
+            hero = new Hero { Name = gameStatsDTO.HeroPlayed.Name };
+            _context.Heroes.Add(hero);
+        }
+        gameStats.HeroPlayed = hero;
+
         UpdatePlayerWithGame(player, gameStats);
 
         _context.GameStats.Add(gameStats);

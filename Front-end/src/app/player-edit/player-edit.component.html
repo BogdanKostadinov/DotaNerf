@@ -2,85 +2,91 @@
 <div mat-dialog-content>
   <form [formGroup]="form">
     <app-select-hero [control]="heroSelectCtrl"></app-select-hero>
+    <mat-accordion class="example-headers-align" multi>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Additional game details </mat-panel-title>
+        </mat-expansion-panel-header>
+        <!-- LH and game duration -->
+        <div class="row">
+          <mat-form-field appearance="fill" class="flex-item">
+            <mat-label>Last hits</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="lastHits"
+              (keypress)="onKeyPress($event)"
+            />
+          </mat-form-field>
 
-    <!-- LH and game duration -->
-    <div class="row">
-      <mat-form-field appearance="fill" class="flex-item">
-        <mat-label>Last hits</mat-label>
-        <input
-          matInput
-          type="number"
-          formControlName="lastHits"
-          (keypress)="onKeyPress($event)"
-        />
-      </mat-form-field>
+          <mat-form-field appearance="fill" class="flex-item">
+            <mat-label>Game duration</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="gameDuration"
+              (keypress)="onKeyPress($event)"
+            />
+          </mat-form-field>
+        </div>
 
-      <mat-form-field appearance="fill" class="flex-item">
-        <mat-label>Game duration</mat-label>
-        <input
-          matInput
-          type="number"
-          formControlName="gameDuration"
-          (keypress)="onKeyPress($event)"
-        />
-      </mat-form-field>
-    </div>
+        <!-- XPM and GPM -->
+        <div class="row">
+          <mat-form-field appearance="fill" class="flex-item">
+            <mat-label>XPM</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="xpm"
+              (keypress)="onKeyPress($event)"
+            />
+          </mat-form-field>
 
-    <!-- XPM and GPM -->
-    <div class="row">
-      <mat-form-field appearance="fill" class="flex-item">
-        <mat-label>XPM</mat-label>
-        <input
-          matInput
-          type="number"
-          formControlName="xpm"
-          (keypress)="onKeyPress($event)"
-        />
-      </mat-form-field>
+          <mat-form-field appearance="fill" class="flex-item">
+            <mat-label>GPM</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="gpm"
+              (keypress)="onKeyPress($event)"
+            />
+          </mat-form-field>
+        </div>
 
-      <mat-form-field appearance="fill" class="flex-item">
-        <mat-label>GPM</mat-label>
-        <input
-          matInput
-          type="number"
-          formControlName="gpm"
-          (keypress)="onKeyPress($event)"
-        />
-      </mat-form-field>
-    </div>
+        <!-- KDA -->
+        <div class="row">
+          <mat-form-field appearance="fill" class="flex-item">
+            <mat-label>Kills</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="kills"
+              (keypress)="onKeyPress($event)"
+            />
+          </mat-form-field>
 
-    <!-- KDA -->
-    <div class="row">
-      <mat-form-field appearance="fill" class="flex-item">
-        <mat-label>Kills</mat-label>
-        <input
-          matInput
-          type="number"
-          formControlName="kills"
-          (keypress)="onKeyPress($event)"
-        />
-      </mat-form-field>
+          <mat-form-field appearance="fill" class="flex-item">
+            <mat-label>Deaths</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="deaths"
+              (keypress)="onKeyPress($event)"
+            />
+          </mat-form-field>
 
-      <mat-form-field appearance="fill" class="flex-item">
-        <mat-label>Deaths</mat-label>
-        <input
-          matInput
-          type="number"
-          formControlName="deaths"
-          (keypress)="onKeyPress($event)"
-        />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="flex-item">
-        <mat-label>Assists</mat-label>
-        <input
-          matInput
-          type="number"
-          formControlName="assists"
-          (keypress)="onKeyPress($event)"
-        />
-      </mat-form-field>
-    </div>
+          <mat-form-field appearance="fill" class="flex-item">
+            <mat-label>Assists</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="assists"
+              (keypress)="onKeyPress($event)"
+            />
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
 
     <!-- Game result -->
     <mat-radio-group formControlName="gameResult" aria-label="Select an option">
