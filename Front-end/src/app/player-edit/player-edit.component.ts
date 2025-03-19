@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { GameStats, Player } from '../models/player.model';
+import { PlayerService } from '../services/player.service';
 
 @Component({
   selector: 'app-player-edit',
@@ -36,13 +37,13 @@ export class PlayerEditComponent implements OnInit {
   initializeForm(): void {
     this.form = this.fb.group({
       heroPlayed: this.heroSelectCtrl,
-      xpm: [''],
-      gpm: [''],
-      lastHits: [''],
-      kills: [''],
-      deaths: [''],
-      assists: [''],
-      gameDuration: [''],
+      xpm: [],
+      gpm: [],
+      lastHits: [],
+      kills: [],
+      deaths: [],
+      assists: [],
+      gameDuration: [],
       gameResult: [null, Validators.required],
     });
   }
@@ -55,9 +56,20 @@ export class PlayerEditComponent implements OnInit {
   }
 
   onSave(): void {
-    const gameStats: GameStats = this.form.value;
-    console.log('Game Result:', gameStats);
-    this.dialogRef.close(this.data);
+    const gameStats = {
+      heroPlayed: { name: this.form.value.heroPlayed },
+      xpm: this.form.value.xpm || 0,
+      gpm: this.form.value.gpm || 0,
+      lastHits: this.form.value.lastHits || 0,
+      kills: this.form.value.kills || 0,
+      deaths: this.form.value.deaths || 0,
+      assists: this.form.value.assists || 0,
+      gameDuration: this.form.value.gameDuration || 0,
+      gameResult: this.form.value.gameResult === '1' ? 1 : 0,
+      playerId: this.data.player?.id,
+    };
+
+    this.dialogRef.close(gameStats);
   }
 
   onCancel(): void {

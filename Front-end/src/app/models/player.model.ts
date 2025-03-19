@@ -1,5 +1,7 @@
+import { Hero } from './hero.model';
+
 export interface Player {
-  id: number;
+  id: string;
   name: string;
   winrate: number;
   totalGames: number;
@@ -9,8 +11,7 @@ export interface Player {
 }
 
 export interface GameStats {
-  id: number;
-  heroPlayed: string;
+  heroPlayed: Hero;
   xpm?: number;
   gpm?: number;
   lastHits?: number;
@@ -18,9 +19,11 @@ export interface GameStats {
   deaths?: number;
   assists?: number;
   gameDuration?: number;
-  gameResult: GameResult;
+  gameResult: number;
+  playerId: string;
 }
 
+// to be uesd in the game stats component
 export enum GameResult {
   Won = 'Won',
   Lost = 'Lost',

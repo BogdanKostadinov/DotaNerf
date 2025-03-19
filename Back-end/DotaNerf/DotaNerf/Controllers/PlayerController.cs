@@ -46,7 +46,7 @@ public class PlayerController : ControllerBase
         return Ok(player);
     }
 
-    [HttpPut(Name = "AddGameForPlayer")]
+    [HttpPut("{id}")]
     public async Task<IActionResult> AddGameForPlayerAsync(Guid id, [FromBody] GameStatsCreateDTO gameStatsDTO)
     {
         // Find the player by ID

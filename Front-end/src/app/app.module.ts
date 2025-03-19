@@ -22,6 +22,12 @@ import { MatRadioModule } from '@angular/material/radio';
 import { SelectHeroComponent } from './select-hero/select-hero.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
+import {
+  HttpClientModule,
+  provideHttpClient,
+  withFetch,
+} from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -32,6 +38,8 @@ import { MatMenuModule } from '@angular/material/menu';
     SelectHeroComponent,
   ],
   imports: [
+    BrowserAnimationsModule,
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     MatTableModule,
@@ -48,7 +56,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatSelectModule,
     MatMenuModule,
   ],
-  providers: [provideClientHydration(), provideAnimationsAsync()],
+  providers: [provideHttpClient(withFetch()), provideAnimationsAsync()],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
