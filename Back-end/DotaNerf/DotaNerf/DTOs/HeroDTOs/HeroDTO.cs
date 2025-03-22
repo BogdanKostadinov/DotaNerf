@@ -1,4 +1,4 @@
-﻿namespace DotaNerf.DTOs;
+﻿namespace DotaNerf.DTOs.HeroDTOs;
 
 public class HeroDTO
 {

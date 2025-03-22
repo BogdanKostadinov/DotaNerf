@@ -1,6 +1,6 @@
 ﻿using DotaNerf.Models;
 
-namespace DotaNerf.Data;
+namespace DotaNerf.Data.SeededData;
 
 public class HeroData
 {

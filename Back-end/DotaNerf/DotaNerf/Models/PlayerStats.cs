@@ -1,9 +1,8 @@
-﻿using DotaNerf.Data;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace DotaNerf.Models;
 
-public class GameStats
+public class PlayerStats
 {
     public Guid Id { get; set; }
     public required Hero HeroPlayed { get; set; }
@@ -13,15 +12,12 @@ public class GameStats
     public int? Kills { get; set; }  
     public int? Deaths { get; set; } 
     public int? Assists { get; set; }  
-    public int? GameDuration { get; set; }  
-    public GameResult GameResult { get; set; }
-    public Guid PlayerId { get; set; }
+
+    [JsonIgnore]
+    public Game? Game { get; set; }
     [JsonIgnore]
     public Player? Player { get; set; }
-}
 
-public enum GameResult
-{
-    Win,
-    Loss
+    public Guid PlayerId { get; set; }
+    public Guid GameId { get; set; }
 }

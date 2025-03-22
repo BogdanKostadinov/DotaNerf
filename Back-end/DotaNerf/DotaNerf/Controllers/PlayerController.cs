@@ -1,6 +1,6 @@
 using AutoMapper;
 using DotaNerf.Data;
-using DotaNerf.DTOs;
+using DotaNerf.DTOs.PlayerStatsDTOs;
 using DotaNerf.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +24,9 @@ public class PlayerController : ControllerBase
     public async Task<IActionResult> GetPlayersAsync()
     {
         var players = await _context.Players
-            .Include(m => m.Games)
+            .Include(p => p.Games)
+                .ThenInclude(g => g.PlayerStats)
+            .Include(p => p.PlayerStats)
             .ToListAsync();
 
         return Ok(players);
@@ -47,7 +49,7 @@ public class PlayerController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> AddGameForPlayerAsync(Guid id, [FromBody] GameStatsCreateDTO gameStatsDTO)
+    public async Task<IActionResult> AddGameForPlayerAsync(Guid id, [FromBody] CreatePlayerStatsDTO gameStatsDTO)
     {
         // Find the player by ID
         var player = await _context.Players
@@ -61,7 +63,7 @@ public class PlayerController : ControllerBase
         }
 
         // Map DTO to GameStats entity
-        var gameStats = _mapper.Map<GameStats>(gameStatsDTO);
+        var gameStats = _mapper.Map<PlayerStats>(gameStatsDTO);
         gameStats.Id = Guid.NewGuid();
         gameStats.PlayerId = id;
 
@@ -74,7 +76,7 @@ public class PlayerController : ControllerBase
         }
         gameStats.HeroPlayed = hero;
 
-        UpdatePlayerWithGame(player, gameStats);
+        //UpdatePlayerWithGame(player, gameStats);
 
         _context.GameStats.Add(gameStats);
         _context.Entry(player).State = EntityState.Modified;
@@ -85,17 +87,17 @@ public class PlayerController : ControllerBase
     }
 
 
-    private void UpdatePlayerWithGame(Player player, GameStats gameStats)
-    {
-        player.TotalGames++;
-        if (gameStats.GameResult == GameResult.Win)
-        {
-            player.GamesWon++;
-        }
-        else if (gameStats.GameResult == GameResult.Loss)
-        {
-            player.GamesLost++;
-        }
-        player.Winrate = Math.Round((double)player.GamesWon / player.TotalGames * 100);
-    }
+    //private void UpdatePlayerWithGame(Player player, PlayerStats gameStats)
+    //{
+    //    player.TotalGames++;
+    //    if (gameStats.GameResult == GameResult.Win)
+    //    {
+    //        player.GamesWon++;
+    //    }
+    //    else if (gameStats.GameResult == GameResult.Loss)
+    //    {
+    //        player.GamesLost++;
+    //    }
+    //    player.Winrate = Math.Round((double)player.GamesWon / player.TotalGames * 100);
+    //}
 }

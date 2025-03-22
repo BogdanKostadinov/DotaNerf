@@ -1,8 +1,9 @@
-﻿using DotaNerf.Models;
+﻿using DotaNerf.DTOs.HeroDTOs;
+using DotaNerf.Models;
 
-namespace DotaNerf.DTOs;
+namespace DotaNerf.DTOs.PlayerStatsDTOs;
 
-public class GameStatsCreateDTO
+public class CreatePlayerStatsDTO
 {
     public required HeroDTO HeroPlayed { get; set; }
     public double? Xpm { get; set; }
@@ -12,6 +13,5 @@ public class GameStatsCreateDTO
     public int? Deaths { get; set; }
     public int? Assists { get; set; }
     public int? GameDuration { get; set; }
-    public GameResult GameResult { get; set; }
     public Guid PlayerId { get; set; }
 }

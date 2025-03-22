@@ -8,5 +8,7 @@ public class Player
     public int TotalGames { get; set; }
     public int GamesWon { get; set; }
     public int GamesLost { get; set; }
-    public List<GameStats> Games { get; set; } = new();
+
+    public List<PlayerStats> PlayerStats { get; set; } = new();
+    public List<Game> Games { get; set; } = new();
 }
