@@ -1,6 +1,6 @@
-﻿namespace DotaNerf.DTOs;
+﻿namespace DotaNerf.DTOs.PlayerDTOs;
 
-public class PlayerCreateDTO
+public class CreatePlayerDTO
 {
     public required string Name { get; set; }
     public int GamesWon { get; set; }

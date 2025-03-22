@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DotaNerf.DTOs;
+using DotaNerf.DTOs.HeroDTOs;
 using DotaNerf.Models;
 
 namespace DotaNerf.Mappings;
