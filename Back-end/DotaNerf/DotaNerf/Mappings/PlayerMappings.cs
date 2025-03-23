@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DotaNerf.DTOs.PlayerDTOs;
+using DotaNerf.DTOs;
 using DotaNerf.Models;
 
 namespace DotaNerf.Mappings;
@@ -9,17 +9,10 @@ public class PlayerMappings : Profile
 	public PlayerMappings()
 	{
         CreateMap<Player, PlayerDTO>()
-            .ForMember(dest => dest.WinRate, opt => opt.MapFrom(src => src.Winrate))
-            .ForMember(dest => dest.Games, opt => opt.MapFrom(src => src.Games));
+             .ForMember(dest => dest.PlayerStats, opt => opt.MapFrom(src => src.PlayerStats.FirstOrDefault())); 
 
-        // Map from Player to PlayerDTO
-        CreateMap<Player, PlayerDTO>()
-            .ForMember(dest => dest.PlayerStats, opt => opt.MapFrom(src => src.PlayerStats));
-
-
-        //CreateMap<CreatePlayerDTO, Player>()
-        //    .ForMember(dest => dest.Id, opt => opt.Ignore())
-        //    .ForMember(dest => dest.Winrate, opt => opt.Ignore()) 
-        //    .ForMember(dest => dest.TotalGames, opt => opt.MapFrom(src => src.GamesWon + src.GamesLost));
+        CreateMap<PlayerDTO, Player>()
+            .ForMember(dest => dest.PlayerStats, opt => opt.Ignore()) 
+            .ForMember(dest => dest.Games, opt => opt.Ignore());
     }
 }

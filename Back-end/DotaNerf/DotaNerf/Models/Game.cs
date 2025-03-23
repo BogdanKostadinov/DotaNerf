@@ -13,8 +13,6 @@ public class Game
     public Team? RadiantTeam { get; set; }
     public Team? DireTeam { get; set; }
 
-    // Navigation property to access player stats for this game
-    public List<PlayerStats> PlayerStats { get; set; } = new();
     public List<Player> Players { get; set; } = new();
 
 }

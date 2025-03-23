@@ -8,13 +8,13 @@ namespace DotaNerf.Data;
 public class DataContext : DbContext
 {
     public DataContext(DbContextOptions<DataContext> options) : base(options)
-    {}
+    { }
 
     public DbSet<Player> Players { get; set; }
     public DbSet<PlayerStats> GameStats { get; set; }
     public DbSet<Hero> Heroes { get; set; }
     public DbSet<Game> Games { get; set; }
-
+    public DbSet<Team> Teams { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -24,6 +24,7 @@ public class DataContext : DbContext
         modelBuilder.ApplyConfiguration(new TeamConfiguration());
         modelBuilder.ApplyConfiguration(new PlayerConfiguration());
         modelBuilder.ApplyConfiguration(new PlayerStatsConfiguration());
+        modelBuilder.ApplyConfiguration(new HeroConfiguration());
 
         modelBuilder.Seed();
     }
@@ -33,26 +34,19 @@ public static class DataSeeder
 {
     public static void Seed(this ModelBuilder modelBuilder)
     {
-        var players = PlayerData.SeedPlayers();
-        var teams = TeamData.SeedTeams();
-        var heroes = HeroData.SeedHeroes();
-        var games = GameData.SeedGames();
+        // Seed Heroes
+        modelBuilder.Entity<Hero>().HasData(MockData.SeedHeroes());
 
-        if (players is not null)
-        {
-            modelBuilder.Entity<Player>().HasData(players);
-        }
-        if (teams is not null)
-        {
-            modelBuilder.Entity<Team>().HasData(teams);
-        }
-        if (heroes is not null)
-        {
-            modelBuilder.Entity<Hero>().HasData(heroes);
-        }
-        if (games is not null)
-        {
-            modelBuilder.Entity<Game>().HasData(games);
-        }
+        // Seed Teams
+        modelBuilder.Entity<Team>().HasData(MockData.SeedTeams());
+
+        // Seed Players
+        modelBuilder.Entity<Player>().HasData(MockData.SeedPlayers());
+
+        // Seed Games
+        modelBuilder.Entity<Game>().HasData(MockData.SeedGames());
+
+        // Seed PlayerStats
+        modelBuilder.Entity<PlayerStats>().HasData(MockData.SeedPlayerStats());
     }
 }
