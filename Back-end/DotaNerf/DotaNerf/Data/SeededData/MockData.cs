@@ -2,8 +2,18 @@
 
 namespace DotaNerf.Data.SeededData;
 
-public class HeroData
+public static class MockData
 {
+    // Define GUIDs for players, teams, and games
+    public static readonly Guid DummyPlayerId = new Guid("a1e29d5e-1c4b-4b8a-9b1e-1c4b4b8a9b1e");
+    public static readonly Guid VeniPlayerId = new Guid("c3f39d5e-3e4b-4c8a-9d3e-3e4b6c8a9d3e");
+
+    public static readonly Guid RadiantTeamId = new Guid("d4f49d5e-4f4b-4d8a-9e4e-4f4b7d8a9e4e");
+    public static readonly Guid DireTeamId = new Guid("e5f59d5e-5f5b-4e8a-9f5e-5f5b8e8a9f5e");
+
+    public static readonly Guid Game1Id = new Guid("f6f69d5e-6f6b-4f8a-9f6e-6f6b9f8a9f6e");
+    public static readonly Guid Game2Id = new Guid("b5f59d5e-5f5b-4e8a-9f5e-5f5b8e8a9f5e");
+
     public static List<Hero> SeedHeroes()
     {
         return new List<Hero>
@@ -130,5 +140,96 @@ public class HeroData
             new Hero { Id = 118, Name = "Wraith King" },
             new Hero { Id = 119, Name = "Zeus" }
         };
+
     }
+
+    public static List<Player> SeedPlayers()
+    {
+        return new List<Player>
+        {
+            new Player
+            {
+                Id = DummyPlayerId,
+                Name = "dummy",
+                TeamId = RadiantTeamId
+            },
+            new Player
+            {
+                Id = VeniPlayerId,
+                Name = "Veni",
+                TeamId = DireTeamId
+            }
+            //new Player { Id = new Guid("d4f49d5e-4f4b-4c8a-9e4e-4f4b7c8a9e4e"), Name = "Kriskata", Winrate = 60, TotalGames = 15, GamesWon = 9, GamesLost = 6 },
+            //new Player { Id = new Guid("e5f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e"), Name = "Marto", Winrate = 59, TotalGames = 17, GamesWon = 10, GamesLost = 7 },
+            //new Player { Id = new Guid("f6f69d5e-6f4b-4c8a-9f6e-6f4b9c8a9f6e"), Name = "Steli", Winrate = 50, TotalGames = 14, GamesWon = 7, GamesLost = 7 },
+            //new Player { Id = new Guid("07f79d5e-7f4b-4c8a-9f7e-7f4b0c8a9f7e"), Name = "Rumen", Winrate = 52, TotalGames = 19, GamesWon = 10, GamesLost = 9 },
+            //new Player { Id = new Guid("18f89d5e-8f4b-4c8a-9f8e-8f4b1c8a9f8e"), Name = "Bobur Kurva", Winrate = 40, TotalGames = 15, GamesWon = 6, GamesLost = 9 },
+            //new Player { Id = new Guid("29f99d5e-9f4b-4c8a-9f9e-9f4b2c8a9f9e"), Name = "Dj Misho", Winrate = 38, TotalGames = 16, GamesWon = 6, GamesLost = 10 },
+            //new Player { Id = new Guid("30f09d5e-0f4b-4c8a-9f0e-0f4b3c8a9f0e"), Name = "Kuncho", Winrate = 37, TotalGames = 19, GamesWon = 7, GamesLost = 12 },
+            //new Player { Id = new Guid("41f19d5e-1f4b-4c8a-9f1e-1f4b4c8a9f1e"), Name = "Sofiqneca", Winrate = 20, TotalGames = 5, GamesWon = 1, GamesLost = 4 },
+            //new Player { Id = new Guid("52f29d5e-2f4b-4c8a-9f2e-2f4b5c8a9f2e"), Name = "Vaneto", Winrate = 25, TotalGames = 8, GamesWon = 2, GamesLost = 6 },
+            //new Player { Id = new Guid("63f39d5e-3f4b-4c8a-9f3e-3f4b6c8a9f3e"), Name = "Mario", Winrate = 0, TotalGames = 6, GamesWon = 0, GamesLost = 6 }
+        };
+    }
+
+    public static List<Game> SeedGames()
+    {
+        return new List<Game>
+        {
+            new Game
+            {
+                Id = Game1Id,
+                WinningTeam = TeamName.Radiant,
+                RadiantTeamId = RadiantTeamId,
+                DireTeamId = DireTeamId,
+            }
+        };
+    }
+
+    public static List<Team> SeedTeams()
+    {
+        return new List<Team>
+        {
+            new Team
+            {
+                Id = RadiantTeamId,
+                Name = TeamName.Radiant
+            },
+            new Team
+            {
+                Id = DireTeamId,
+                Name = TeamName.Dire
+            }
+        };
+    }
+
+    public static List<PlayerStats> SeedPlayerStats()
+    {
+        return new List<PlayerStats>
+        {
+            new PlayerStats
+            {
+                Id = new Guid("88889d5e-888b-488a-988e-888b188a988e"),
+                HeroId = 1,
+                Kills = 5,
+                Deaths = 3,
+                Assists = 10,
+                PlayerId = DummyPlayerId,
+                GameId = Game1Id,
+                TeamId = RadiantTeamId
+            },
+            new PlayerStats
+            {
+                Id = new Guid("99999d5e-999b-499a-999e-999b399a999e"),
+                HeroId = 3,
+                Kills = 12,
+                Deaths = 4,
+                Assists = 8,
+                PlayerId = VeniPlayerId,
+                GameId = Game1Id,
+                TeamId = DireTeamId
+            }
+        };
+    }
+
 }

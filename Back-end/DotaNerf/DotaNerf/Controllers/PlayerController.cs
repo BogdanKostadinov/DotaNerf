@@ -1,6 +1,6 @@
 using AutoMapper;
 using DotaNerf.Data;
-using DotaNerf.DTOs.PlayerStatsDTOs;
+using DotaNerf.DTOs;
 using DotaNerf.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,13 +23,13 @@ public class PlayerController : ControllerBase
     [HttpGet(Name = "GetPlayers")]
     public async Task<IActionResult> GetPlayersAsync()
     {
-        var players = await _context.Players
-            .Include(p => p.Games)
-                .ThenInclude(g => g.PlayerStats)
-            .Include(p => p.PlayerStats)
-            .ToListAsync();
+        //var players = await _context.Players
+        //    .Include(p => p.Games)
+        //        .ThenInclude(g => g.PlayerStats)
+        //    .Include(p => p.PlayerStats)
+        //    .ToListAsync();
 
-        return Ok(players);
+        return Ok();
     }
 
     [HttpGet("{id}", Name = "GetPlayer")]
