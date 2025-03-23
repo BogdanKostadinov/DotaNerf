@@ -9,8 +9,6 @@ public class Player
     public int GamesWon { get; set; }
     public int GamesLost { get; set; }
 
-    public Guid TeamId { get; set; }
-    public Team? Team { get; set; }
+    public List<Team> Teams { get; set; } = new();
     public List<PlayerStats> PlayerStats { get; set; } = new();
-    public List<Game> Games { get; set; } = new();
 }

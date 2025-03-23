@@ -23,54 +23,11 @@ public class GameController : ControllerBase
     public async Task<IActionResult> GetGamesAsync()
     {
         var games = await _context.Games
-            .Include(g => g.RadiantTeam)
-                .ThenInclude(rt => rt.Players)
-                    .ThenInclude(p => p.PlayerStats)
-            .Include(g => g.DireTeam)
-                .ThenInclude(dt => dt.Players)
-                    .ThenInclude(p => p.PlayerStats)
-            .Select(g => new GameDTO
-            {
-                Id = g.Id,
-                WinningTeam = g.WinningTeam,
-                RadiantTeam = new TeamDTO
-                {
-                    Id = g.RadiantTeam.Id,
-                    Name = g.RadiantTeam.Name,
-                    Players = g.RadiantTeam.Players.Select(p => new PlayerDTO
-                    {
-                        Id = p.Id,
-                        Name = p.Name,
-                        PlayerStats = p.PlayerStats.Select(ps => new PlayerStatsDTO
-                        {
-                            Kills = ps.Kills,
-                            Deaths = ps.Deaths,
-                            Assists = ps.Assists,
-                            HeroPlayed = ps.HeroPlayed,
-                            TeamId = ps.TeamId ?? Guid.Empty
-                        }).ToList()
-                    }).ToList()
-                },
-                DireTeam = new TeamDTO
-                {
-                    Id = g.DireTeam.Id,
-                    Name = g.DireTeam.Name,
-                    Players = g.DireTeam.Players.Select(p => new PlayerDTO
-                    {
-                        Id = p.Id,
-                        Name = p.Name,
-                        PlayerStats = p.PlayerStats.Select(ps => new PlayerStatsDTO
-                        {
-                            Kills = ps.Kills,
-                            Deaths = ps.Deaths,
-                            Assists = ps.Assists,
-                            HeroPlayed = ps.HeroPlayed,
-                            TeamId = ps.TeamId ?? Guid.Empty
-                        }).ToList()
-                    }).ToList()
-                }
-            })
+            .Include(g => g.PlayerStats)
+            .ThenInclude(ps => ps.HeroPlayed)
             .ToListAsync();
+
+        var gameDtos = _mapper.Map<List<GameDTO>>(games);
 
         if (!games.Any())
         {
@@ -80,109 +37,86 @@ public class GameController : ControllerBase
         return Ok(games);
     }
 
-
-
     [HttpGet("{id}")]
     public async Task<IActionResult> GetGameAsync(Guid id)
     {
         var game = await _context.Games
-            .FirstOrDefaultAsync(m => m.Id == id);
-        if (game is null)
+            .Include(g => g.PlayerStats)
+            .ThenInclude(ps => ps.HeroPlayed)
+            .FirstOrDefaultAsync(g => g.Id == id);
+
+        if (game == null)
+        {
+            return NotFound();
+        }
+
+        var gameDto = _mapper.Map<GameDTO>(game);
+        return Ok(gameDto);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateGame([FromBody] CreateGameDTO createGameDto)
+    {
+        if (createGameDto == null)
+        {
+            return BadRequest("Game data is required.");
+        }
+
+        var game = _mapper.Map<Game>(createGameDto);
+
+        // Create new teams
+        game.RadiantTeam = new Team { Name = createGameDto.RadiantTeam.Name };
+        game.DireTeam = new Team { Name = createGameDto.DireTeam.Name };
+
+        // Associate existing players with the new teams
+        foreach (var playerId in createGameDto.RadiantTeam.PlayerIds)
+        {
+            var player = await _context.Players.FindAsync(playerId);
+            if (player != null)
+            {
+                player.Teams.Add(game.RadiantTeam);
+                game.RadiantTeam.Players.Add(player);
+            }
+        }
+
+        foreach (var playerId in createGameDto.DireTeam.PlayerIds)
+        {
+            var player = await _context.Players.FindAsync(playerId);
+            if (player != null)
+            {
+                player.Teams.Add(game.DireTeam);
+                game.DireTeam.Players.Add(player);
+            }
+        }
+
+        // Add the game to the context and save changes
+        _context.Games.Add(game);
+        await _context.SaveChangesAsync();
+
+        if (game == null)
+        {
+            return StatusCode(500, "An error occurred while creating the game.");
+        }
+
+        var gameDto = _mapper.Map<GameDTO>(game);
+        return CreatedAtAction(nameof(GetGameAsync), new { id = game.Id }, gameDto);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteGameAsync(Guid id)
+    {
+        var game = await _context.Games.FirstOrDefaultAsync(g => g.Id == id);
+        if (game == null)
         {
             return NotFound($"No game found in the database with id: {id}");
         }
-        return Ok(game);
+
+        // First, delete all player stats related to this game
+        var relatedStats = await _context.PlayerStats.Where(ps => ps.GameId == id).ToListAsync();
+        _context.PlayerStats.RemoveRange(relatedStats);
+
+        _context.Games.Remove(game);
+        await _context.SaveChangesAsync();
+        return NoContent();
     }
-
-
-    //[HttpPost]
-    //public async Task<IActionResult> CreateGame([FromBody] CreateGameDTO request)
-    //{
-    //    // Create Radiant Team
-    //    var radiantTeam = new Team
-    //    {
-    //        Id = request.RadiantTeam.Id,
-    //        Name = request.RadiantTeam.Name,
-    //        Players = request.RadiantTeam.Players.Select(p =>
-    //        {
-    //            var playerStats = new PlayerStats
-    //            {
-    //                Id = Guid.NewGuid(),
-    //                Kills = p.PlayerStats.Kills,
-    //                Deaths = p.PlayerStats.Deaths,
-    //                Assists = p.PlayerStats.Assists,
-    //                PlayerId = p.Id,
-    //                HeroPlayed = new Hero
-    //                {
-    //                    Id = p.PlayerStats.HeroPlayed.Id,
-    //                    Name = p.PlayerStats.HeroPlayed.Name
-    //                }
-    //            };
-
-    //            var player = new Player
-    //            {
-    //                Id = p.Id,
-    //                Name = p.Name
-    //            };
-
-    //            // Add PlayerStats to Player
-    //            player.PlayerStats.Add(playerStats);
-
-    //            return player;
-    //        }).ToList()
-    //    };
-
-    //    // Similar logic for Dire Team
-    //    var direTeam = new Team
-    //    {
-    //        Id = request.DireTeam.Id,
-    //        Name = request.DireTeam.Name,
-    //        Players = request.DireTeam.Players.Select(p =>
-    //        {
-    //            var playerStats = new PlayerStats
-    //            {
-    //                Id = Guid.NewGuid(),
-    //                Kills = p.PlayerStats.Kills,
-    //                Deaths = p.PlayerStats.Deaths,
-    //                Assists = p.PlayerStats.Assists,
-    //                PlayerId = p.Id,
-    //                HeroPlayed = new Hero
-    //                {
-    //                    Id = p.PlayerStats.HeroPlayed.Id,
-    //                    Name = p.PlayerStats.HeroPlayed.Name
-    //                }
-    //            };
-
-    //            var player = new Player
-    //            {
-    //                Id = p.Id,
-    //                Name = p.Name
-    //            };
-
-    //            // Add PlayerStats to Player
-    //            player.PlayerStats.Add(playerStats);
-
-    //            return player;
-    //        }).ToList()
-    //    };
-
-    //    // Create Game
-    //    var game = new Game
-    //    {
-    //        Id = Guid.NewGuid(),
-    //        RadiantTeam = radiantTeam,
-    //        DireTeam = direTeam,
-    //        RadiantTeamId = radiantTeam.Id,
-    //        DireTeamId = direTeam.Id,
-    //        WinningTeam = request.WinningTeam
-    //    };
-
-
-
-    //    // Save to Database
-    //    _context.Games.Add(game);
-    //    await _context.SaveChangesAsync();
-
-    //    return CreatedAtAction(nameof(CreateGame), new { id = game.Id }, game);
-    //}
 }

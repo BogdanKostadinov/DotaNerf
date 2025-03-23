@@ -13,23 +13,12 @@ public class PlayerConfiguration : IEntityTypeConfiguration<Player>
         builder.Property(p => p.Name)
             .IsRequired();
 
-        builder.Property(p => p.Winrate)
-            .HasDefaultValue(0);
-
-        // Configure the TeamId property and relationship
-        builder.HasOne(p => p.Team)
-            .WithMany(t => t.Players)
-            .HasForeignKey(p => p.TeamId)
-            .OnDelete(DeleteBehavior.Restrict);
-
         builder.HasMany(p => p.PlayerStats)
-            .WithOne(ps => ps.Player)
-            .HasForeignKey(ps => ps.PlayerId)
-            .OnDelete(DeleteBehavior.Cascade);
+               .WithOne(ps => ps.Player)
+               .HasForeignKey(ps => ps.PlayerId);
 
-        builder.HasMany(p => p.Games)
-            .WithMany(g => g.Players)
-            .UsingEntity(j => j.ToTable("GamePlayers"));
-
+        builder.HasMany(p => p.Teams)
+               .WithMany(t => t.Players)
+               .UsingEntity(j => j.ToTable("PlayerTeams"));
     }
 }

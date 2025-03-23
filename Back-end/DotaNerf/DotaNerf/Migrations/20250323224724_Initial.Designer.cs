@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotaNerf.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250323030714_Initial")]
+    [Migration("20250323224724_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -698,20 +698,13 @@ namespace DotaNerf.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("TeamId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("TotalGames")
                         .HasColumnType("int");
 
                     b.Property<double>("Winrate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("float")
-                        .HasDefaultValue(0.0);
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TeamId");
 
                     b.ToTable("Players");
 
@@ -722,7 +715,6 @@ namespace DotaNerf.Migrations
                             GamesLost = 0,
                             GamesWon = 0,
                             Name = "dummy",
-                            TeamId = new Guid("d4f49d5e-4f4b-4d8a-9e4e-4f4b7d8a9e4e"),
                             TotalGames = 0,
                             Winrate = 0.0
                         },
@@ -732,7 +724,6 @@ namespace DotaNerf.Migrations
                             GamesLost = 0,
                             GamesWon = 0,
                             Name = "Veni",
-                            TeamId = new Guid("e5f59d5e-5f5b-4e8a-9f5e-5f5b8e8a9f5e"),
                             TotalGames = 0,
                             Winrate = 0.0
                         });
@@ -754,7 +745,7 @@ namespace DotaNerf.Migrations
                         .HasColumnType("int")
                         .HasDefaultValue(0);
 
-                    b.Property<Guid?>("GameId")
+                    b.Property<Guid>("GameId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("HeroId")
@@ -765,10 +756,10 @@ namespace DotaNerf.Migrations
                         .HasColumnType("int")
                         .HasDefaultValue(0);
 
-                    b.Property<Guid?>("PlayerId")
+                    b.Property<Guid>("PlayerId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("TeamId")
+                    b.Property<Guid>("TeamId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -781,7 +772,7 @@ namespace DotaNerf.Migrations
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("GameStats");
+                    b.ToTable("PlayerStats");
 
                     b.HasData(
                         new
@@ -834,31 +825,31 @@ namespace DotaNerf.Migrations
                         });
                 });
 
-            modelBuilder.Entity("GamePlayer", b =>
+            modelBuilder.Entity("PlayerTeam", b =>
                 {
-                    b.Property<Guid>("GamesId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("PlayersId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("GamesId", "PlayersId");
+                    b.Property<Guid>("TeamsId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("PlayersId");
+                    b.HasKey("PlayersId", "TeamsId");
 
-                    b.ToTable("GamePlayers", (string)null);
+                    b.HasIndex("TeamsId");
+
+                    b.ToTable("PlayerTeams", (string)null);
                 });
 
             modelBuilder.Entity("DotaNerf.Models.Game", b =>
                 {
                     b.HasOne("DotaNerf.Models.Team", "DireTeam")
-                        .WithMany()
+                        .WithMany("GamesAsDire")
                         .HasForeignKey("DireTeamId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("DotaNerf.Models.Team", "RadiantTeam")
-                        .WithMany()
+                        .WithMany("GamesAsRadiant")
                         .HasForeignKey("RadiantTeamId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -868,38 +859,31 @@ namespace DotaNerf.Migrations
                     b.Navigation("RadiantTeam");
                 });
 
-            modelBuilder.Entity("DotaNerf.Models.Player", b =>
-                {
-                    b.HasOne("DotaNerf.Models.Team", "Team")
-                        .WithMany("Players")
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Team");
-                });
-
             modelBuilder.Entity("DotaNerf.Models.PlayerStats", b =>
                 {
                     b.HasOne("DotaNerf.Models.Game", "Game")
-                        .WithMany()
-                        .HasForeignKey("GameId");
+                        .WithMany("PlayerStats")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DotaNerf.Models.Hero", "HeroPlayed")
                         .WithMany()
                         .HasForeignKey("HeroId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DotaNerf.Models.Player", "Player")
                         .WithMany("PlayerStats")
                         .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DotaNerf.Models.Team", "Team")
                         .WithMany()
                         .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Game");
 
@@ -910,19 +894,24 @@ namespace DotaNerf.Migrations
                     b.Navigation("Team");
                 });
 
-            modelBuilder.Entity("GamePlayer", b =>
+            modelBuilder.Entity("PlayerTeam", b =>
                 {
-                    b.HasOne("DotaNerf.Models.Game", null)
-                        .WithMany()
-                        .HasForeignKey("GamesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DotaNerf.Models.Player", null)
                         .WithMany()
                         .HasForeignKey("PlayersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("DotaNerf.Models.Team", null)
+                        .WithMany()
+                        .HasForeignKey("TeamsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DotaNerf.Models.Game", b =>
+                {
+                    b.Navigation("PlayerStats");
                 });
 
             modelBuilder.Entity("DotaNerf.Models.Player", b =>
@@ -932,7 +921,9 @@ namespace DotaNerf.Migrations
 
             modelBuilder.Entity("DotaNerf.Models.Team", b =>
                 {
-                    b.Navigation("Players");
+                    b.Navigation("GamesAsDire");
+
+                    b.Navigation("GamesAsRadiant");
                 });
 #pragma warning restore 612, 618
         }

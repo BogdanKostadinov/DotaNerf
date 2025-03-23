@@ -9,13 +9,12 @@ public class TeamConfiguration : IEntityTypeConfiguration<Team>
     public void Configure(EntityTypeBuilder<Team> builder)
     {
         builder.HasKey(m => m.Id);
-        
+
         builder.Property(t => t.Name)
                .IsRequired();
-        
+
         builder.HasMany(t => t.Players)
-               .WithOne(p => p.Team)
-               .HasForeignKey(p => p.TeamId)
-               .OnDelete(DeleteBehavior.Restrict);
+                 .WithMany(p => p.Teams)
+                 .UsingEntity(j => j.ToTable("PlayerTeams"));
     }
 }
