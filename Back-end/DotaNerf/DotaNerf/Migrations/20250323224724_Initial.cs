@@ -27,6 +27,22 @@ namespace DotaNerf.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Players",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Winrate = table.Column<double>(type: "float", nullable: false),
+                    TotalGames = table.Column<int>(type: "int", nullable: false),
+                    GamesWon = table.Column<int>(type: "int", nullable: false),
+                    GamesLost = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Players", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Teams",
                 columns: table => new
                 {
@@ -65,91 +81,69 @@ namespace DotaNerf.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Players",
+                name: "PlayerTeams",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Winrate = table.Column<double>(type: "float", nullable: false, defaultValue: 0.0),
-                    TotalGames = table.Column<int>(type: "int", nullable: false),
-                    GamesWon = table.Column<int>(type: "int", nullable: false),
-                    GamesLost = table.Column<int>(type: "int", nullable: false),
-                    TeamId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    PlayersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TeamsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Players", x => x.Id);
+                    table.PrimaryKey("PK_PlayerTeams", x => new { x.PlayersId, x.TeamsId });
                     table.ForeignKey(
-                        name: "FK_Players_Teams_TeamId",
-                        column: x => x.TeamId,
-                        principalTable: "Teams",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "GamePlayers",
-                columns: table => new
-                {
-                    GamesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PlayersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GamePlayers", x => new { x.GamesId, x.PlayersId });
-                    table.ForeignKey(
-                        name: "FK_GamePlayers_Games_GamesId",
-                        column: x => x.GamesId,
-                        principalTable: "Games",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_GamePlayers_Players_PlayersId",
+                        name: "FK_PlayerTeams_Players_PlayersId",
                         column: x => x.PlayersId,
                         principalTable: "Players",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PlayerTeams_Teams_TeamsId",
+                        column: x => x.TeamsId,
+                        principalTable: "Teams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "GameStats",
+                name: "PlayerStats",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    HeroId = table.Column<int>(type: "int", nullable: false),
                     Kills = table.Column<int>(type: "int", nullable: true, defaultValue: 0),
                     Deaths = table.Column<int>(type: "int", nullable: true, defaultValue: 0),
                     Assists = table.Column<int>(type: "int", nullable: true, defaultValue: 0),
-                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    GameId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    TeamId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    HeroId = table.Column<int>(type: "int", nullable: false)
+                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    GameId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TeamId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GameStats", x => x.Id);
+                    table.PrimaryKey("PK_PlayerStats", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_GameStats_Games_GameId",
+                        name: "FK_PlayerStats_Games_GameId",
                         column: x => x.GameId,
                         principalTable: "Games",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GameStats_Heroes_HeroId",
+                        name: "FK_PlayerStats_Heroes_HeroId",
                         column: x => x.HeroId,
                         principalTable: "Heroes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GameStats_Players_PlayerId",
+                        name: "FK_PlayerStats_Players_PlayerId",
                         column: x => x.PlayerId,
                         principalTable: "Players",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GameStats_Teams_TeamId",
+                        name: "FK_PlayerStats_Teams_TeamId",
                         column: x => x.TeamId,
                         principalTable: "Teams",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -281,6 +275,15 @@ namespace DotaNerf.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Players",
+                columns: new[] { "Id", "GamesLost", "GamesWon", "Name", "TotalGames", "Winrate" },
+                values: new object[,]
+                {
+                    { new Guid("a1e29d5e-1c4b-4b8a-9b1e-1c4b4b8a9b1e"), 0, 0, "dummy", 0, 0.0 },
+                    { new Guid("c3f39d5e-3e4b-4c8a-9d3e-3e4b6c8a9d3e"), 0, 0, "Veni", 0, 0.0 }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Teams",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
@@ -295,27 +298,13 @@ namespace DotaNerf.Migrations
                 values: new object[] { new Guid("f6f69d5e-6f6b-4f8a-9f6e-6f6b9f8a9f6e"), new Guid("e5f59d5e-5f5b-4e8a-9f5e-5f5b8e8a9f5e"), new Guid("d4f49d5e-4f4b-4d8a-9e4e-4f4b7d8a9e4e"), 0 });
 
             migrationBuilder.InsertData(
-                table: "Players",
-                columns: new[] { "Id", "GamesLost", "GamesWon", "Name", "TeamId", "TotalGames" },
-                values: new object[,]
-                {
-                    { new Guid("a1e29d5e-1c4b-4b8a-9b1e-1c4b4b8a9b1e"), 0, 0, "dummy", new Guid("d4f49d5e-4f4b-4d8a-9e4e-4f4b7d8a9e4e"), 0 },
-                    { new Guid("c3f39d5e-3e4b-4c8a-9d3e-3e4b6c8a9d3e"), 0, 0, "Veni", new Guid("e5f59d5e-5f5b-4e8a-9f5e-5f5b8e8a9f5e"), 0 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "GameStats",
+                table: "PlayerStats",
                 columns: new[] { "Id", "Assists", "Deaths", "GameId", "HeroId", "Kills", "PlayerId", "TeamId" },
                 values: new object[,]
                 {
                     { new Guid("88889d5e-888b-488a-988e-888b188a988e"), 10, 3, new Guid("f6f69d5e-6f6b-4f8a-9f6e-6f6b9f8a9f6e"), 1, 5, new Guid("a1e29d5e-1c4b-4b8a-9b1e-1c4b4b8a9b1e"), new Guid("d4f49d5e-4f4b-4d8a-9e4e-4f4b7d8a9e4e") },
                     { new Guid("99999d5e-999b-499a-999e-999b399a999e"), 8, 4, new Guid("f6f69d5e-6f6b-4f8a-9f6e-6f6b9f8a9f6e"), 3, 12, new Guid("c3f39d5e-3e4b-4c8a-9d3e-3e4b6c8a9d3e"), new Guid("e5f59d5e-5f5b-4e8a-9f5e-5f5b8e8a9f5e") }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_GamePlayers_PlayersId",
-                table: "GamePlayers",
-                column: "PlayersId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Games_DireTeamId",
@@ -328,39 +317,39 @@ namespace DotaNerf.Migrations
                 column: "RadiantTeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GameStats_GameId",
-                table: "GameStats",
+                name: "IX_PlayerStats_GameId",
+                table: "PlayerStats",
                 column: "GameId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GameStats_HeroId",
-                table: "GameStats",
+                name: "IX_PlayerStats_HeroId",
+                table: "PlayerStats",
                 column: "HeroId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GameStats_PlayerId",
-                table: "GameStats",
+                name: "IX_PlayerStats_PlayerId",
+                table: "PlayerStats",
                 column: "PlayerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GameStats_TeamId",
-                table: "GameStats",
+                name: "IX_PlayerStats_TeamId",
+                table: "PlayerStats",
                 column: "TeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Players_TeamId",
-                table: "Players",
-                column: "TeamId");
+                name: "IX_PlayerTeams_TeamsId",
+                table: "PlayerTeams",
+                column: "TeamsId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "GamePlayers");
+                name: "PlayerStats");
 
             migrationBuilder.DropTable(
-                name: "GameStats");
+                name: "PlayerTeams");
 
             migrationBuilder.DropTable(
                 name: "Games");

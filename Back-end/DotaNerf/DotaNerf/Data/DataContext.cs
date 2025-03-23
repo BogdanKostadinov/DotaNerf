@@ -10,11 +10,11 @@ public class DataContext : DbContext
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     { }
 
-    public DbSet<Player> Players { get; set; }
-    public DbSet<PlayerStats> GameStats { get; set; }
     public DbSet<Hero> Heroes { get; set; }
     public DbSet<Game> Games { get; set; }
     public DbSet<Team> Teams { get; set; }
+    public DbSet<Player> Players { get; set; }
+    public DbSet<PlayerStats> PlayerStats { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -22,9 +22,9 @@ public class DataContext : DbContext
 
         modelBuilder.ApplyConfiguration(new GameConfiguration());
         modelBuilder.ApplyConfiguration(new TeamConfiguration());
+        modelBuilder.ApplyConfiguration(new HeroConfiguration());
         modelBuilder.ApplyConfiguration(new PlayerConfiguration());
         modelBuilder.ApplyConfiguration(new PlayerStatsConfiguration());
-        modelBuilder.ApplyConfiguration(new HeroConfiguration());
 
         modelBuilder.Seed();
     }

@@ -8,7 +8,7 @@ public class HeroMappings : Profile
 {
     public HeroMappings()
     {
-        //CreateMap<HeroDTO, Hero>();
-        //CreateMap<Hero, HeroDTO>();
+        CreateMap<Hero, HeroDTO>();
+        CreateMap<CreateHeroDTO, Hero>();
     }
 }

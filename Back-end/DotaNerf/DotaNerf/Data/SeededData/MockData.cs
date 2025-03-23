@@ -151,13 +151,11 @@ public static class MockData
             {
                 Id = DummyPlayerId,
                 Name = "dummy",
-                TeamId = RadiantTeamId
             },
             new Player
             {
                 Id = VeniPlayerId,
                 Name = "Veni",
-                TeamId = DireTeamId
             }
             //new Player { Id = new Guid("d4f49d5e-4f4b-4c8a-9e4e-4f4b7c8a9e4e"), Name = "Kriskata", Winrate = 60, TotalGames = 15, GamesWon = 9, GamesLost = 6 },
             //new Player { Id = new Guid("e5f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e"), Name = "Marto", Winrate = 59, TotalGames = 17, GamesWon = 10, GamesLost = 7 },
@@ -216,7 +214,7 @@ public static class MockData
                 Assists = 10,
                 PlayerId = DummyPlayerId,
                 GameId = Game1Id,
-                TeamId = RadiantTeamId
+                TeamId = RadiantTeamId,
             },
             new PlayerStats
             {
@@ -227,9 +225,8 @@ public static class MockData
                 Assists = 8,
                 PlayerId = VeniPlayerId,
                 GameId = Game1Id,
-                TeamId = DireTeamId
-            }
+                TeamId = DireTeamId,
+            },
         };
     }
-
 }

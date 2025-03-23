@@ -13,6 +13,6 @@ public class Game
     public Team? RadiantTeam { get; set; }
     public Team? DireTeam { get; set; }
 
-    public List<Player> Players { get; set; } = new();
-
+    // Navigation properties
+    public List<PlayerStats> PlayerStats { get; set; } = new();
 }
