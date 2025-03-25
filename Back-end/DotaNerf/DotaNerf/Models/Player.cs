@@ -1,4 +1,6 @@
-﻿namespace DotaNerf.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace DotaNerf.Models;
 
 public class Player
 {
@@ -9,6 +11,8 @@ public class Player
     public int GamesWon { get; set; }
     public int GamesLost { get; set; }
 
+    [JsonIgnore]
     public List<Team> Teams { get; set; } = new();
+    [JsonIgnore]
     public List<PlayerStats> PlayerStats { get; set; } = new();
 }

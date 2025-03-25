@@ -23,7 +23,13 @@ public class GameController : ControllerBase
     public async Task<IActionResult> GetGamesAsync()
     {
         var games = await _context.Games
-            .Include(g => g.PlayerStats)
+            .Include(g => g.RadiantTeam)
+            .ThenInclude(t => t!.Players)
+            .ThenInclude(p => p.PlayerStats)
+            .ThenInclude(ps => ps.HeroPlayed)
+            .Include(g => g.DireTeam)
+            .ThenInclude(t => t!.Players)
+            .ThenInclude(p => p.PlayerStats)
             .ThenInclude(ps => ps.HeroPlayed)
             .ToListAsync();
 
@@ -57,49 +63,103 @@ public class GameController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateGame([FromBody] CreateGameDTO createGameDto)
     {
+        // Validate the incoming data
         if (createGameDto == null)
         {
-            return BadRequest("Game data is required.");
+            return BadRequest("Request data is null");
         }
 
-        var game = _mapper.Map<Game>(createGameDto);
-
-        // Create new teams
-        game.RadiantTeam = new Team { Name = createGameDto.RadiantTeam.Name };
-        game.DireTeam = new Team { Name = createGameDto.DireTeam.Name };
-
-        // Associate existing players with the new teams
-        foreach (var playerId in createGameDto.RadiantTeam.PlayerIds)
+        if (createGameDto.RadiantTeam == null || createGameDto.DireTeam == null)
         {
-            var player = await _context.Players.FindAsync(playerId);
-            if (player != null)
-            {
-                player.Teams.Add(game.RadiantTeam);
-                game.RadiantTeam.Players.Add(player);
-            }
+            return BadRequest("Both RadiantTeam and DireTeam are required");
         }
 
-        foreach (var playerId in createGameDto.DireTeam.PlayerIds)
+        if (!createGameDto.RadiantTeam.Players.Any() || !createGameDto.DireTeam.Players.Any())
         {
-            var player = await _context.Players.FindAsync(playerId);
-            if (player != null)
-            {
-                player.Teams.Add(game.DireTeam);
-                game.DireTeam.Players.Add(player);
-            }
+            return BadRequest("Both teams must have players");
         }
 
-        // Add the game to the context and save changes
-        _context.Games.Add(game);
+        // Create a new game entity
+        var newGame = new Game
+        {
+            WinningTeam = createGameDto.WinningTeam,
+            RadiantTeam = new Team
+            {
+                Id = Guid.NewGuid(),
+                Name = createGameDto.RadiantTeam.Name,
+                Players = new List<Player>()
+            },
+            DireTeam = new Team
+            {
+                Id = Guid.NewGuid(),
+                Name = createGameDto.DireTeam.Name,
+                Players = new List<Player>()
+            }
+        };
+
+        await _context.Games.AddAsync(newGame);
         await _context.SaveChangesAsync();
 
-        if (game == null)
+        // Process RadiantTeam players
+        foreach (var playerDto in createGameDto.RadiantTeam.Players)
         {
-            return StatusCode(500, "An error occurred while creating the game.");
+            var existingPlayer = await _context.Players
+                .Include(p => p.PlayerStats)
+                .FirstOrDefaultAsync(p => p.Id == playerDto.Id);
+
+            if (existingPlayer != null)
+            {
+                // Append new PlayerStats to the existing player
+                existingPlayer.PlayerStats.Add(new PlayerStats
+                {
+                    GameId = newGame.Id,
+                    TeamId = newGame.RadiantTeam.Id,
+                    HeroPlayed = new Hero { Name = playerDto.PlayerStats.HeroPlayed.Name },
+                    Kills = playerDto.PlayerStats.Kills,
+                    Deaths = playerDto.PlayerStats.Deaths,
+                    Assists = playerDto.PlayerStats.Assists
+                });
+
+                newGame.RadiantTeam.Players.Add(existingPlayer); // Add existing player to the new team's list
+            }
+            else
+            {
+                return BadRequest($"Player with ID {playerDto.Id} not found in RadiantTeam.");
+            }
         }
 
-        var gameDto = _mapper.Map<GameDTO>(game);
-        return CreatedAtAction(nameof(GetGameAsync), new { id = game.Id }, gameDto);
+        // Process DireTeam players
+        foreach (var playerDto in createGameDto.DireTeam.Players)
+        {
+            var existingPlayer = await _context.Players
+                .Include(p => p.PlayerStats)
+                .FirstOrDefaultAsync(p => p.Id == playerDto.Id);
+
+            if (existingPlayer != null)
+            {
+                // Append new PlayerStats to the existing player
+                existingPlayer.PlayerStats.Add(new PlayerStats
+                {
+                    GameId = newGame.Id,
+                    TeamId = newGame.DireTeam.Id,
+                    HeroPlayed = new Hero { Name = playerDto.PlayerStats.HeroPlayed.Name },
+                    Kills = playerDto.PlayerStats.Kills,
+                    Deaths = playerDto.PlayerStats.Deaths,
+                    Assists = playerDto.PlayerStats.Assists
+                });
+
+                newGame.DireTeam.Players.Add(existingPlayer); // Add existing player to the new team's list
+            }
+            else
+            {
+                return BadRequest($"Player with ID {playerDto.Id} not found in DireTeam.");
+            }
+        }
+
+        await _context.SaveChangesAsync();
+
+        // Return a success response
+        return Ok(new { Message = "Game created successfully", GameId = Guid.NewGuid() });
     }
 
     [HttpDelete("{id}")]
@@ -119,4 +179,18 @@ public class GameController : ControllerBase
         await _context.SaveChangesAsync();
         return NoContent();
     }
+
+    public static PlayerStats AddNewStatsForPlayer(Guid playerId) {
+
+        //find hero
+        return new PlayerStats
+        {
+            PlayerId = playerId,
+            HeroPlayed = new Hero { Name = "New Hero" },
+            Kills = 0,
+            Deaths = 0,
+            Assists = 0
+        };
+    }
 }
+
