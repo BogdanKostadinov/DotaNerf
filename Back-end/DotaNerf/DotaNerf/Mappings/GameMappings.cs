@@ -13,6 +13,8 @@ public class GameMappings : Profile
             .ForMember(dest => dest.RadiantTeam, opt => opt.MapFrom(src => src.RadiantTeam))
             .ForMember(dest => dest.DireTeam, opt => opt.MapFrom(src => src.DireTeam));
 
-        CreateMap<Game, GameDTO>();
+        CreateMap<Game, GameDTO>()
+            .ForMember(dest => dest.RadiantTeam, opt => opt.MapFrom(src => src.RadiantTeam))
+            .ForMember(dest => dest.DireTeam, opt => opt.MapFrom(src => src.DireTeam));
     }
 }

@@ -24,31 +24,37 @@ public class GameController : ControllerBase
     {
         var games = await _context.Games
             .Include(g => g.RadiantTeam)
-            .ThenInclude(t => t!.Players)
-            .ThenInclude(p => p.PlayerStats)
-            .ThenInclude(ps => ps.HeroPlayed)
+                .ThenInclude(t => t!.Players)
+                    .ThenInclude(p => p.PlayerStats)
+                        .ThenInclude(ps => ps.HeroPlayed)
             .Include(g => g.DireTeam)
-            .ThenInclude(t => t!.Players)
-            .ThenInclude(p => p.PlayerStats)
-            .ThenInclude(ps => ps.HeroPlayed)
+                .ThenInclude(t => t!.Players)
+                    .ThenInclude(p => p.PlayerStats)
+                        .ThenInclude(ps => ps.HeroPlayed)
             .ToListAsync();
 
-        var gameDtos = _mapper.Map<List<GameDTO>>(games);
+        var gameDtos = games.Select(game => _mapper.Map<GameDTO>(game, opt => opt.Items["GameId"] = game.Id)).ToList();
 
         if (!games.Any())
         {
             return NotFound("No games found in the database.");
         }
 
-        return Ok(games);
+        return Ok(gameDtos);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetGameAsync(Guid id)
     {
         var game = await _context.Games
-            .Include(g => g.PlayerStats)
-            .ThenInclude(ps => ps.HeroPlayed)
+            .Include(g => g.RadiantTeam)
+                .ThenInclude(t => t!.Players)
+                .ThenInclude(p => p.PlayerStats.Where(ps => ps.GameId == id))
+                .ThenInclude(ps => ps.HeroPlayed)
+            .Include(g => g.DireTeam)
+                .ThenInclude(t => t!.Players)
+                .ThenInclude(p => p.PlayerStats.Where(ps => ps.GameId == id))
+                .ThenInclude(ps => ps.HeroPlayed)
             .FirstOrDefaultAsync(g => g.Id == id);
 
         if (game == null)
@@ -56,7 +62,7 @@ public class GameController : ControllerBase
             return NotFound();
         }
 
-        var gameDto = _mapper.Map<GameDTO>(game);
+        var gameDto = _mapper.Map<GameDTO>(game, opt => opt.Items["GameId"] = id);
         return Ok(gameDto);
     }
 
@@ -107,20 +113,35 @@ public class GameController : ControllerBase
                 .Include(p => p.PlayerStats)
                 .FirstOrDefaultAsync(p => p.Id == playerDto.Id);
 
-            if (existingPlayer != null)
+            var existingHero = await _context.Heroes.FirstOrDefaultAsync(p => p.Id == playerDto.PlayerStats.HeroPlayedId);
+
+            if (existingHero is null)
+            {
+                return BadRequest($"Hero with ID {playerDto.PlayerStats.HeroPlayedId} not found in RadiantTeam.");
+            }
+
+            if (existingPlayer != null && existingHero != null)
             {
                 // Append new PlayerStats to the existing player
                 existingPlayer.PlayerStats.Add(new PlayerStats
                 {
                     GameId = newGame.Id,
                     TeamId = newGame.RadiantTeam.Id,
-                    HeroPlayed = new Hero { Name = playerDto.PlayerStats.HeroPlayed.Name },
+                    HeroPlayedId = existingHero.Id,
                     Kills = playerDto.PlayerStats.Kills,
                     Deaths = playerDto.PlayerStats.Deaths,
                     Assists = playerDto.PlayerStats.Assists
                 });
+                UpdatePlayerGameStats(existingPlayer, newGame.WinningTeam == createGameDto.RadiantTeam.Name);
+                newGame.RadiantTeam.Players.Add(existingPlayer);
 
-                newGame.RadiantTeam.Players.Add(existingPlayer); // Add existing player to the new team's list
+                var playerGame = new PlayerGame
+                {
+                    PlayerId = existingPlayer.Id,
+                    GameId = newGame.Id,
+                };
+
+                newGame.PlayerGames.Add(playerGame);
             }
             else
             {
@@ -134,7 +155,12 @@ public class GameController : ControllerBase
             var existingPlayer = await _context.Players
                 .Include(p => p.PlayerStats)
                 .FirstOrDefaultAsync(p => p.Id == playerDto.Id);
+            var existingHero = await _context.Heroes.FirstOrDefaultAsync(p => p.Id == playerDto.PlayerStats.HeroPlayedId);
 
+            if (existingHero is null)
+            {
+                return BadRequest($"Hero with ID {playerDto.PlayerStats.HeroPlayedId} not found in Dire Team.");
+            }
             if (existingPlayer != null)
             {
                 // Append new PlayerStats to the existing player
@@ -142,13 +168,21 @@ public class GameController : ControllerBase
                 {
                     GameId = newGame.Id,
                     TeamId = newGame.DireTeam.Id,
-                    HeroPlayed = new Hero { Name = playerDto.PlayerStats.HeroPlayed.Name },
+                    HeroPlayedId = existingHero.Id,
                     Kills = playerDto.PlayerStats.Kills,
                     Deaths = playerDto.PlayerStats.Deaths,
                     Assists = playerDto.PlayerStats.Assists
                 });
+                UpdatePlayerGameStats(existingPlayer, newGame.WinningTeam == createGameDto.DireTeam.Name);
+                newGame.DireTeam.Players.Add(existingPlayer);
 
-                newGame.DireTeam.Players.Add(existingPlayer); // Add existing player to the new team's list
+                var playerGame = new PlayerGame
+                {
+                    PlayerId = existingPlayer.Id,
+                    GameId = newGame.Id,
+                };
+
+                newGame.PlayerGames.Add(playerGame);
             }
             else
             {
@@ -180,17 +214,18 @@ public class GameController : ControllerBase
         return NoContent();
     }
 
-    public static PlayerStats AddNewStatsForPlayer(Guid playerId) {
-
-        //find hero
-        return new PlayerStats
+    private void UpdatePlayerGameStats(Player player, bool gameWon)
+    {
+        player.TotalGames++;
+        if (gameWon)
         {
-            PlayerId = playerId,
-            HeroPlayed = new Hero { Name = "New Hero" },
-            Kills = 0,
-            Deaths = 0,
-            Assists = 0
-        };
+            player.GamesWon++;
+        }
+        else if (!gameWon)
+        {
+            player.GamesLost++;
+        }
+        player.Winrate = Math.Round((double)player.GamesWon / player.TotalGames * 100);
     }
 }
 

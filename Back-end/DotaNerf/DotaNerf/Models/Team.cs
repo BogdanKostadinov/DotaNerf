@@ -10,7 +10,6 @@ public class Team
     public TeamName Name { get; set; }
 
     public List<Player> Players { get; set; } = new();
-
     [JsonIgnore]
     public List<Game> GamesAsRadiant { get; set; } = new();
     [JsonIgnore]

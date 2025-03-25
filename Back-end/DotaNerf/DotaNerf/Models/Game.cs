@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace DotaNerf.Models;
 
@@ -14,5 +15,6 @@ public class Game
     public Team? DireTeam { get; set; }
 
     // Navigation properties
-    public List<PlayerStats> PlayerStats { get; set; } = new();
+    [JsonIgnore]
+    public List<PlayerGame> PlayerGames { get; set; } = new();
 }

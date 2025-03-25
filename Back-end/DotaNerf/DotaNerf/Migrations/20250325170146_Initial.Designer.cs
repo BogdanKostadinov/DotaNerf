@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotaNerf.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250323224724_Initial")]
+    [Migration("20250325170146_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -729,6 +729,21 @@ namespace DotaNerf.Migrations
                         });
                 });
 
+            modelBuilder.Entity("DotaNerf.Models.PlayerGame", b =>
+                {
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("GameId", "PlayerId");
+
+                    b.HasIndex("PlayerId");
+
+                    b.ToTable("PlayerGames");
+                });
+
             modelBuilder.Entity("DotaNerf.Models.PlayerStats", b =>
                 {
                     b.Property<Guid>("Id")
@@ -748,7 +763,7 @@ namespace DotaNerf.Migrations
                     b.Property<Guid>("GameId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("HeroId")
+                    b.Property<int>("HeroPlayedId")
                         .HasColumnType("int");
 
                     b.Property<int?>("Kills")
@@ -766,7 +781,7 @@ namespace DotaNerf.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.HasIndex("HeroId");
+                    b.HasIndex("HeroPlayedId");
 
                     b.HasIndex("PlayerId");
 
@@ -781,7 +796,7 @@ namespace DotaNerf.Migrations
                             Assists = 10,
                             Deaths = 3,
                             GameId = new Guid("f6f69d5e-6f6b-4f8a-9f6e-6f6b9f8a9f6e"),
-                            HeroId = 1,
+                            HeroPlayedId = 1,
                             Kills = 5,
                             PlayerId = new Guid("a1e29d5e-1c4b-4b8a-9b1e-1c4b4b8a9b1e"),
                             TeamId = new Guid("d4f49d5e-4f4b-4d8a-9e4e-4f4b7d8a9e4e")
@@ -792,7 +807,7 @@ namespace DotaNerf.Migrations
                             Assists = 8,
                             Deaths = 4,
                             GameId = new Guid("f6f69d5e-6f6b-4f8a-9f6e-6f6b9f8a9f6e"),
-                            HeroId = 3,
+                            HeroPlayedId = 3,
                             Kills = 12,
                             PlayerId = new Guid("c3f39d5e-3e4b-4c8a-9d3e-3e4b6c8a9d3e"),
                             TeamId = new Guid("e5f59d5e-5f5b-4e8a-9f5e-5f5b8e8a9f5e")
@@ -859,17 +874,36 @@ namespace DotaNerf.Migrations
                     b.Navigation("RadiantTeam");
                 });
 
+            modelBuilder.Entity("DotaNerf.Models.PlayerGame", b =>
+                {
+                    b.HasOne("DotaNerf.Models.Game", "Game")
+                        .WithMany("PlayerGames")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DotaNerf.Models.Player", "Player")
+                        .WithMany("PlayerGames")
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+
+                    b.Navigation("Player");
+                });
+
             modelBuilder.Entity("DotaNerf.Models.PlayerStats", b =>
                 {
                     b.HasOne("DotaNerf.Models.Game", "Game")
-                        .WithMany("PlayerStats")
+                        .WithMany()
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DotaNerf.Models.Hero", "HeroPlayed")
                         .WithMany()
-                        .HasForeignKey("HeroId")
+                        .HasForeignKey("HeroPlayedId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -911,11 +945,13 @@ namespace DotaNerf.Migrations
 
             modelBuilder.Entity("DotaNerf.Models.Game", b =>
                 {
-                    b.Navigation("PlayerStats");
+                    b.Navigation("PlayerGames");
                 });
 
             modelBuilder.Entity("DotaNerf.Models.Player", b =>
                 {
+                    b.Navigation("PlayerGames");
+
                     b.Navigation("PlayerStats");
                 });
 

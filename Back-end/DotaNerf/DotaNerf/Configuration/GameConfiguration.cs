@@ -23,8 +23,8 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
                .HasForeignKey(g => g.DireTeamId)
                .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasMany(g => g.PlayerStats)
-               .WithOne(ps => ps.Game)
-               .HasForeignKey(ps => ps.GameId);
+        //builder.HasMany(g => g.PlayerStats)
+        //       .WithOne(ps => ps.Game)
+        //       .HasForeignKey(ps => ps.GameId);
     }
 }

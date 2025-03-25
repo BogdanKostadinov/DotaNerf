@@ -15,6 +15,7 @@ public class DataContext : DbContext
     public DbSet<Team> Teams { get; set; }
     public DbSet<Player> Players { get; set; }
     public DbSet<PlayerStats> PlayerStats { get; set; }
+    public DbSet<PlayerGame> PlayerGames { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -25,6 +26,7 @@ public class DataContext : DbContext
         modelBuilder.ApplyConfiguration(new HeroConfiguration());
         modelBuilder.ApplyConfiguration(new PlayerConfiguration());
         modelBuilder.ApplyConfiguration(new PlayerStatsConfiguration());
+        modelBuilder.ApplyConfiguration(new PlayerGameConfiguration());
 
         modelBuilder.Seed();
     }
