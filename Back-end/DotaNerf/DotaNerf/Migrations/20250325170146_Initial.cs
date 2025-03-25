@@ -105,11 +105,35 @@ namespace DotaNerf.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PlayerGames",
+                columns: table => new
+                {
+                    GameId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlayerGames", x => new { x.GameId, x.PlayerId });
+                    table.ForeignKey(
+                        name: "FK_PlayerGames_Games_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Games",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PlayerGames_Players_PlayerId",
+                        column: x => x.PlayerId,
+                        principalTable: "Players",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PlayerStats",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    HeroId = table.Column<int>(type: "int", nullable: false),
+                    HeroPlayedId = table.Column<int>(type: "int", nullable: false),
                     Kills = table.Column<int>(type: "int", nullable: true, defaultValue: 0),
                     Deaths = table.Column<int>(type: "int", nullable: true, defaultValue: 0),
                     Assists = table.Column<int>(type: "int", nullable: true, defaultValue: 0),
@@ -127,8 +151,8 @@ namespace DotaNerf.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PlayerStats_Heroes_HeroId",
-                        column: x => x.HeroId,
+                        name: "FK_PlayerStats_Heroes_HeroPlayedId",
+                        column: x => x.HeroPlayedId,
                         principalTable: "Heroes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -299,7 +323,7 @@ namespace DotaNerf.Migrations
 
             migrationBuilder.InsertData(
                 table: "PlayerStats",
-                columns: new[] { "Id", "Assists", "Deaths", "GameId", "HeroId", "Kills", "PlayerId", "TeamId" },
+                columns: new[] { "Id", "Assists", "Deaths", "GameId", "HeroPlayedId", "Kills", "PlayerId", "TeamId" },
                 values: new object[,]
                 {
                     { new Guid("88889d5e-888b-488a-988e-888b188a988e"), 10, 3, new Guid("f6f69d5e-6f6b-4f8a-9f6e-6f6b9f8a9f6e"), 1, 5, new Guid("a1e29d5e-1c4b-4b8a-9b1e-1c4b4b8a9b1e"), new Guid("d4f49d5e-4f4b-4d8a-9e4e-4f4b7d8a9e4e") },
@@ -317,14 +341,19 @@ namespace DotaNerf.Migrations
                 column: "RadiantTeamId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PlayerGames_PlayerId",
+                table: "PlayerGames",
+                column: "PlayerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PlayerStats_GameId",
                 table: "PlayerStats",
                 column: "GameId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlayerStats_HeroId",
+                name: "IX_PlayerStats_HeroPlayedId",
                 table: "PlayerStats",
-                column: "HeroId");
+                column: "HeroPlayedId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlayerStats_PlayerId",
@@ -345,6 +374,9 @@ namespace DotaNerf.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "PlayerGames");
+
             migrationBuilder.DropTable(
                 name: "PlayerStats");
 

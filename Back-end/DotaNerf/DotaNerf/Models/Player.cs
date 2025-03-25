@@ -15,4 +15,6 @@ public class Player
     public List<Team> Teams { get; set; } = new();
     [JsonIgnore]
     public List<PlayerStats> PlayerStats { get; set; } = new();
+    [JsonIgnore]
+    public List<PlayerGame> PlayerGames { get; set; } = new();
 }

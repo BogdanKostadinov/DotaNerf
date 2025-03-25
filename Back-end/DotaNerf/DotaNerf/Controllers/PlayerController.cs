@@ -86,18 +86,4 @@ public class PlayerController : ControllerBase
     //    return CreatedAtRoute("GetPlayer", new { id = player.Id }, player);
     //}
 
-
-    //private void UpdatePlayerWithGame(Player player, PlayerStats gameStats)
-    //{
-    //    player.TotalGames++;
-    //    if (gameStats.GameResult == GameResult.Win)
-    //    {
-    //        player.GamesWon++;
-    //    }
-    //    else if (gameStats.GameResult == GameResult.Loss)
-    //    {
-    //        player.GamesLost++;
-    //    }
-    //    player.Winrate = Math.Round((double)player.GamesWon / player.TotalGames * 100);
-    //}
 }

@@ -208,7 +208,7 @@ public static class MockData
             new PlayerStats
             {
                 Id = new Guid("88889d5e-888b-488a-988e-888b188a988e"),
-                HeroId = 1,
+                HeroPlayedId = 1,
                 Kills = 5,
                 Deaths = 3,
                 Assists = 10,
@@ -219,7 +219,7 @@ public static class MockData
             new PlayerStats
             {
                 Id = new Guid("99999d5e-999b-499a-999e-999b399a999e"),
-                HeroId = 3,
+                HeroPlayedId = 3,
                 Kills = 12,
                 Deaths = 4,
                 Assists = 8,

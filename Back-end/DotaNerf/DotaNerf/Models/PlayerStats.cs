@@ -6,7 +6,7 @@ public class PlayerStats
 {
     public Guid Id { get; set; }
     public Hero? HeroPlayed { get; set; }
-    public int HeroId { get; set; }
+    public required int HeroPlayedId { get; set; }
     public int? Kills { get; set; }  
     public int? Deaths { get; set; } 
     public int? Assists { get; set; }  

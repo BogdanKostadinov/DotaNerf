@@ -24,7 +24,7 @@ public class PlayerStatsConfiguration : IEntityTypeConfiguration<PlayerStats>
                .HasForeignKey(ps => ps.PlayerId);
 
         builder.HasOne(ps => ps.Game)
-               .WithMany(g => g.PlayerStats)
+               .WithMany()
                .HasForeignKey(ps => ps.GameId);
 
         builder.HasOne(ps => ps.Team)
