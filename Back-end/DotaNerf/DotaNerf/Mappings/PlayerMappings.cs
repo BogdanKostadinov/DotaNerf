@@ -9,5 +9,6 @@ public class PlayerMappings : Profile
 	public PlayerMappings()
 	{
         CreateMap<CreatePlayerDTO, Player>();
+        CreateMap<Player, PlayerDTO>();
     }
 }

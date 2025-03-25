@@ -18,7 +18,5 @@ public class CreatePlayerStatsDTO
     public int? Kills { get; set; }
     public int? Deaths { get; set; }
     public int? Assists { get; set; }
-    public Guid PlayerId { get; set; }
-    public Guid TeamId { get; set; }
 }
 

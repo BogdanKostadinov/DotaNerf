@@ -14,9 +14,8 @@ public class PlayerDTO
 
 public class CreatePlayerDTO
 {
+    public Guid Id { get; set; }
     public required string Name { get; set; }
-    public List<Guid> PlayerStatsIds { get; set; } = new();
-    public List<Guid> GameIds { get; set; } = new();
-    public List<Guid> PlayerInTeamIds { get; set; } = new();
+    public required CreatePlayerStatsDTO PlayerStats { get; set; }
 }
 
