@@ -6,9 +6,7 @@ import { PlayerGameEntry } from '../../models/player.model';
   templateUrl: './player-stat-panel.component.html',
   styleUrl: './player-stat-panel.component.scss',
 })
-export class PlayerStatPanelComponent implements OnInit {
+export class PlayerStatPanelComponent {
   @Input() player!: PlayerGameEntry;
-  ngOnInit(): void {
-    console.log(this.player);
-  }
+
 }
