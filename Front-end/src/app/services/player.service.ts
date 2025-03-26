@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GameStats, Player } from '../models/player.model';
+import { Player } from '../models/player.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,11 +15,7 @@ export class PlayerService {
     return this.http.get<Player[]>(this.url);
   }
 
-  getPlayer$(id: number): Observable<Player> {
+  getPlayer$(id: string): Observable<Player> {
     return this.http.get<Player>(this.url + '/' + id);
-  }
-
-  addGameForPlayer(playerId: string, gameStats: GameStats): Observable<void> {
-    return this.http.put<void>(`${this.url}/${playerId}`, gameStats);
   }
 }
