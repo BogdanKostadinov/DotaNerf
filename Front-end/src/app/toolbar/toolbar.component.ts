@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { PlayerEditComponent } from '../player-edit/player-edit.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-toolbar',
@@ -8,13 +7,9 @@ import { PlayerEditComponent } from '../player-edit/player-edit.component';
   styleUrl: './toolbar.component.scss',
 })
 export class ToolbarComponent {
-  constructor(private dialog: MatDialog) {}
+  constructor(private router: Router) {}
 
-  openAddPlayerDialog(): void {
-    const dialogRef = this.dialog.open(PlayerEditComponent, {
-      width: '400px',
-      data: { action: 'add' },
-    });
-    dialogRef.afterClosed().subscribe();
+  navigateToCreateGame(): void {
+    this.router.navigate(['/create-game']);
   }
 }

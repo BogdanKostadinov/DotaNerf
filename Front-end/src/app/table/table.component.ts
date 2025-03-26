@@ -54,13 +54,13 @@ export class TableComponent implements AfterViewInit {
       data: { action: 'addStats', player },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.playerService
-          .addGameForPlayer(result.playerId, result)
-          .subscribe();
-      }
-    });
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   if (result) {
+    //     this.playerService
+    //       .addGameForPlayer(result.playerId, result)
+    //       .subscribe();
+    //   }
+    // });
   }
 
   editPlayerStats() {

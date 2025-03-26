@@ -6,8 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { GameStats, Player } from '../models/player.model';
-import { PlayerService } from '../services/player.service';
+import { Player } from '../models/player.model';
 
 @Component({
   selector: 'app-player-edit',

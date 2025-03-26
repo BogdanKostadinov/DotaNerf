@@ -30,6 +30,10 @@ import {
   withFetch,
 } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CreateGameComponent } from './create-game/create-game.component';
+import { GameDisplayComponent } from './game-display/game-display.component';
+import { GameCardComponent } from './game-display/game-card/game-card.component';
+import { PlayerStatPanelComponent } from './game-display/player-stat-panel/player-stat-panel.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +42,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ToolbarComponent,
     PlayerEditComponent,
     SelectHeroComponent,
+    CreateGameComponent,
+    GameDisplayComponent,
+    GameCardComponent,
+    PlayerStatPanelComponent,
   ],
   imports: [
     BrowserAnimationsModule,
