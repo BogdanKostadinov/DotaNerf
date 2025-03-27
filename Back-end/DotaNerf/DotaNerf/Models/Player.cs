@@ -6,10 +6,11 @@ public class Player
 {
     public Guid Id { get; set; }
     public required string Name { get; set; }
-    public double Winrate { get; set; }
-    public int TotalGames { get; set; }
-    public int GamesWon { get; set; }
-    public int GamesLost { get; set; }
+
+    // Foreign key for PlayerDetails
+    public Guid PlayerDetailsId { get; set; }
+    public PlayerDetails PlayerDetails { get; set; } = null!;
+
 
     [JsonIgnore]
     public List<Team> Teams { get; set; } = new();
