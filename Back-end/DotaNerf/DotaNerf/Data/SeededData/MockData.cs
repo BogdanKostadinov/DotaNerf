@@ -170,6 +170,31 @@ public static class MockData
         };
     }
 
+    public static List<PlayerDetails> SeedPlayerDetails()
+    {
+        return new List<PlayerDetails>
+        {
+            new PlayerDetails
+            {
+                Id = new Guid("d5f49d5e-4f4b-4c8a-9e4e-4f4b7c8a9e4e"),
+                PlayerId = DummyPlayerId,
+                Winrate = 60,
+                TotalGames = 15,
+                GamesWon = 9,
+                GamesLost = 6
+            },
+            new PlayerDetails
+            {
+                Id = new Guid("e6f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e"),
+                PlayerId = VeniPlayerId,
+                Winrate = 59,
+                TotalGames = 17,
+                GamesWon = 10,
+                GamesLost = 7
+            }
+        };
+    }
+
     public static List<Game> SeedGames()
     {
         return new List<Game>

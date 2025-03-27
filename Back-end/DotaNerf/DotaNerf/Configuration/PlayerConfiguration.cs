@@ -11,7 +11,11 @@ public class PlayerConfiguration : IEntityTypeConfiguration<Player>
         builder.HasKey(m => m.Id);
 
         builder.Property(p => p.Name)
-            .IsRequired();
+               .IsRequired();
+
+        builder.HasOne(p => p.PlayerDetails)
+               .WithOne(pd => pd.Player)
+               .HasForeignKey<PlayerDetails>(pd => pd.PlayerId);
 
         builder.HasMany(p => p.PlayerStats)
                .WithOne(ps => ps.Player)

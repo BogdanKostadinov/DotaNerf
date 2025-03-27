@@ -32,10 +32,7 @@ namespace DotaNerf.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Winrate = table.Column<double>(type: "float", nullable: false),
-                    TotalGames = table.Column<int>(type: "int", nullable: false),
-                    GamesWon = table.Column<int>(type: "int", nullable: false),
-                    GamesLost = table.Column<int>(type: "int", nullable: false)
+                    PlayerDetailsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,6 +49,28 @@ namespace DotaNerf.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Teams", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PlayerDetails",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Winrate = table.Column<double>(type: "float", nullable: false),
+                    TotalGames = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
+                    GamesWon = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
+                    GamesLost = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
+                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlayerDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PlayerDetails_Players_PlayerId",
+                        column: x => x.PlayerId,
+                        principalTable: "Players",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -300,11 +319,11 @@ namespace DotaNerf.Migrations
 
             migrationBuilder.InsertData(
                 table: "Players",
-                columns: new[] { "Id", "GamesLost", "GamesWon", "Name", "TotalGames", "Winrate" },
+                columns: new[] { "Id", "Name", "PlayerDetailsId" },
                 values: new object[,]
                 {
-                    { new Guid("a1e29d5e-1c4b-4b8a-9b1e-1c4b4b8a9b1e"), 0, 0, "dummy", 0, 0.0 },
-                    { new Guid("c3f39d5e-3e4b-4c8a-9d3e-3e4b6c8a9d3e"), 0, 0, "Veni", 0, 0.0 }
+                    { new Guid("a1e29d5e-1c4b-4b8a-9b1e-1c4b4b8a9b1e"), "dummy", new Guid("00000000-0000-0000-0000-000000000000") },
+                    { new Guid("c3f39d5e-3e4b-4c8a-9d3e-3e4b6c8a9d3e"), "Veni", new Guid("00000000-0000-0000-0000-000000000000") }
                 });
 
             migrationBuilder.InsertData(
@@ -320,6 +339,15 @@ namespace DotaNerf.Migrations
                 table: "Games",
                 columns: new[] { "Id", "DireTeamId", "RadiantTeamId", "WinningTeam" },
                 values: new object[] { new Guid("f6f69d5e-6f6b-4f8a-9f6e-6f6b9f8a9f6e"), new Guid("e5f59d5e-5f5b-4e8a-9f5e-5f5b8e8a9f5e"), new Guid("d4f49d5e-4f4b-4d8a-9e4e-4f4b7d8a9e4e"), 0 });
+
+            migrationBuilder.InsertData(
+                table: "PlayerDetails",
+                columns: new[] { "Id", "GamesLost", "GamesWon", "PlayerId", "TotalGames", "Winrate" },
+                values: new object[,]
+                {
+                    { new Guid("d5f49d5e-4f4b-4c8a-9e4e-4f4b7c8a9e4e"), 6, 9, new Guid("a1e29d5e-1c4b-4b8a-9b1e-1c4b4b8a9b1e"), 15, 60.0 },
+                    { new Guid("e6f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e"), 7, 10, new Guid("c3f39d5e-3e4b-4c8a-9d3e-3e4b6c8a9d3e"), 17, 59.0 }
+                });
 
             migrationBuilder.InsertData(
                 table: "PlayerStats",
@@ -339,6 +367,12 @@ namespace DotaNerf.Migrations
                 name: "IX_Games_RadiantTeamId",
                 table: "Games",
                 column: "RadiantTeamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlayerDetails_PlayerId",
+                table: "PlayerDetails",
+                column: "PlayerId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlayerGames_PlayerId",
@@ -374,6 +408,9 @@ namespace DotaNerf.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "PlayerDetails");
+
             migrationBuilder.DropTable(
                 name: "PlayerGames");
 

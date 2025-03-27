@@ -132,7 +132,7 @@ public class GameController : ControllerBase
                     Deaths = playerDto.PlayerStats.Deaths,
                     Assists = playerDto.PlayerStats.Assists
                 });
-                UpdatePlayerGameStats(existingPlayer, newGame.WinningTeam == createGameDto.RadiantTeam.Name);
+                UpdatePlayerGameStats(existingPlayer.PlayerDetails, newGame.WinningTeam == createGameDto.RadiantTeam.Name);
                 newGame.RadiantTeam.Players.Add(existingPlayer);
 
                 var playerGame = new PlayerGame
@@ -173,7 +173,7 @@ public class GameController : ControllerBase
                     Deaths = playerDto.PlayerStats.Deaths,
                     Assists = playerDto.PlayerStats.Assists
                 });
-                UpdatePlayerGameStats(existingPlayer, newGame.WinningTeam == createGameDto.DireTeam.Name);
+                UpdatePlayerGameStats(existingPlayer.PlayerDetails, newGame.WinningTeam == createGameDto.DireTeam.Name);
                 newGame.DireTeam.Players.Add(existingPlayer);
 
                 var playerGame = new PlayerGame
@@ -214,18 +214,18 @@ public class GameController : ControllerBase
         return NoContent();
     }
 
-    private void UpdatePlayerGameStats(Player player, bool gameWon)
+    private void UpdatePlayerGameStats(PlayerDetails playerDetails, bool gameWon)
     {
-        player.TotalGames++;
+        playerDetails.TotalGames++;
         if (gameWon)
         {
-            player.GamesWon++;
+            playerDetails.GamesWon++;
         }
         else if (!gameWon)
         {
-            player.GamesLost++;
+            playerDetails.GamesLost++;
         }
-        player.Winrate = Math.Round((double)player.GamesWon / player.TotalGames * 100);
+        playerDetails.Winrate = Math.Round((double)playerDetails.GamesWon / playerDetails.TotalGames * 100);
     }
 }
 

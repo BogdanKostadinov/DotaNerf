@@ -685,21 +685,12 @@ namespace DotaNerf.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("GamesLost")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GamesWon")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TotalGames")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Winrate")
-                        .HasColumnType("float");
+                    b.Property<Guid>("PlayerDetailsId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -709,20 +700,69 @@ namespace DotaNerf.Migrations
                         new
                         {
                             Id = new Guid("a1e29d5e-1c4b-4b8a-9b1e-1c4b4b8a9b1e"),
-                            GamesLost = 0,
-                            GamesWon = 0,
                             Name = "dummy",
-                            TotalGames = 0,
-                            Winrate = 0.0
+                            PlayerDetailsId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
                             Id = new Guid("c3f39d5e-3e4b-4c8a-9d3e-3e4b6c8a9d3e"),
-                            GamesLost = 0,
-                            GamesWon = 0,
                             Name = "Veni",
-                            TotalGames = 0,
-                            Winrate = 0.0
+                            PlayerDetailsId = new Guid("00000000-0000-0000-0000-000000000000")
+                        });
+                });
+
+            modelBuilder.Entity("DotaNerf.Models.PlayerDetails", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("GamesLost")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<int>("GamesWon")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("TotalGames")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<double>("Winrate")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlayerId")
+                        .IsUnique();
+
+                    b.ToTable("PlayerDetails");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d5f49d5e-4f4b-4c8a-9e4e-4f4b7c8a9e4e"),
+                            GamesLost = 6,
+                            GamesWon = 9,
+                            PlayerId = new Guid("a1e29d5e-1c4b-4b8a-9b1e-1c4b4b8a9b1e"),
+                            TotalGames = 15,
+                            Winrate = 60.0
+                        },
+                        new
+                        {
+                            Id = new Guid("e6f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e"),
+                            GamesLost = 7,
+                            GamesWon = 10,
+                            PlayerId = new Guid("c3f39d5e-3e4b-4c8a-9d3e-3e4b6c8a9d3e"),
+                            TotalGames = 17,
+                            Winrate = 59.0
                         });
                 });
 
@@ -871,6 +911,17 @@ namespace DotaNerf.Migrations
                     b.Navigation("RadiantTeam");
                 });
 
+            modelBuilder.Entity("DotaNerf.Models.PlayerDetails", b =>
+                {
+                    b.HasOne("DotaNerf.Models.Player", "Player")
+                        .WithOne("PlayerDetails")
+                        .HasForeignKey("DotaNerf.Models.PlayerDetails", "PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Player");
+                });
+
             modelBuilder.Entity("DotaNerf.Models.PlayerGame", b =>
                 {
                     b.HasOne("DotaNerf.Models.Game", "Game")
@@ -947,6 +998,9 @@ namespace DotaNerf.Migrations
 
             modelBuilder.Entity("DotaNerf.Models.Player", b =>
                 {
+                    b.Navigation("PlayerDetails")
+                        .IsRequired();
+
                     b.Navigation("PlayerGames");
 
                     b.Navigation("PlayerStats");
