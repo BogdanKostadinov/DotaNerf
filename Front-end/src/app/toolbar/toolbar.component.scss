@@ -1,7 +1,22 @@
-.spacer {
-    flex: 1 1 auto;
-}
-mat-toolbar{
-    background: #1e2a3a;
-    color:white;
+mat-toolbar {
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  background-color: #1e2a3a;
+  color: white;
+
+  button {
+    color: rgba(255, 255, 255, 0.7);
+    border-radius: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .toolbar-title {
+    flex: 1;
+    text-align: center;
+  }
 }

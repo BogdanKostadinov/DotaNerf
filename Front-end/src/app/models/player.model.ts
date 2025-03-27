@@ -4,10 +4,7 @@ import { Hero } from './hero.model';
 export interface Player {
   id: string;
   name: string;
-  winrate: number;
-  totalGames: number;
-  gamesWon: number;
-  gamesLost: number;
+  playerDetails: PlayerDetails;
   games: GameDetails[];
 }
 
@@ -22,4 +19,11 @@ export interface PlayerStats {
   kills: number;
   deaths: number;
   assists: number;
+}
+
+export interface PlayerDetails {
+  winrate: number;
+  totalGames: number;
+  gamesWon: number;
+  gamesLost: number;
 }

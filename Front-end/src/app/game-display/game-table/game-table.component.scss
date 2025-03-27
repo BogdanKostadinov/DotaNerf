@@ -1,0 +1,49 @@
+table {
+  width: 100%;
+}
+
+tr.detail-row {
+  height: 0;
+}
+
+tr.element-row:not(.expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.element-row:not(.expanded-row):active {
+  background: #efefef;
+}
+
+.element-row td {
+  border-bottom-width: 0;
+}
+
+.element-detail {
+  overflow: hidden;
+}
+
+.element-description {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+}
+
+.radiant-team,
+.dire-team {
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.radiant-team h4,
+.dire-team h4 {
+  margin: 0 0 10px 0;
+  text-align: center;
+}
+
+.expand-column {
+  text-align: right;
+}

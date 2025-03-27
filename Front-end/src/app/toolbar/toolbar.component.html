@@ -1,9 +1,22 @@
 <mat-toolbar>
   <mat-toolbar-row>
-    <span>DotaNerf</span>
-    <span class="spacer"></span>
-    <button mat-icon-button (click)="navigateToCreateGame()">
-      <mat-icon>add</mat-icon>
+    <span class="toolbar-title">{{ 'DotaNerf' }}</span>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
     </button>
-  </mat-toolbar-row></mat-toolbar
->
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="navigateToCreateGame()">
+        <mat-icon>add</mat-icon>
+        <span>Add game</span>
+      </button>
+      <button mat-menu-item (click)="navigateToPlayerStats()">
+        <mat-icon>people</mat-icon>
+        <span>Player stats</span>
+      </button>
+      <button mat-menu-item (click)="navigateToRecentGames()">
+        <mat-icon>history</mat-icon>
+        <span>Recent games</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar-row>
+</mat-toolbar>

@@ -48,21 +48,6 @@ export class TableComponent implements AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  addGameStats(player: Player): void {
-    const dialogRef = this.dialog.open(PlayerEditComponent, {
-      width: '600px',
-      data: { action: 'addStats', player },
-    });
-
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   if (result) {
-    //     this.playerService
-    //       .addGameForPlayer(result.playerId, result)
-    //       .subscribe();
-    //   }
-    // });
-  }
-
   editPlayerStats() {
     console.log('editPlayerStats');
   }

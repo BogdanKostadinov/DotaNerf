@@ -1,7 +1,5 @@
 using AutoMapper;
 using DotaNerf.Data;
-using DotaNerf.DTOs;
-using DotaNerf.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

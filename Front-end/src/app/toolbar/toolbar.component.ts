@@ -12,4 +12,10 @@ export class ToolbarComponent {
   navigateToCreateGame(): void {
     this.router.navigate(['/create-game']);
   }
+  navigateToPlayerStats(): void {
+    this.router.navigate(['/table']);
+  }
+  navigateToRecentGames(): void {
+    this.router.navigate(['/games']);
+  }
 }

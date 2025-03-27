@@ -1,8 +1,5 @@
 import { NgModule } from '@angular/core';
-import {
-  BrowserModule,
-  provideClientHydration,
-} from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { MatTableModule } from '@angular/material/table';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -31,9 +28,10 @@ import {
 } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CreateGameComponent } from './create-game/create-game.component';
-import { GameCardComponent } from './game-display/game-card/game-card.component';
+import { GameTableComponent } from './game-display/game-table/game-table.component';
 import { PlayerStatPanelComponent } from './game-display/player-stat-panel/player-stat-panel.component';
 import { GameDisplayComponent } from './game-display/game-display.component';
+import { SelectWithSearchComponent } from './shared/select-with-search/select-with-search.component';
 
 @NgModule({
   declarations: [
@@ -43,9 +41,10 @@ import { GameDisplayComponent } from './game-display/game-display.component';
     PlayerEditComponent,
     SelectHeroComponent,
     CreateGameComponent,
-    GameCardComponent,
+    GameTableComponent,
     GameDisplayComponent,
     PlayerStatPanelComponent,
+    SelectWithSearchComponent,
   ],
   imports: [
     BrowserAnimationsModule,

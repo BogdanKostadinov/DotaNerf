@@ -24,20 +24,28 @@
     <!-- Winrate Column -->
     <ng-container matColumnDef="winrate">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Win rate</th>
-      <td mat-cell *matCellDef="let element">{{ element.winrate }}%</td>
+      <td mat-cell *matCellDef="let element">
+        {{ element.playerDetails.winrate }}%
+      </td>
     </ng-container>
 
     <!-- Weight Column -->
     <ng-container matColumnDef="totalGames">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Games played</th>
-      <td mat-cell *matCellDef="let element">{{ element.totalGames }}</td>
+      <td mat-cell *matCellDef="let element">
+        {{ element.playerDetails.totalGames }}
+      </td>
     </ng-container>
 
     <!-- Weight Column -->
     <ng-container matColumnDef="score">
       <th mat-header-cell *matHeaderCellDef>Win/Lose</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.gamesWon + ' - ' + element.gamesLost }}
+        {{
+          element.playerDetails.gamesWon +
+            ' - ' +
+            element.playerDetails.gamesLost
+        }}
       </td>
     </ng-container>
 
@@ -49,7 +57,7 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="addGameStats(element)">
+          <button mat-menu-item>
             <mat-icon>add</mat-icon>
             <span>Add game stats</span>
           </button>

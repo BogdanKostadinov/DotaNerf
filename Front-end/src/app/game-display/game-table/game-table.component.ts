@@ -1,11 +1,5 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
-import { Game, GameDetails } from '../../models/game.model';
+import { Component, Input, OnInit } from '@angular/core';
+import { GameDetails } from '../../models/game.model';
 import {
   trigger,
   state,
@@ -16,9 +10,9 @@ import {
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
-  selector: 'app-game-card',
-  templateUrl: './game-card.component.html',
-  styleUrl: './game-card.component.scss',
+  selector: 'app-game-table',
+  templateUrl: './game-table.component.html',
+  styleUrl: './game-table.component.scss',
   animations: [
     trigger('detailExpand', [
       state('collapsed,void', style({ height: '0px', minHeight: '0' })),
@@ -30,16 +24,18 @@ import { MatTableDataSource } from '@angular/material/table';
     ]),
   ],
 })
-export class GameCardComponent implements OnInit {
+export class GameTableComponent implements OnInit {
   @Input() games: GameDetails[] = [];
   dataSource = new MatTableDataSource<GameDetails>([]);
-  columnsToDisplay = ['colNum', 'winner'];
+  columnsToDisplay = ['Radiant team', 'Dire team', 'Winner'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement!: GameDetails | null;
 
-  // TODO display players to each game on expand
-  // Display winning team on top
   ngOnInit(): void {
     this.dataSource.data = this.games;
+  }
+
+  isNaN(value: any): boolean {
+    return Number.isNaN(value);
   }
 }
