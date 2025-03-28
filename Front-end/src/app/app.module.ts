@@ -34,6 +34,7 @@ import { SelectWithSearchComponent } from './shared/select-with-search/select-wi
 import { CreateGameConfirmationWindowComponent } from './create-game/create-game-confirmation-window/create-game-confirmation-window.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { MatListModule } from '@angular/material/list';
     CdkAccordionModule,
     MatDividerModule,
     MatListModule,
+    NgxMatSelectSearchModule,
   ],
   providers: [provideHttpClient(withFetch()), provideAnimationsAsync()],
   bootstrap: [AppComponent],
