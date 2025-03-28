@@ -1,1 +1,11 @@
-<p>select-with-search works!</p>
+<mat-form-field>
+  <mat-label>{{ label }}</mat-label>
+  <mat-select [formControl]="control">
+    <mat-option *ngFor="let item of items" [value]="item.id">{{
+      item.label
+    }}</mat-option>
+  </mat-select>
+  <mat-error *ngIf="control.hasError('required')"
+    >{{ label }} selection is required</mat-error
+  >
+</mat-form-field>

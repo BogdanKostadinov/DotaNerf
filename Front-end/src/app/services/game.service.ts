@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Game, GameDetails } from '../models/game.model';
+import { CreateGameDTO, Game, GameDetails } from '../models/game.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -17,5 +17,9 @@ export class GameService {
 
   getGame$(id: string): Observable<Game> {
     return this.http.get<Game>(this.url + '/' + id);
+  }
+
+  createGame$(game: CreateGameDTO): Observable<Game> {
+    return this.http.post<Game>(this.url, game);
   }
 }

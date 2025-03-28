@@ -1,0 +1,144 @@
+.create-game-container {
+  margin: 0 auto;
+}
+
+.winning-team {
+  margin-bottom: 32px;
+  text-align: center;
+
+  h2 {
+    color: rgba(0, 0, 0, 0.87);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  mat-radio-group {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+  }
+  mat-error {
+    display: block;
+    font-size: 12px;
+    margin-top: 5px;
+    color: #f44336;
+  }
+}
+
+.teams-wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 32px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.team-container {
+  flex: 1;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+
+  h3 {
+    margin-top: 0;
+    text-align: center;
+    margin-bottom: 24px;
+    color: rgba(0, 0, 0, 0.87);
+    font-weight: 500;
+  }
+
+  &.radiant-team {
+    border: 1px solid rgba(76, 175, 80, 0.2);
+  }
+
+  &.dire-team {
+    border: 1px solid rgba(244, 67, 54, 0.2);
+  }
+}
+
+.player-container {
+  background-color: white;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.mat-mdc-radio-button {
+  margin: 0 12px;
+}
+
+.team-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 16px;
+  min-height: 40px;
+
+  .title-wrapper {
+    text-align: center;
+    flex: 1;
+
+    h3 {
+      margin: 0;
+    }
+  }
+
+  .add-btn {
+    position: absolute;
+    right: 0;
+    padding: 0;
+  }
+}
+
+.remove-btn {
+  margin-top: 16px;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.submit-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+
+  .submit-btn {
+    padding: 14px 36px;
+    font-size: 16px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+}
+
+// Expansion panel customization
+.mat-expansion-panel {
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.mat-expansion-panel-header {
+  padding: 12px 16px !important;
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .team-container {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+}
