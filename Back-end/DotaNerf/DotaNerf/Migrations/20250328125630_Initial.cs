@@ -322,8 +322,8 @@ namespace DotaNerf.Migrations
                 columns: new[] { "Id", "Name", "PlayerDetailsId" },
                 values: new object[,]
                 {
-                    { new Guid("a1e29d5e-1c4b-4b8a-9b1e-1c4b4b8a9b1e"), "dummy", new Guid("00000000-0000-0000-0000-000000000000") },
-                    { new Guid("c3f39d5e-3e4b-4c8a-9d3e-3e4b6c8a9d3e"), "Veni", new Guid("00000000-0000-0000-0000-000000000000") }
+                    { new Guid("a1e29d5e-1c4b-4b8a-9b1e-1c4b4b8a9b1e"), "dummy", new Guid("d5f49d5e-4f4b-4c8a-9e4e-4f4b7c8a9e4e") },
+                    { new Guid("c3f39d5e-3e4b-4c8a-9d3e-3e4b6c8a9d3e"), "Veni", new Guid("e6f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e") }
                 });
 
             migrationBuilder.InsertData(

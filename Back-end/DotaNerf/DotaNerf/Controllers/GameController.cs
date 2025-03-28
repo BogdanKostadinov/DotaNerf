@@ -110,6 +110,7 @@ public class GameController : ControllerBase
         foreach (var playerDto in createGameDto.RadiantTeam.Players)
         {
             var existingPlayer = await _context.Players
+                .Include(p => p.PlayerDetails)
                 .Include(p => p.PlayerStats)
                 .FirstOrDefaultAsync(p => p.Id == playerDto.Id);
 
@@ -153,6 +154,7 @@ public class GameController : ControllerBase
         foreach (var playerDto in createGameDto.DireTeam.Players)
         {
             var existingPlayer = await _context.Players
+                .Include(p => p.PlayerDetails)
                 .Include(p => p.PlayerStats)
                 .FirstOrDefaultAsync(p => p.Id == playerDto.Id);
             var existingHero = await _context.Heroes.FirstOrDefaultAsync(p => p.Id == playerDto.PlayerStats.HeroPlayedId);
