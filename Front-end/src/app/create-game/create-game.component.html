@@ -1,1 +1,181 @@
-<p>create-game works!</p>
+<div class="create-game-container">
+  <form [formGroup]="gameForm">
+    <div class="winning-team">
+      <h2>Winning team</h2>
+      <!-- Game result -->
+      <mat-radio-group
+        formControlName="winningTeam"
+        aria-label="Select an option"
+      >
+        <mat-radio-button value="0">Radiant</mat-radio-button>
+        <mat-radio-button value="1">Dire</mat-radio-button>
+      </mat-radio-group>
+
+      <!-- Validation error message -->
+      <mat-error
+        *ngIf="
+          winningTeamCtrl.invalid && (winningTeamCtrl.touched || formSubmitted)
+        "
+      >
+        Please select the winning team
+      </mat-error>
+    </div>
+
+    <div class="teams-wrapper">
+      <!-- Radiant Team -->
+      <div class="team-container radiant-team" formGroupName="radiantTeam">
+        <div class="team-header">
+          <div class="title-wrapper">
+            <h3>Radiant Team</h3>
+          </div>
+          <button
+            mat-icon-button
+            (click)="addPlayer('radiant')"
+            [disabled]="isTeamFull('radiant')"
+            class="add-btn"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        <div formArrayName="players">
+          <div
+            *ngFor="let player of radiantPlayers.controls; let i = index"
+            [formGroupName]="i"
+            class="player-container"
+          >
+            <app-select-with-search
+              [label]="'Player'"
+              [control]="getPlayerControl('radiant', i) || null"
+              [items]="playerItems"
+            >
+            </app-select-with-search>
+            <div formGroupName="playerStats">
+              <app-select-with-search
+                [label]="'Hero'"
+                [control]="getHeroControl('radiant', i) || null"
+                [items]="heroItems"
+              >
+              </app-select-with-search>
+              <mat-accordion multi>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Additional player details
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <mat-form-field appearance="fill" class="flex-item">
+                    <mat-label>Kills:</mat-label>
+                    <input matInput type="number" formControlName="kills" />
+                  </mat-form-field>
+                  <mat-form-field appearance="fill" class="flex-item">
+                    <mat-label>Deaths:</mat-label>
+                    <input matInput type="number" formControlName="deaths" />
+                  </mat-form-field>
+                  <mat-form-field appearance="fill" class="flex-item">
+                    <mat-label>Assists:</mat-label>
+                    <input matInput type="number" formControlName="assists" />
+                  </mat-form-field>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+
+            <button
+              mat-flat-button
+              (click)="removePlayer('radiant', i)"
+              class="remove-btn"
+            >
+              Remove Player
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dire Team -->
+      <div class="team-container dire-team" formGroupName="direTeam">
+        <div class="team-header">
+          <div class="title-wrapper">
+            <h3>Dire Team</h3>
+          </div>
+          <button
+            mat-icon-button
+            (click)="addPlayer('dire')"
+            [disabled]="isTeamFull('dire')"
+            class="add-btn"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        <div formArrayName="players">
+          <div
+            *ngFor="let player of direPlayers.controls; let i = index"
+            [formGroupName]="i"
+            class="player-container"
+          >
+            <app-select-with-search
+              [label]="'Player'"
+              [control]="getPlayerControl('dire', i) || null"
+              [items]="playerItems"
+            >
+            </app-select-with-search>
+            <app-select-with-search
+              [label]="'Hero'"
+              [control]="getHeroControl('dire', i) || null"
+              [items]="heroItems"
+            >
+            </app-select-with-search>
+
+            <div formGroupName="playerStats">
+              <mat-accordion multi>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Additional player details
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <mat-form-field appearance="fill" class="flex-item">
+                    <mat-label>Kills:</mat-label>
+                    <input matInput type="number" formControlName="kills" />
+                  </mat-form-field>
+                  <mat-form-field appearance="fill" class="flex-item">
+                    <mat-label>Deaths:</mat-label>
+                    <input matInput type="number" formControlName="deaths" />
+                  </mat-form-field>
+                  <mat-form-field appearance="fill" class="flex-item">
+                    <mat-label>Assists:</mat-label>
+                    <input matInput type="number" formControlName="assists" />
+                  </mat-form-field>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+
+            <button
+              mat-flat-button
+              (click)="removePlayer('dire', i)"
+              class="remove-btn"
+            >
+              Remove Player
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-container">
+      <button
+        mat-flat-button
+        color="primary"
+        class="submit-btn"
+        (click)="onSubmit()"
+        [disabled]="
+          gameForm.invalid ||
+          gameForm.controls['radiantTeam'].invalid ||
+          gameForm.controls['direTeam'].invalid ||
+          radiantPlayers.length < 0 ||
+          direPlayers.length < 0
+        "
+      >
+        Create Game
+      </button>
+    </div>
+  </form>
+</div>

@@ -16,7 +16,6 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSortModule } from '@angular/material/sort';
 import { MatRadioModule } from '@angular/material/radio';
-import { SelectHeroComponent } from './select-hero/select-hero.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -32,6 +31,10 @@ import { GameTableComponent } from './game-display/game-table/game-table.compone
 import { PlayerStatPanelComponent } from './game-display/player-stat-panel/player-stat-panel.component';
 import { GameDisplayComponent } from './game-display/game-display.component';
 import { SelectWithSearchComponent } from './shared/select-with-search/select-with-search.component';
+import { CreateGameConfirmationWindowComponent } from './create-game/create-game-confirmation-window/create-game-confirmation-window.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
   declarations: [
@@ -39,12 +42,12 @@ import { SelectWithSearchComponent } from './shared/select-with-search/select-wi
     TableComponent,
     ToolbarComponent,
     PlayerEditComponent,
-    SelectHeroComponent,
     CreateGameComponent,
     GameTableComponent,
     GameDisplayComponent,
     PlayerStatPanelComponent,
     SelectWithSearchComponent,
+    CreateGameConfirmationWindowComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -66,6 +69,9 @@ import { SelectWithSearchComponent } from './shared/select-with-search/select-wi
     MatMenuModule,
     MatExpansionModule,
     CdkAccordionModule,
+    MatDividerModule,
+    MatListModule,
+    NgxMatSelectSearchModule,
   ],
   providers: [provideHttpClient(withFetch()), provideAnimationsAsync()],
   bootstrap: [AppComponent],

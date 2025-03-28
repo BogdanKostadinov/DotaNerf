@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content class="mat-typography">
+  <h3>{{ data.message }}</h3>
+  <div class="teams-container">
+    <div class="team-list" [class.winning-team]="data.winningTeam === '0'">
+      <h4 class="team-title">Radiant Team</h4>
+      <mat-divider></mat-divider>
+      <mat-list *ngFor="let player of data.radiantTeam">
+        <mat-list-item class="centered-list-item">
+          {{ player.playerName }} - {{ player.heroName }}</mat-list-item
+        >
+      </mat-list>
+    </div>
+
+    <div class="team-list" [class.winning-team]="data.winningTeam === '1'">
+      <h4 class="team-title">Dire Team</h4>
+      <mat-divider></mat-divider>
+      <mat-list *ngFor="let player of data.direTeam">
+        <mat-list-item class="centered-list-item">
+          {{ player.playerName }} - {{ player.heroName }}</mat-list-item
+        >
+      </mat-list>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions [align]="'end'">
+  <button (click)="onCancelClick()" mat-button>Cancel</button>
+  <button
+    (click)="onSaveClick()"
+    mat-raised-button
+    color="primary"
+    cdkFocusInitial
+  >
+    Save
+  </button>
+</mat-dialog-actions>

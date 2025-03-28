@@ -16,7 +16,7 @@ import { Player } from '../models/player.model';
 export class PlayerEditComponent implements OnInit {
   title = '';
   form!: FormGroup;
-  heroSelectCtrl = new FormControl<string>('', Validators.required);
+  heroSelectCtrl = new FormControl<number | null>(null, Validators.required);
 
   constructor(
     public dialogRef: MatDialogRef<PlayerEditComponent>,
@@ -55,20 +55,7 @@ export class PlayerEditComponent implements OnInit {
   }
 
   onSave(): void {
-    const gameStats = {
-      heroPlayed: { name: this.form.value.heroPlayed },
-      xpm: this.form.value.xpm || 0,
-      gpm: this.form.value.gpm || 0,
-      lastHits: this.form.value.lastHits || 0,
-      kills: this.form.value.kills || 0,
-      deaths: this.form.value.deaths || 0,
-      assists: this.form.value.assists || 0,
-      gameDuration: this.form.value.gameDuration || 0,
-      gameResult: this.form.value.gameResult === '1' ? 1 : 0,
-      playerId: this.data.player?.id,
-    };
-
-    this.dialogRef.close(gameStats);
+    this.dialogRef.close();
   }
 
   onCancel(): void {
