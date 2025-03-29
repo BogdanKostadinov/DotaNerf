@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotaNerf.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250328125630_Initial")]
-    partial class Initial
+    [Migration("20250328222518_MorePlayerEntries")]
+    partial class MorePlayerEntries
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,15 +47,6 @@ namespace DotaNerf.Migrations
                     b.HasIndex("RadiantTeamId");
 
                     b.ToTable("Games");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("f6f69d5e-6f6b-4f8a-9f6e-6f6b9f8a9f6e"),
-                            DireTeamId = new Guid("e5f59d5e-5f5b-4e8a-9f5e-5f5b8e8a9f5e"),
-                            RadiantTeamId = new Guid("d4f49d5e-4f4b-4d8a-9e4e-4f4b7d8a9e4e"),
-                            WinningTeam = 0
-                        });
                 });
 
             modelBuilder.Entity("DotaNerf.Models.Hero", b =>
@@ -711,6 +702,96 @@ namespace DotaNerf.Migrations
                             Id = new Guid("c3f39d5e-3e4b-4c8a-9d3e-3e4b6c8a9d3e"),
                             Name = "Veni",
                             PlayerDetailsId = new Guid("e6f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e")
+                        },
+                        new
+                        {
+                            Id = new Guid("d4f49d5e-4f4b-4c8a-9e4e-4f4b7c8a9e4e"),
+                            Name = "Kriskata",
+                            PlayerDetailsId = new Guid("d4f49d5e-5f4b-4c8a-9e4e-5f4b7c8a9e4e")
+                        },
+                        new
+                        {
+                            Id = new Guid("e5f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e"),
+                            Name = "Marto",
+                            PlayerDetailsId = new Guid("e5f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e")
+                        },
+                        new
+                        {
+                            Id = new Guid("f6f69d5e-6f4b-4c8a-9f6e-6f4b9c8a9f6e"),
+                            Name = "Steli",
+                            PlayerDetailsId = new Guid("f6f69d5e-6f4b-4c8a-9f6e-6f4b9c8a9f6e")
+                        },
+                        new
+                        {
+                            Id = new Guid("07f79d5e-7f4b-4c8a-9f7e-7f4b0c8a9f7e"),
+                            Name = "Rumen",
+                            PlayerDetailsId = new Guid("07f79d5e-7f4b-4c8a-9f7e-7f4b0c8a9f7e")
+                        },
+                        new
+                        {
+                            Id = new Guid("18f89d5e-8f4b-4c8a-9f8e-8f4b1c8a9f8e"),
+                            Name = "Bobur Kurva",
+                            PlayerDetailsId = new Guid("18f89d5e-8f4b-4c8a-9f8e-8f4b1c8a9f8e")
+                        },
+                        new
+                        {
+                            Id = new Guid("29f99d5e-9f4b-4c8a-9f9e-9f4b2c8a9f9e"),
+                            Name = "Dj Misho",
+                            PlayerDetailsId = new Guid("29f99d5e-9f4b-4c8a-9f9e-9f4b2c8a9f9e")
+                        },
+                        new
+                        {
+                            Id = new Guid("30f09d5e-0f4b-4c8a-9f0e-0f4b3c8a9f0e"),
+                            Name = "Kuncho",
+                            PlayerDetailsId = new Guid("30f09d5e-0f4b-4c8a-9f0e-0f4b3c8a9f0e")
+                        },
+                        new
+                        {
+                            Id = new Guid("41f19d5e-1f4b-4c8a-9f1e-1f4b4c8a9f1e"),
+                            Name = "Sofiqneca",
+                            PlayerDetailsId = new Guid("41f19d5e-1f4b-4c8a-9f1e-1f4b4c8a9f1e")
+                        },
+                        new
+                        {
+                            Id = new Guid("52f29d5e-2f4b-4c8a-9f2e-2f4b5c8a9f2e"),
+                            Name = "Vaneto",
+                            PlayerDetailsId = new Guid("52f29d5e-2f4b-4c8a-9f2e-2f4b5c8a9f2e")
+                        },
+                        new
+                        {
+                            Id = new Guid("63f39d5e-3f4b-4c8a-9f3e-3f4b6c8a9f3e"),
+                            Name = "Mario",
+                            PlayerDetailsId = new Guid("63f39d5e-3f4b-4c8a-9f3e-3f4b6c8a9f3e")
+                        },
+                        new
+                        {
+                            Id = new Guid("74f49d5e-4f4b-4c8a-9f4e-4f4b7c8a9f4e"),
+                            Name = "Retar Dio (Roskata)",
+                            PlayerDetailsId = new Guid("74f49d5e-4f4b-4c8a-9f4e-4f4b7c8a9f4e")
+                        },
+                        new
+                        {
+                            Id = new Guid("85f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e"),
+                            Name = "Panic",
+                            PlayerDetailsId = new Guid("85f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e")
+                        },
+                        new
+                        {
+                            Id = new Guid("96f69d5e-6f4b-4c8a-9f6e-6f4b9c8a9f6e"),
+                            Name = "The Joker",
+                            PlayerDetailsId = new Guid("96f69d5e-6f4b-4c8a-9f6e-6f4b9c8a9f6e")
+                        },
+                        new
+                        {
+                            Id = new Guid("a7f79d5e-7f4b-4c8a-9f7e-7f4b0c8a9f7e"),
+                            Name = "Baba Yaga",
+                            PlayerDetailsId = new Guid("a7f79d5e-7f4b-4c8a-9f7e-7f4b0c8a9f7e")
+                        },
+                        new
+                        {
+                            Id = new Guid("b8f89d5e-8f4b-4c8a-9f8e-8f4b1c8a9f8e"),
+                            Name = "Danitthedog",
+                            PlayerDetailsId = new Guid("b8f89d5e-8f4b-4c8a-9f8e-8f4b1c8a9f8e")
                         });
                 });
 
@@ -766,6 +847,141 @@ namespace DotaNerf.Migrations
                             PlayerId = new Guid("c3f39d5e-3e4b-4c8a-9d3e-3e4b6c8a9d3e"),
                             TotalGames = 17,
                             Winrate = 59.0
+                        },
+                        new
+                        {
+                            Id = new Guid("d4f49d5e-5f4b-4c8a-9e4e-5f4b7c8a9e4e"),
+                            GamesLost = 6,
+                            GamesWon = 9,
+                            PlayerId = new Guid("d4f49d5e-4f4b-4c8a-9e4e-4f4b7c8a9e4e"),
+                            TotalGames = 15,
+                            Winrate = 60.0
+                        },
+                        new
+                        {
+                            Id = new Guid("e5f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e"),
+                            GamesLost = 7,
+                            GamesWon = 10,
+                            PlayerId = new Guid("e5f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e"),
+                            TotalGames = 17,
+                            Winrate = 59.0
+                        },
+                        new
+                        {
+                            Id = new Guid("f6f69d5e-6f4b-4c8a-9f6e-6f4b9c8a9f6e"),
+                            GamesLost = 7,
+                            GamesWon = 7,
+                            PlayerId = new Guid("f6f69d5e-6f4b-4c8a-9f6e-6f4b9c8a9f6e"),
+                            TotalGames = 14,
+                            Winrate = 50.0
+                        },
+                        new
+                        {
+                            Id = new Guid("07f79d5e-7f4b-4c8a-9f7e-7f4b0c8a9f7e"),
+                            GamesLost = 9,
+                            GamesWon = 10,
+                            PlayerId = new Guid("07f79d5e-7f4b-4c8a-9f7e-7f4b0c8a9f7e"),
+                            TotalGames = 19,
+                            Winrate = 52.0
+                        },
+                        new
+                        {
+                            Id = new Guid("18f89d5e-8f4b-4c8a-9f8e-8f4b1c8a9f8e"),
+                            GamesLost = 9,
+                            GamesWon = 6,
+                            PlayerId = new Guid("18f89d5e-8f4b-4c8a-9f8e-8f4b1c8a9f8e"),
+                            TotalGames = 15,
+                            Winrate = 40.0
+                        },
+                        new
+                        {
+                            Id = new Guid("29f99d5e-9f4b-4c8a-9f9e-9f4b2c8a9f9e"),
+                            GamesLost = 10,
+                            GamesWon = 6,
+                            PlayerId = new Guid("29f99d5e-9f4b-4c8a-9f9e-9f4b2c8a9f9e"),
+                            TotalGames = 16,
+                            Winrate = 38.0
+                        },
+                        new
+                        {
+                            Id = new Guid("30f09d5e-0f4b-4c8a-9f0e-0f4b3c8a9f0e"),
+                            GamesLost = 12,
+                            GamesWon = 7,
+                            PlayerId = new Guid("30f09d5e-0f4b-4c8a-9f0e-0f4b3c8a9f0e"),
+                            TotalGames = 19,
+                            Winrate = 37.0
+                        },
+                        new
+                        {
+                            Id = new Guid("41f19d5e-1f4b-4c8a-9f1e-1f4b4c8a9f1e"),
+                            GamesLost = 4,
+                            GamesWon = 1,
+                            PlayerId = new Guid("41f19d5e-1f4b-4c8a-9f1e-1f4b4c8a9f1e"),
+                            TotalGames = 5,
+                            Winrate = 20.0
+                        },
+                        new
+                        {
+                            Id = new Guid("52f29d5e-2f4b-4c8a-9f2e-2f4b5c8a9f2e"),
+                            GamesLost = 6,
+                            GamesWon = 2,
+                            PlayerId = new Guid("52f29d5e-2f4b-4c8a-9f2e-2f4b5c8a9f2e"),
+                            TotalGames = 8,
+                            Winrate = 25.0
+                        },
+                        new
+                        {
+                            Id = new Guid("63f39d5e-3f4b-4c8a-9f3e-3f4b6c8a9f3e"),
+                            GamesLost = 6,
+                            GamesWon = 0,
+                            PlayerId = new Guid("63f39d5e-3f4b-4c8a-9f3e-3f4b6c8a9f3e"),
+                            TotalGames = 6,
+                            Winrate = 0.0
+                        },
+                        new
+                        {
+                            Id = new Guid("74f49d5e-4f4b-4c8a-9f4e-4f4b7c8a9f4e"),
+                            GamesLost = 3,
+                            GamesWon = 5,
+                            PlayerId = new Guid("74f49d5e-4f4b-4c8a-9f4e-4f4b7c8a9f4e"),
+                            TotalGames = 8,
+                            Winrate = 62.0
+                        },
+                        new
+                        {
+                            Id = new Guid("85f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e"),
+                            GamesLost = 0,
+                            GamesWon = 0,
+                            PlayerId = new Guid("85f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e"),
+                            TotalGames = 0,
+                            Winrate = 0.0
+                        },
+                        new
+                        {
+                            Id = new Guid("96f69d5e-6f4b-4c8a-9f6e-6f4b9c8a9f6e"),
+                            GamesLost = 0,
+                            GamesWon = 0,
+                            PlayerId = new Guid("96f69d5e-6f4b-4c8a-9f6e-6f4b9c8a9f6e"),
+                            TotalGames = 0,
+                            Winrate = 0.0
+                        },
+                        new
+                        {
+                            Id = new Guid("a7f79d5e-7f4b-4c8a-9f7e-7f4b0c8a9f7e"),
+                            GamesLost = 0,
+                            GamesWon = 0,
+                            PlayerId = new Guid("a7f79d5e-7f4b-4c8a-9f7e-7f4b0c8a9f7e"),
+                            TotalGames = 0,
+                            Winrate = 0.0
+                        },
+                        new
+                        {
+                            Id = new Guid("b8f89d5e-8f4b-4c8a-9f8e-8f4b1c8a9f8e"),
+                            GamesLost = 0,
+                            GamesWon = 0,
+                            PlayerId = new Guid("b8f89d5e-8f4b-4c8a-9f8e-8f4b1c8a9f8e"),
+                            TotalGames = 0,
+                            Winrate = 0.0
                         });
                 });
 
@@ -828,30 +1044,6 @@ namespace DotaNerf.Migrations
                     b.HasIndex("TeamId");
 
                     b.ToTable("PlayerStats");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("88889d5e-888b-488a-988e-888b188a988e"),
-                            Assists = 10,
-                            Deaths = 3,
-                            GameId = new Guid("f6f69d5e-6f6b-4f8a-9f6e-6f6b9f8a9f6e"),
-                            HeroPlayedId = 1,
-                            Kills = 5,
-                            PlayerId = new Guid("a1e29d5e-1c4b-4b8a-9b1e-1c4b4b8a9b1e"),
-                            TeamId = new Guid("d4f49d5e-4f4b-4d8a-9e4e-4f4b7d8a9e4e")
-                        },
-                        new
-                        {
-                            Id = new Guid("99999d5e-999b-499a-999e-999b399a999e"),
-                            Assists = 8,
-                            Deaths = 4,
-                            GameId = new Guid("f6f69d5e-6f6b-4f8a-9f6e-6f6b9f8a9f6e"),
-                            HeroPlayedId = 3,
-                            Kills = 12,
-                            PlayerId = new Guid("c3f39d5e-3e4b-4c8a-9d3e-3e4b6c8a9d3e"),
-                            TeamId = new Guid("e5f59d5e-5f5b-4e8a-9f5e-5f5b8e8a9f5e")
-                        });
                 });
 
             modelBuilder.Entity("DotaNerf.Models.Team", b =>
@@ -866,18 +1058,6 @@ namespace DotaNerf.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Teams");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("d4f49d5e-4f4b-4d8a-9e4e-4f4b7d8a9e4e"),
-                            Name = 0
-                        },
-                        new
-                        {
-                            Id = new Guid("e5f59d5e-5f5b-4e8a-9f5e-5f5b8e8a9f5e"),
-                            Name = 1
-                        });
                 });
 
             modelBuilder.Entity("PlayerTeam", b =>
