@@ -35,6 +35,9 @@ import { CreateGameConfirmationWindowComponent } from './create-game/create-game
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { ImageUploadComponent } from './image-upload/image-upload.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -48,6 +51,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     PlayerStatPanelComponent,
     SelectWithSearchComponent,
     CreateGameConfirmationWindowComponent,
+    ImageUploadComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -72,6 +76,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     MatDividerModule,
     MatListModule,
     NgxMatSelectSearchModule,
+    MatCardModule,
+    MatProgressBarModule,
   ],
   providers: [provideHttpClient(withFetch()), provideAnimationsAsync()],
   bootstrap: [AppComponent],

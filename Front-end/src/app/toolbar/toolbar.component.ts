@@ -18,4 +18,7 @@ export class ToolbarComponent {
   navigateToRecentGames(): void {
     this.router.navigate(['/games']);
   }
+  navigateToImageUpload(): void {
+    this.router.navigate(['/image-upload']);
+  }
 }

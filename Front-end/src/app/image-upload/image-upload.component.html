@@ -1,0 +1,80 @@
+<mat-card class="upload-card">
+  <mat-card-header>
+    <mat-card-title>Image Analysis</mat-card-title>
+    <mat-card-subtitle>Upload an image for AI processing</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="upload-container">
+      <div
+        class="file-upload-area"
+        [class.has-image]="imagePreview"
+        (click)="fileInput.click()"
+        (keydown.enter)="fileInput.click()"
+        tabindex="0"
+        role="button"
+        aria-label="Upload an image"
+      >
+        <input
+          #fileInput
+          type="file"
+          accept="image/*"
+          (change)="onFileSelected($event)"
+          style="display: none"
+        />
+
+        <div *ngIf="!imagePreview" class="upload-placeholder">
+          <mat-icon>cloud_upload</mat-icon>
+          <p>Click to select an image</p>
+        </div>
+
+        <div *ngIf="imagePreview" class="image-preview">
+          <img [src]="imagePreview" alt="Preview" />
+        </div>
+      </div>
+
+      <div class="actions">
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="!selectedFile || isProcessing"
+          (click)="processImage()"
+        >
+          <mat-icon>analytics</mat-icon>
+          Analyze Image
+        </button>
+
+        <button
+          mat-button
+          [disabled]="!selectedFile || isProcessing"
+          (click)="resetForm()"
+        >
+          Reset
+        </button>
+      </div>
+
+      <mat-progress-bar
+        *ngIf="isProcessing"
+        mode="indeterminate"
+      ></mat-progress-bar>
+
+      <div *ngIf="processingResult" class="result-container">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Analysis Results</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              <strong>Classification:</strong>
+              {{ processingResult.classification }}
+            </p>
+            <p>
+              <strong>Confidence:</strong>
+              {{ (processingResult.confidence * 100).toFixed(2) }}%
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
