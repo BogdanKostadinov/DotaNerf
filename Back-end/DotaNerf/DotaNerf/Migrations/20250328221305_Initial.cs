@@ -322,40 +322,48 @@ namespace DotaNerf.Migrations
                 columns: new[] { "Id", "Name", "PlayerDetailsId" },
                 values: new object[,]
                 {
+                    { new Guid("07f79d5e-7f4b-4c8a-9f7e-7f4b0c8a9f7e"), "Rumen", new Guid("07f79d5e-7f4b-4c8a-9f7e-7f4b0c8a9f7e") },
+                    { new Guid("18f89d5e-8f4b-4c8a-9f8e-8f4b1c8a9f8e"), "Bobur Kurva", new Guid("18f89d5e-8f4b-4c8a-9f8e-8f4b1c8a9f8e") },
+                    { new Guid("29f99d5e-9f4b-4c8a-9f9e-9f4b2c8a9f9e"), "Dj Misho", new Guid("29f99d5e-9f4b-4c8a-9f9e-9f4b2c8a9f9e") },
+                    { new Guid("30f09d5e-0f4b-4c8a-9f0e-0f4b3c8a9f0e"), "Kuncho", new Guid("30f09d5e-0f4b-4c8a-9f0e-0f4b3c8a9f0e") },
+                    { new Guid("41f19d5e-1f4b-4c8a-9f1e-1f4b4c8a9f1e"), "Sofiqneca", new Guid("41f19d5e-1f4b-4c8a-9f1e-1f4b4c8a9f1e") },
+                    { new Guid("52f29d5e-2f4b-4c8a-9f2e-2f4b5c8a9f2e"), "Vaneto", new Guid("52f29d5e-2f4b-4c8a-9f2e-2f4b5c8a9f2e") },
+                    { new Guid("63f39d5e-3f4b-4c8a-9f3e-3f4b6c8a9f3e"), "Mario", new Guid("63f39d5e-3f4b-4c8a-9f3e-3f4b6c8a9f3e") },
                     { new Guid("a1e29d5e-1c4b-4b8a-9b1e-1c4b4b8a9b1e"), "dummy", new Guid("d5f49d5e-4f4b-4c8a-9e4e-4f4b7c8a9e4e") },
-                    { new Guid("c3f39d5e-3e4b-4c8a-9d3e-3e4b6c8a9d3e"), "Veni", new Guid("e6f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e") }
+                    { new Guid("c3f39d5e-3e4b-4c8a-9d3e-3e4b6c8a9d3e"), "Veni", new Guid("e6f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e") },
+                    { new Guid("d4f49d5e-4f4b-4c8a-9e4e-4f4b7c8a9e4e"), "Kriskata", new Guid("d4f49d5e-5f4b-4c8a-9e4e-5f4b7c8a9e4e") },
+                    { new Guid("e5f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e"), "Marto", new Guid("e5f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e") },
+                    { new Guid("f6f69d5e-6f4b-4c8a-9f6e-6f4b9c8a9f6e"), "Steli", new Guid("f6f69d5e-6f4b-4c8a-9f6e-6f4b9c8a9f6e") }
                 });
-
-            migrationBuilder.InsertData(
-                table: "Teams",
-                columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { new Guid("d4f49d5e-4f4b-4d8a-9e4e-4f4b7d8a9e4e"), 0 },
-                    { new Guid("e5f59d5e-5f5b-4e8a-9f5e-5f5b8e8a9f5e"), 1 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Games",
-                columns: new[] { "Id", "DireTeamId", "RadiantTeamId", "WinningTeam" },
-                values: new object[] { new Guid("f6f69d5e-6f6b-4f8a-9f6e-6f6b9f8a9f6e"), new Guid("e5f59d5e-5f5b-4e8a-9f5e-5f5b8e8a9f5e"), new Guid("d4f49d5e-4f4b-4d8a-9e4e-4f4b7d8a9e4e"), 0 });
 
             migrationBuilder.InsertData(
                 table: "PlayerDetails",
                 columns: new[] { "Id", "GamesLost", "GamesWon", "PlayerId", "TotalGames", "Winrate" },
                 values: new object[,]
                 {
-                    { new Guid("d5f49d5e-4f4b-4c8a-9e4e-4f4b7c8a9e4e"), 6, 9, new Guid("a1e29d5e-1c4b-4b8a-9b1e-1c4b4b8a9b1e"), 15, 60.0 },
-                    { new Guid("e6f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e"), 7, 10, new Guid("c3f39d5e-3e4b-4c8a-9d3e-3e4b6c8a9d3e"), 17, 59.0 }
+                    { new Guid("07f79d5e-7f4b-4c8a-9f7e-7f4b0c8a9f7e"), 9, 10, new Guid("07f79d5e-7f4b-4c8a-9f7e-7f4b0c8a9f7e"), 19, 52.0 },
+                    { new Guid("18f89d5e-8f4b-4c8a-9f8e-8f4b1c8a9f8e"), 9, 6, new Guid("18f89d5e-8f4b-4c8a-9f8e-8f4b1c8a9f8e"), 15, 40.0 },
+                    { new Guid("29f99d5e-9f4b-4c8a-9f9e-9f4b2c8a9f9e"), 10, 6, new Guid("29f99d5e-9f4b-4c8a-9f9e-9f4b2c8a9f9e"), 16, 38.0 },
+                    { new Guid("30f09d5e-0f4b-4c8a-9f0e-0f4b3c8a9f0e"), 12, 7, new Guid("30f09d5e-0f4b-4c8a-9f0e-0f4b3c8a9f0e"), 19, 37.0 },
+                    { new Guid("41f19d5e-1f4b-4c8a-9f1e-1f4b4c8a9f1e"), 4, 1, new Guid("41f19d5e-1f4b-4c8a-9f1e-1f4b4c8a9f1e"), 5, 20.0 },
+                    { new Guid("52f29d5e-2f4b-4c8a-9f2e-2f4b5c8a9f2e"), 6, 2, new Guid("52f29d5e-2f4b-4c8a-9f2e-2f4b5c8a9f2e"), 8, 25.0 }
                 });
 
             migrationBuilder.InsertData(
-                table: "PlayerStats",
-                columns: new[] { "Id", "Assists", "Deaths", "GameId", "HeroPlayedId", "Kills", "PlayerId", "TeamId" },
+                table: "PlayerDetails",
+                columns: new[] { "Id", "GamesLost", "PlayerId", "TotalGames", "Winrate" },
+                values: new object[] { new Guid("63f39d5e-3f4b-4c8a-9f3e-3f4b6c8a9f3e"), 6, new Guid("63f39d5e-3f4b-4c8a-9f3e-3f4b6c8a9f3e"), 6, 0.0 });
+
+            migrationBuilder.InsertData(
+                table: "PlayerDetails",
+                columns: new[] { "Id", "GamesLost", "GamesWon", "PlayerId", "TotalGames", "Winrate" },
                 values: new object[,]
                 {
-                    { new Guid("88889d5e-888b-488a-988e-888b188a988e"), 10, 3, new Guid("f6f69d5e-6f6b-4f8a-9f6e-6f6b9f8a9f6e"), 1, 5, new Guid("a1e29d5e-1c4b-4b8a-9b1e-1c4b4b8a9b1e"), new Guid("d4f49d5e-4f4b-4d8a-9e4e-4f4b7d8a9e4e") },
-                    { new Guid("99999d5e-999b-499a-999e-999b399a999e"), 8, 4, new Guid("f6f69d5e-6f6b-4f8a-9f6e-6f6b9f8a9f6e"), 3, 12, new Guid("c3f39d5e-3e4b-4c8a-9d3e-3e4b6c8a9d3e"), new Guid("e5f59d5e-5f5b-4e8a-9f5e-5f5b8e8a9f5e") }
+                    { new Guid("d4f49d5e-5f4b-4c8a-9e4e-5f4b7c8a9e4e"), 6, 9, new Guid("d4f49d5e-4f4b-4c8a-9e4e-4f4b7c8a9e4e"), 15, 60.0 },
+                    { new Guid("d5f49d5e-4f4b-4c8a-9e4e-4f4b7c8a9e4e"), 6, 9, new Guid("a1e29d5e-1c4b-4b8a-9b1e-1c4b4b8a9b1e"), 15, 60.0 },
+                    { new Guid("e5f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e"), 7, 10, new Guid("e5f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e"), 17, 59.0 },
+                    { new Guid("e6f59d5e-5f4b-4c8a-9f5e-5f4b8c8a9f5e"), 7, 10, new Guid("c3f39d5e-3e4b-4c8a-9d3e-3e4b6c8a9d3e"), 17, 59.0 },
+                    { new Guid("f6f69d5e-6f4b-4c8a-9f6e-6f4b9c8a9f6e"), 7, 7, new Guid("f6f69d5e-6f4b-4c8a-9f6e-6f4b9c8a9f6e"), 14, 50.0 }
                 });
 
             migrationBuilder.CreateIndex(

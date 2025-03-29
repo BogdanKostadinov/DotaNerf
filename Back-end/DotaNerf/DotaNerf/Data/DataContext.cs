@@ -41,7 +41,7 @@ public static class DataSeeder
         modelBuilder.Entity<Hero>().HasData(MockData.SeedHeroes());
 
         // Seed Teams
-        modelBuilder.Entity<Team>().HasData(MockData.SeedTeams());
+        //modelBuilder.Entity<Team>().HasData(MockData.SeedTeams());
 
         // Seed Players
         modelBuilder.Entity<Player>().HasData(MockData.SeedPlayers());
@@ -50,9 +50,9 @@ public static class DataSeeder
         modelBuilder.Entity<PlayerDetails>().HasData(MockData.SeedPlayerDetails());
 
         // Seed Games
-        modelBuilder.Entity<Game>().HasData(MockData.SeedGames());
+        //modelBuilder.Entity<Game>().HasData(MockData.SeedGames());
 
         // Seed PlayerStats
-        modelBuilder.Entity<PlayerStats>().HasData(MockData.SeedPlayerStats());
+        //modelBuilder.Entity<PlayerStats>().HasData(MockData.SeedPlayerStats());
     }
 }

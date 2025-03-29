@@ -28,14 +28,6 @@
           <div class="title-wrapper">
             <h3>Radiant Team</h3>
           </div>
-          <button
-            mat-icon-button
-            (click)="addPlayer('radiant')"
-            [disabled]="isTeamFull('radiant')"
-            class="add-btn"
-          >
-            <mat-icon>add</mat-icon>
-          </button>
         </div>
         <div formArrayName="players">
           <div
@@ -81,12 +73,22 @@
 
             <button
               mat-flat-button
+              color="warn"
               (click)="removePlayer('radiant', i)"
               class="remove-btn"
             >
               Remove Player
             </button>
           </div>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="addPlayer('radiant')"
+            [disabled]="isTeamFull('radiant')"
+            class="add-btn"
+          >
+            Add player
+          </button>
         </div>
       </div>
 
@@ -96,14 +98,6 @@
           <div class="title-wrapper">
             <h3>Dire Team</h3>
           </div>
-          <button
-            mat-icon-button
-            (click)="addPlayer('dire')"
-            [disabled]="isTeamFull('dire')"
-            class="add-btn"
-          >
-            <mat-icon>add</mat-icon>
-          </button>
         </div>
         <div formArrayName="players">
           <div
@@ -150,6 +144,7 @@
 
             <button
               mat-flat-button
+              color="warn"
               (click)="removePlayer('dire', i)"
               class="remove-btn"
             >
@@ -157,6 +152,15 @@
             </button>
           </div>
         </div>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="addPlayer('dire')"
+          [disabled]="isTeamFull('dire')"
+          class="add-btn"
+        >
+          Add player
+        </button>
       </div>
     </div>
 

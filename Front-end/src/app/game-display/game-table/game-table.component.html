@@ -73,12 +73,14 @@
             </h4>
             <ng-container *ngFor="let player of element.radiantTeam.players">
               <app-player-stat-panel [player]="player"></app-player-stat-panel>
+              <br />
             </ng-container>
           </div>
           <div class="dire-team">
             <h4>{{ element.direTeam.name === 1 ? 'Dire' : 'Radiant' }} Team</h4>
             <ng-container *ngFor="let player of element.direTeam.players">
               <app-player-stat-panel [player]="player"></app-player-stat-panel>
+              <br />
             </ng-container>
           </div>
         </div>
