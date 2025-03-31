@@ -1,43 +1,46 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { MatTableModule } from '@angular/material/table';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { TableComponent } from './table/table.component';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { ToolbarComponent } from './toolbar/toolbar.component';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
-import { PlayerEditComponent } from './player-edit/player-edit.component';
-import { MatInputModule } from '@angular/material/input';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatSortModule } from '@angular/material/sort';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import {
   HttpClientModule,
   provideHttpClient,
   withFetch,
 } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { CreateGameFromTableComponent } from './create-game-from-table/create-game-from-table.component';
+import { CreateGameConfirmationWindowComponent } from './create-game/create-game-confirmation-window/create-game-confirmation-window.component';
 import { CreateGameComponent } from './create-game/create-game.component';
+import { GameDisplayComponent } from './game-display/game-display.component';
 import { GameTableComponent } from './game-display/game-table/game-table.component';
 import { PlayerStatPanelComponent } from './game-display/player-stat-panel/player-stat-panel.component';
-import { GameDisplayComponent } from './game-display/game-display.component';
-import { SelectWithSearchComponent } from './shared/select-with-search/select-with-search.component';
-import { CreateGameConfirmationWindowComponent } from './create-game/create-game-confirmation-window/create-game-confirmation-window.component';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatListModule } from '@angular/material/list';
-import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
-import { MatCardModule } from '@angular/material/card';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { PlayerEditComponent } from './player-edit/player-edit.component';
+import { TableComponent } from './player-stats-table/player-stats-table.component';
+import { SelectWithSearchComponent } from './shared/select-with-search/select-with-search.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +55,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     SelectWithSearchComponent,
     CreateGameConfirmationWindowComponent,
     ImageUploadComponent,
+    CreateGameFromTableComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -65,8 +69,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatButtonModule,
     MatDialogModule,
     MatInputModule,
-    FormsModule,
     ReactiveFormsModule,
+    FormsModule,
     MatSortModule,
     MatRadioModule,
     MatSelectModule,
@@ -78,6 +82,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     NgxMatSelectSearchModule,
     MatCardModule,
     MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatCheckboxModule,
   ],
   providers: [provideHttpClient(withFetch()), provideAnimationsAsync()],
   bootstrap: [AppComponent],

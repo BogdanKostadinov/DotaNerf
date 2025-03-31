@@ -1,0 +1,66 @@
+<div class="button-container">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="openConfirmationDialog()"
+    [disabled]="!canCreateGame()"
+  >
+    Create Game
+  </button>
+</div>
+<table
+  *ngIf="playersLoaded"
+  mat-table
+  [dataSource]="dataSource"
+  class="mat-elevation-z8 demo-table"
+>
+  <!-- No. Column -->
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>No.</th>
+    <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}.</td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+  </ng-container>
+
+  <!-- Player has played Column -->
+  <ng-container matColumnDef="played">
+    <th mat-header-cell *matHeaderCellDef>Player played</th>
+    <td mat-cell *matCellDef="let element; let i = index">
+      <mat-checkbox [formControl]="getPlayedControl(i)"> </mat-checkbox>
+    </td>
+  </ng-container>
+
+  <!-- Player win Column -->
+  <ng-container matColumnDef="playerWon">
+    <th mat-header-cell *matHeaderCellDef>Player win</th>
+    <td mat-cell *matCellDef="let element; let i = index">
+      <mat-checkbox *ngIf="isPlayed(i)" [formControl]="getPlayerWonControl(i)">
+      </mat-checkbox>
+    </td>
+  </ng-container>
+
+  <!-- Hero select Column -->
+  <ng-container matColumnDef="heroPlayed">
+    <th mat-header-cell *matHeaderCellDef>Hero played</th>
+    <td mat-cell *matCellDef="let element; let i = index">
+      <app-select-with-search
+        *ngIf="isPlayed(i)"
+        [items]="heroItems"
+        [label]="'Select hero'"
+        [control]="getHeroControl(i)"
+        (selectionChange)="onHeroSelected($event, element)"
+      ></app-select-with-search>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+<div *ngIf="!playersLoaded" class="loading-container">
+  <mat-spinner diameter="40"></mat-spinner>
+  <span>Loading players...</span>
+</div>

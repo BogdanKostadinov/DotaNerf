@@ -10,7 +10,7 @@ export interface Player {
 
 export interface PlayerGameEntry {
   id: string;
-  name: string;
+  name?: string;
   playerStats: PlayerStats[];
 }
 

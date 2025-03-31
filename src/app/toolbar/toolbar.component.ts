@@ -21,4 +21,7 @@ export class ToolbarComponent {
   navigateToImageUpload(): void {
     this.router.navigate(['/image-upload']);
   }
+  navigateToCreateGameFromTable(): void {
+    this.router.navigate(['/game']);
+  }
 }

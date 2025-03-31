@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class GameService {
-  private url = 'https://localhost:44343/games';
+  private url = 'https://localhost:7174/games';
 
   constructor(private http: HttpClient) {}
 

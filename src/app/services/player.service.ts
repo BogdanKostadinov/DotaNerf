@@ -7,7 +7,7 @@ import { Player } from '../models/player.model';
   providedIn: 'root',
 })
 export class PlayerService {
-  private url = 'https://localhost:44343/players';
+  private url = 'https://localhost:7174/players';
 
   constructor(private http: HttpClient) {}
 

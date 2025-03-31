@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TableComponent } from './table/table.component';
+import { CreateGameFromTableComponent } from './create-game-from-table/create-game-from-table.component';
 import { CreateGameComponent } from './create-game/create-game.component';
 import { GameDisplayComponent } from './game-display/game-display.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
+import { TableComponent } from './player-stats-table/player-stats-table.component';
 
 const routes: Routes = [
   { path: 'table', component: TableComponent },
   { path: 'create-game', component: CreateGameComponent },
   { path: 'games', component: GameDisplayComponent },
   { path: 'image-upload', component: ImageUploadComponent },
+  { path: 'game', component: CreateGameFromTableComponent },
   { path: '**', redirectTo: 'table', pathMatch: 'full' },
 ];
 

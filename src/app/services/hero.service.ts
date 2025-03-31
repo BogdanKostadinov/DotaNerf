@@ -7,7 +7,7 @@ import { map, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class HeroService {
-  private url = 'https://localhost:44343/heroes';
+  private url = 'https://localhost:7174/heroes';
   constructor(private http: HttpClient) {}
 
   getHeroes$(): Observable<Hero[]> {
