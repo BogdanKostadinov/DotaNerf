@@ -1,14 +1,14 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Player } from '../models/player.model';
 import { PlayerService } from '../services/player.service';
 
 @Component({
-  selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrl: './table.component.scss',
+  selector: 'app-player-stats-table',
+  templateUrl: './player-stats-table.component.html',
+  styleUrl: './player-stats-table.component.scss',
 })
 export class TableComponent implements AfterViewInit {
   displayedColumns: string[] = ['id', 'name', 'winrate', 'totalGames', 'score'];
@@ -26,7 +26,7 @@ export class TableComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    
+
     // Custom sorting logic for nested properties
     this.dataSource.sortingDataAccessor = (item: Player, property: string) => {
       switch (property) {
