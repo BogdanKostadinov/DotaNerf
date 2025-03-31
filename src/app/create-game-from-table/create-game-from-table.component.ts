@@ -152,16 +152,12 @@ export class CreateGameFromTableComponent implements OnInit {
       },
     };
 
-    console.log('Game Payload:', gamePayload);
-    // this.gameService.createGame$(gamePayload).subscribe();
+    this.gameService.createGame$(gamePayload).subscribe();
   }
 
   openConfirmationDialog(): void {
     const radiantPlayers = this.getTeamPlayers(true);
     const direPlayers = this.getTeamPlayers(false);
-
-    console.log('Radiant Players:', radiantPlayers);
-    console.log('Dire Players:', direPlayers);
 
     const radiantTeamInfo = radiantPlayers.map((rPlayer) => {
       return {
