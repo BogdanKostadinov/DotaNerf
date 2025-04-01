@@ -4,22 +4,6 @@
   multiTemplateDataRows
   class="mat-elevation-z8"
 >
-  <!-- Radiant Team Column -->
-  <ng-container matColumnDef="Radiant team">
-    <th mat-header-cell *matHeaderCellDef>Radiant team</th>
-    <td mat-cell *matCellDef="let element">
-      {{ element.radiantTeam.name === 0 ? 'Radiant' : 'Dire' }}
-    </td>
-  </ng-container>
-
-  <!-- Dire Team Column -->
-  <ng-container matColumnDef="Dire team">
-    <th mat-header-cell *matHeaderCellDef>Dire team</th>
-    <td mat-cell *matCellDef="let element">
-      {{ element.direTeam.name === 0 ? 'Radiant' : 'Dire' }}
-    </td>
-  </ng-container>
-
   <!-- Winner Column -->
   <ng-container matColumnDef="Winner">
     <th mat-header-cell *matHeaderCellDef>Winner</th>

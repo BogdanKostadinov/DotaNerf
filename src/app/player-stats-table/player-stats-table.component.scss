@@ -1,47 +1,57 @@
 .table-container {
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 12px; 
-    overflow: auto; 
-    height: auto;
-    max-height: 540px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  overflow: auto;
+  height: auto;
+  max-height: 540px;
 }
-  
+
 th.mat-sort-header-sorted {
-    color: black;
+  color: black;
 }
 
 .align-right {
-    text-align: right;
+  text-align: right;
 }
 
 .mat-column-id {
-    width: 32px;
-    border-right: 1px solid currentColor;
-    padding-right: 24px;
-    text-align: left;
+  width: 32px;
+  border-right: 1px solid currentColor;
+  padding-right: 24px;
+  text-align: left;
 }
 
 .mat-mdc-form-field {
-    font-size: 14px;
-    width: 100%;
-    margin-bottom: -1.35rem;
+  font-size: 14px;
+  width: 100%;
+  margin-bottom: -1.35rem;
 }
 
 .mat-mdc-row .mat-mdc-cell {
-    border-bottom: 1px solid transparent;
-    border-top: 1px solid transparent;
-    cursor: pointer;
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
 }
 
 .mat-mdc-row:hover .mat-mdc-cell {
-    border-color: currentColor;
+  border-color: currentColor;
 }
 
 mat-paginator {
-    flex-shrink: 0;
-    bottom: 0; 
-    background: white; 
-    z-index: 1; 
-    position: sticky;
+  flex-shrink: 0;
+  bottom: 0;
+  background: white;
+  z-index: 1;
+  position: sticky;
+}
+
+.positive-winrate {
+  color: #4caf50;
+  font-weight: 500;
+}
+
+.negative-winrate {
+  color: #f44336;
+  font-weight: 500;
 }

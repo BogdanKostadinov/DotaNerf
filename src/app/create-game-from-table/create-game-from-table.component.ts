@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { CreateGameConfirmationWindowComponent } from '../create-game/create-game-confirmation-window/create-game-confirmation-window.component';
-import { TeamName } from '../models/game.model';
+import { CreateGameDTO, TeamName } from '../models/game.model';
 import { Hero } from '../models/hero.model';
 import { Player } from '../models/player.model';
 import { GameService } from '../services/game.service';
@@ -93,11 +93,6 @@ export class CreateGameFromTableComponent implements OnInit {
     return new FormControl<number | null>(null);
   }
 
-  onHeroSelected(hero: any, element: any) {
-    element.selectedHero = hero;
-    // Add any additional logic you need when a hero is selected
-  }
-
   isPlayed(index: number): boolean {
     const control = this.getPlayedControl(index);
     return control.value === true;
@@ -140,7 +135,7 @@ export class CreateGameFromTableComponent implements OnInit {
     const radiantPlayers = this.getTeamPlayers(true);
     const direPlayers = this.getTeamPlayers(false);
 
-    const gamePayload = {
+    const gamePayload: CreateGameDTO = {
       winningTeam: TeamName.Radiant,
       radiantTeam: {
         name: TeamName.Radiant,

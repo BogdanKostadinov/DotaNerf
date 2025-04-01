@@ -24,7 +24,18 @@
     <!-- Winrate Column -->
     <ng-container matColumnDef="winrate">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Win rate</th>
-      <td mat-cell *matCellDef="let element">
+      <td
+        mat-cell
+        [ngClass]="{
+          'positive-winrate':
+            element.playerDetails.totalGames > 0 &&
+            element.playerDetails.winrate > 50,
+          'negative-winrate':
+            element.playerDetails.totalGames > 0 &&
+            element.playerDetails.winrate < 50,
+        }"
+        *matCellDef="let element"
+      >
         {{ element.playerDetails.winrate }}%
       </td>
     </ng-container>
