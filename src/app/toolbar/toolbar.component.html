@@ -9,6 +9,10 @@
         <mat-icon>add</mat-icon>
         <span>Add game</span>
       </button>
+      <button mat-menu-item (click)="navigateToCreateGameFromTable()">
+        <mat-icon>table_chart</mat-icon>
+        <span>Add game from table</span>
+      </button>
       <button mat-menu-item (click)="navigateToPlayerStats()">
         <mat-icon>people</mat-icon>
         <span>Player stats</span>
@@ -17,14 +21,10 @@
         <mat-icon>history</mat-icon>
         <span>Recent games</span>
       </button>
-      <button mat-menu-item (click)="navigateToImageUpload()">
+      <!-- <button mat-menu-item (click)="navigateToImageUpload()">
         <mat-icon>image</mat-icon>
         <span>Image upload</span>
-      </button>
-      <button mat-menu-item (click)="navigateToCreateGameFromTable()">
-        <mat-icon>file</mat-icon>
-        <span>Create game from table</span>
-      </button>
+      </button> -->
     </mat-menu>
   </mat-toolbar-row>
 </mat-toolbar>

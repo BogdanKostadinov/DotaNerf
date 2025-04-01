@@ -1,13 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { GameDetails } from '../../models/game.model';
 import {
-  trigger,
+  animate,
   state,
   style,
   transition,
-  animate,
+  trigger,
 } from '@angular/animations';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { GameDetails } from '../../models/game.model';
 
 @Component({
   selector: 'app-game-table',
@@ -27,7 +27,7 @@ import { MatTableDataSource } from '@angular/material/table';
 export class GameTableComponent implements OnInit {
   @Input() games: GameDetails[] = [];
   dataSource = new MatTableDataSource<GameDetails>([]);
-  columnsToDisplay = ['Radiant team', 'Dire team', 'Winner'];
+  columnsToDisplay = ['Winner'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement!: GameDetails | null;
 

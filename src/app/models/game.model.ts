@@ -24,6 +24,6 @@ export interface CreateGameDTO {
 }
 
 export enum TeamName {
-  Radiant = 'Radiant',
-  Dire = 'Dire',
+  Radiant = 0,
+  Dire = 1,
 }
