@@ -28,7 +28,7 @@
 
   <!-- Player has played Column -->
   <ng-container matColumnDef="played">
-    <th mat-header-cell *matHeaderCellDef>Player played</th>
+    <th mat-header-cell *matHeaderCellDef>Has played</th>
     <td mat-cell *matCellDef="let element; let i = index">
       <mat-checkbox [formControl]="getPlayedControl(i)"> </mat-checkbox>
     </td>
@@ -36,7 +36,7 @@
 
   <!-- Player win Column -->
   <ng-container matColumnDef="playerWon">
-    <th mat-header-cell *matHeaderCellDef>Player win</th>
+    <th mat-header-cell *matHeaderCellDef>Has player won</th>
     <td mat-cell *matCellDef="let element; let i = index">
       <mat-checkbox *ngIf="isPlayed(i)" [formControl]="getPlayerWonControl(i)">
       </mat-checkbox>
