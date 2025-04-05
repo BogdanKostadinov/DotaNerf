@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { combineLatest, startWith, switchMap } from 'rxjs';
 import { CreateGameConfirmationWindowComponent } from '../create-game/create-game-confirmation-window/create-game-confirmation-window.component';
 import { CreateGameDTO, TeamName } from '../models/game.model';
 import { Hero } from '../models/hero.model';
@@ -17,13 +18,10 @@ import { SelectItem } from '../shared/select-with-search/select-with-search.comp
   styleUrl: './create-game-from-table.component.scss',
 })
 export class CreateGameFromTableComponent implements OnInit {
-  displayedColumns: string[] = [
-    'id',
-    'name',
-    'played',
-    'playerWon',
-    'heroPlayed',
-  ];
+  basicColumns: string[] = ['id', 'name', 'played'];
+  allColumns: string[] = ['id', 'name', 'played', 'playerWon', 'heroPlayed'];
+
+  displayedColumns: string[] = this.basicColumns;
   dataSource = new MatTableDataSource<Player>([]);
   heroItems: SelectItem[] = [];
   playerItems: SelectItem[] = [];
@@ -32,6 +30,7 @@ export class CreateGameFromTableComponent implements OnInit {
   playerHeroSelectionCtrls: FormControl[] = [];
   playerWonCtrls: FormControl[] = [];
   playersLoaded = false;
+  errorMessage: string | null = null;
 
   constructor(
     private playerService: PlayerService,
@@ -42,7 +41,6 @@ export class CreateGameFromTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.playerService.getPlayers$().subscribe((players: Player[]) => {
-      // Initialize form controls array first - IMPORTANT
       this.playerHasPlayedCtrls = players.map(
         () => new FormControl<boolean>(false),
       );
@@ -60,10 +58,10 @@ export class CreateGameFromTableComponent implements OnInit {
       this.dataSource.data = players;
       this.playersLoaded = true;
     });
-
     this.heroService.getHeroes$().subscribe((heroes: Hero[]) => {
       this.heroItems = heroes.map((h) => ({ id: h.id, label: h.name }));
     });
+    this.subscribeToPlayedChanges();
   }
 
   getPlayedControl(index: number): FormControl {
@@ -99,11 +97,48 @@ export class CreateGameFromTableComponent implements OnInit {
   }
 
   canCreateGame(): boolean {
+    // Reset error message
+    this.errorMessage = null;
+
+    // Check for players with missing hero selections
+    const playersWithMissingHeroes = this.getPlayersWithMissingHeroes();
+
+    if (playersWithMissingHeroes.length > 0) {
+      if (playersWithMissingHeroes.length === 1) {
+        this.errorMessage = `Hero selection missing for ${playersWithMissingHeroes[0].name}`;
+      } else {
+        this.errorMessage = `Hero selection missing for multiple players`;
+      }
+      return false;
+    }
+
     // Check if at least one player in each team is played and has a hero selected
     const radiantPlayers = this.getTeamPlayers(true);
     const direPlayers = this.getTeamPlayers(false);
 
-    return radiantPlayers.length > 0 && direPlayers.length > 0;
+    // Check if any team has more than 5 players
+    if (radiantPlayers.length > 5) {
+      this.errorMessage = 'Too many players in winning team';
+      return false;
+    }
+
+    if (direPlayers.length > 5) {
+      this.errorMessage = 'Too many players in losing team';
+      return false;
+    }
+
+    // Check if either team has no players
+    if (radiantPlayers.length === 0) {
+      this.errorMessage = 'No players in winning team';
+      return false;
+    }
+
+    if (direPlayers.length === 0) {
+      this.errorMessage = 'No players in losing team';
+      return false;
+    }
+
+    return true;
   }
 
   getTeamPlayers(isWinningTeam: boolean): any[] {
@@ -194,5 +229,50 @@ export class CreateGameFromTableComponent implements OnInit {
         this.createGame();
       }
     });
+  }
+
+  private subscribeToPlayedChanges(): void {
+    this.playerService
+      .getPlayers$()
+      .pipe(
+        switchMap(() => {
+          const playedObservables = this.playerHasPlayedCtrls.map((control) =>
+            control.valueChanges.pipe(startWith(control.value)),
+          );
+
+          return combineLatest(playedObservables);
+        }),
+      )
+      .subscribe(() => {
+        this.updateDisplayedColumns();
+      });
+  }
+
+  private updateDisplayedColumns(): void {
+    const anyPlayerPlayed = this.playerHasPlayedCtrls.some(
+      (control) => control.value === true,
+    );
+
+    this.displayedColumns = anyPlayerPlayed
+      ? this.allColumns
+      : this.basicColumns;
+  }
+
+  /**
+   * Returns a list of players who are marked as played but don't have a hero selected
+   */
+  private getPlayersWithMissingHeroes(): Player[] {
+    const playersWithMissingHeroes: Player[] = [];
+
+    this.dataSource.data.forEach((player, index) => {
+      if (this.isPlayed(index)) {
+        const heroId = this.getHeroControl(index).value;
+        if (heroId === null) {
+          playersWithMissingHeroes.push(player);
+        }
+      }
+    });
+
+    return playersWithMissingHeroes;
   }
 }
