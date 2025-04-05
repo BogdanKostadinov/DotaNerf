@@ -1,3 +1,28 @@
-<ng-container *ngIf="games$ | async as games">
+<ng-template #loadingTemplate>
+  <div class="loading-container">
+    <mat-spinner diameter="40"></mat-spinner>
+    <span>Loading games...</span>
+  </div>
+</ng-template>
+
+<ng-template #noDataTemplate>
+  <div class="no-data-container">
+    <mat-icon>sentiment_dissatisfied</mat-icon>
+    <span>No games recorded yet.</span>
+  </div>
+</ng-template>
+
+<ng-template #gamesTemplate let-games>
   <app-game-table [games]="games"></app-game-table>
+</ng-template>
+
+<!-- Conditionally display templates based on state -->
+<ng-container *ngIf="games$ | async as games; else loadingTemplate">
+  <ng-container
+    *ngTemplateOutlet="
+      games.length > 0 ? gamesTemplate : noDataTemplate;
+      context: { $implicit: games }
+    "
+  >
+  </ng-container>
 </ng-container>
