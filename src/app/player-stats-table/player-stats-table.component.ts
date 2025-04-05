@@ -14,12 +14,15 @@ export class TableComponent implements AfterViewInit {
   displayedColumns: string[] = ['id', 'name', 'winrate', 'totalGames', 'score'];
   dataSource = new MatTableDataSource<Player>([]);
   clickedRows = new Set<Player>();
+  isLoading = true;
+
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private playerService: PlayerService) {
     this.playerService.getPlayers$().subscribe((players: Player[]) => {
       this.dataSource.data = players;
+      this.isLoading = false;
     });
   }
 
