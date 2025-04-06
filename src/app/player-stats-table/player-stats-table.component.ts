@@ -21,7 +21,9 @@ export class TableComponent implements AfterViewInit {
 
   constructor(private playerService: PlayerService) {
     this.playerService.getPlayers$().subscribe((players: Player[]) => {
-      this.dataSource.data = players;
+      this.dataSource.data = players.sort(
+        (a, b) => b.playerDetails.totalGames - a.playerDetails.totalGames,
+      );
       this.isLoading = false;
     });
   }
