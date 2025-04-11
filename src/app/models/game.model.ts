@@ -9,6 +9,7 @@ export interface Game {
 export interface GameDetails extends Game {
   radiantTeam: TeamDetails;
   direTeam: TeamDetails;
+  dateCreated: Date;
 }
 
 export interface CreateGameDTO {
