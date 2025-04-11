@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map, Observable } from 'rxjs';
 import { CreateGameDTO, Game, GameDetails } from '../models/game.model';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,17 @@ export class GameService {
   constructor(private http: HttpClient) {}
 
   getGames$(): Observable<GameDetails[]> {
-    return this.http.get<GameDetails[]>(this.url);
+    return this.http
+      .get<GameDetails[]>(this.url)
+      .pipe(
+        map((games) =>
+          games.sort(
+            (a, b) =>
+              new Date(b.dateCreated).getTime() -
+              new Date(a.dateCreated).getTime(),
+          ),
+        ),
+      );
   }
 
   getGame$(id: string): Observable<Game> {
