@@ -27,7 +27,7 @@ import { GameDetails } from '../../models/game.model';
 export class GameTableComponent implements OnInit {
   @Input() games: GameDetails[] = [];
   dataSource = new MatTableDataSource<GameDetails>([]);
-  columnsToDisplay = ['Winner'];
+  columnsToDisplay = ['dateCreated', 'Winner'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement!: GameDetails | null;
 
