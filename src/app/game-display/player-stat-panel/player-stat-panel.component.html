@@ -6,7 +6,9 @@
     </mat-expansion-panel-header>
     <ng-container *ngIf="player.playerStats[0] !== undefined">
       <p>Hero played: {{ player.playerStats[0].heroPlayed.name }}</p>
-      <p>
+
+      <!-- Can be added later -->
+      <!-- <p>
         K/D/A:
         {{
           player.playerStats[0].kills +
@@ -15,7 +17,7 @@
             '/' +
             player.playerStats[0].assists
         }}
-      </p>
+      </p> -->
     </ng-container>
   </mat-expansion-panel>
 </mat-accordion>
