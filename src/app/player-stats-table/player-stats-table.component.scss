@@ -1,6 +1,6 @@
 .table-container {
   width: 100%;
-  border: 1px solid #ccc;
+  border: 1px solid var(--divider-color);
   border-radius: 12px;
   overflow: auto;
   height: auto;
@@ -8,7 +8,7 @@
 }
 
 th.mat-sort-header-sorted {
-  color: black;
+  color: var(--text-primary);
 }
 
 .align-right {
@@ -17,7 +17,7 @@ th.mat-sort-header-sorted {
 
 .mat-column-id {
   width: 32px;
-  border-right: 1px solid currentColor;
+  border-right: 1px solid var(--divider-color);
   padding-right: 24px;
   text-align: left;
 }
@@ -35,24 +35,25 @@ th.mat-sort-header-sorted {
 }
 
 .mat-mdc-row:hover .mat-mdc-cell {
-  border-color: currentColor;
+  border-color: var(--divider-color);
 }
 
 mat-paginator {
   flex-shrink: 0;
   bottom: 0;
-  background: white;
   z-index: 1;
   position: sticky;
+  background-color: var(--surface);
+  color: var(--text-primary);
 }
 
 .positive-winrate {
-  color: #4caf50;
+  color: #4caf50 !important;
   font-weight: 500;
 }
 
 .negative-winrate {
-  color: #f44336;
+  color: var(--error) !important;
   font-weight: 500;
 }
 
@@ -63,7 +64,6 @@ mat-paginator {
   align-items: center;
   justify-content: center;
   padding: 32px;
-  background-color: white;
   border-radius: 4px;
   box-shadow:
     0 2px 1px -1px rgba(0, 0, 0, 0.2),
@@ -73,12 +73,12 @@ mat-paginator {
 
   span {
     margin-top: 16px;
-    color: rgba(0, 0, 0, 0.6);
+    color: var(--background);
   }
 }
 
 .no-data-container {
-  color: rgba(0, 0, 0, 0.54);
+  color: var(--background);
 
   mat-icon {
     font-size: 48px;
