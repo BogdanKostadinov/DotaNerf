@@ -30,12 +30,10 @@ button,
 .mat-mdc-table {
   background-color: var(--surface) !important;
 }
-
 .mat-mdc-header-cell {
   color: var(--text-primary) !important;
   background-color: var(--surface) !important;
 }
-
 .mat-mdc-cell {
   color: var(--text-primary) !important;
 }
@@ -45,7 +43,6 @@ button,
   background-color: var(--surface);
   color: var(--text-primary);
 }
-
 .mat-mdc-paginator-icon {
   fill: var(--text-primary) !important;
 }
@@ -54,15 +51,12 @@ button,
 .mat-mdc-select-value {
   color: var(--text-primary) !important;
 }
-
 .mat-mdc-select-arrow {
   color: var(--text-primary) !important;
 }
-
 .mat-mdc-select-panel {
   background-color: var(--surface) !important;
 }
-
 .mat-mdc-option {
   color: var(--text-primary) !important;
 
@@ -82,11 +76,9 @@ button,
 .mat-mdc-form-field-focus-overlay {
   background-color: var(--primary-color) !important;
 }
-
 .mat-mdc-form-field-underline {
   background-color: var(--divider-color) !important;
 }
-
 .mat-mdc-form-field.mat-focused .mat-mdc-form-field-ripple {
   background-color: var(--primary-color) !important;
 }
@@ -99,7 +91,6 @@ button,
     border: 1px solid var(--divider-color) !important;
   }
 }
-
 .cdk-overlay-container .cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
   &.mat-mdc-select-backdrop {
     background: rgba(0, 0, 0, 0.6);
@@ -180,4 +171,46 @@ button,
 ::placeholder {
   color: var(--text-secondary) !important;
   opacity: 0.6;
+}
+
+// Expansion Panel
+.mat-mdc-expansion-panel {
+  background: var(--surface) !important;
+  color: var(--text-primary) !important;
+
+  .mat-mdc-expansion-panel-header {
+    background: var(--surface) !important;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.04) !important;
+    }
+
+    .mat-mdc-expansion-panel-header-title {
+      color: var(--text-primary) !important;
+    }
+
+    .mat-mdc-expansion-panel-header-description {
+      color: var(--text-secondary) !important;
+    }
+
+    .mat-expansion-indicator::after {
+      color: var(--text-primary) !important;
+      border-color: var(--text-primary) !important;
+    }
+  }
+
+  .mat-mdc-expansion-panel-content {
+    .mat-mdc-expansion-panel-body {
+      color: var(--text-primary) !important;
+      background-color: var(--surface) !important;
+    }
+  }
+
+  // Fix for box shadow
+  &.mat-mdc-elevation-specific {
+    box-shadow:
+      0 3px 1px -2px rgba(0, 0, 0, 0.2),
+      0 2px 2px 0 rgba(0, 0, 0, 0.14),
+      0 1px 5px 0 rgba(0, 0, 0, 0.12) !important;
+  }
 }
