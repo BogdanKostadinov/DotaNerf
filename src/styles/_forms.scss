@@ -1,0 +1,14 @@
+input,
+select,
+textarea {
+  background-color: var(--surface);
+  color: var(--text-primary) !important;
+  border: 1px solid var(--divider-color);
+  border-radius: 4px;
+  padding: 8px;
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary-color) !important;
+  }
+}
