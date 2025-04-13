@@ -182,7 +182,14 @@ export class CreateGameFromTableComponent implements OnInit {
       },
     };
 
-    this.gameService.createGame$(gamePayload).subscribe();
+    this.gameService.createGame$(gamePayload).subscribe({
+      next: () => {
+        this.resetForm();
+      },
+      error: (error) => {
+        console.error('Error creating game:', error);
+      },
+    });
   }
 
   openConfirmationDialog(): void {
@@ -274,5 +281,25 @@ export class CreateGameFromTableComponent implements OnInit {
     });
 
     return playersWithMissingHeroes;
+  }
+
+  /**
+   * Resets all form controls after a game has been successfully created
+   */
+  private resetForm(): void {
+    // Reset all "played" controls to false
+    this.playerHasPlayedCtrls.forEach((control) => control.setValue(false));
+
+    // Reset all hero selection controls to null
+    this.playerHeroSelectionCtrls.forEach((control) => control.setValue(null));
+
+    // Reset all "won" controls to false
+    this.playerWonCtrls.forEach((control) => control.setValue(false));
+
+    // Reset error message
+    this.errorMessage = null;
+
+    // Reset displayed columns back to basic
+    this.updateDisplayedColumns();
   }
 }
