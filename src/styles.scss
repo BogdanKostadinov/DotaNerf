@@ -1,3 +1,25 @@
+// Add to the top of your file, above your imports
+@use '@angular/material' as mat;
+
+// Define a custom theme with your colors
+$primary-palette: mat.define-palette(mat.$deep-purple-palette, 200);
+$accent-palette: mat.define-palette(mat.$teal-palette, A200);
+$warn-palette: mat.define-palette(mat.$red-palette, 500);
+
+$dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $primary-palette,
+      accent: $accent-palette,
+      warn: $warn-palette,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+  )
+);
+
+// Apply the dark theme to all Angular Material components
+@include mat.all-component-themes($dark-theme);
 @import './styles/variables';
 @import './styles/base';
 @import './styles/components';
