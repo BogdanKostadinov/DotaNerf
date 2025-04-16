@@ -1,0 +1,11 @@
+<div class="chip-container">
+  <mat-chip-set aria-label="Chip selection">
+    <mat-chip-option
+      *ngFor="let chip of chipItems"
+      [value]="chip.id"
+      (selectionChange)="selectChip($event, chip)"
+    >
+      {{ chip.label }}
+    </mat-chip-option>
+  </mat-chip-set>
+</div>

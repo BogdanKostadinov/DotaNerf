@@ -6,7 +6,7 @@ import { combineLatest, startWith, switchMap } from 'rxjs';
 import { CreateGameConfirmationWindowComponent } from '../create-game/create-game-confirmation-window/create-game-confirmation-window.component';
 import { CreateGameDTO, TeamName } from '../models/game.model';
 import { Hero } from '../models/hero.model';
-import { Player } from '../models/player.model';
+import { Player, PlayerGroup } from '../models/player.model';
 import { GameService } from '../services/game.service';
 import { HeroService } from '../services/hero.service';
 import { PlayerService } from '../services/player.service';
@@ -18,19 +18,23 @@ import { SelectItem } from '../shared/select-with-search/select-with-search.comp
   styleUrl: './create-game-from-table.component.scss',
 })
 export class CreateGameFromTableComponent implements OnInit {
-  basicColumns: string[] = ['id', 'name', 'played'];
-  allColumns: string[] = ['id', 'name', 'played', 'playerWon', 'heroPlayed'];
+  basicColumns: string[] = ['name', 'played'];
+  allColumns: string[] = ['name', 'played', 'playerWon', 'heroPlayed'];
 
   displayedColumns: string[] = this.basicColumns;
   dataSource = new MatTableDataSource<Player>([]);
   heroItems: SelectItem[] = [];
   playerItems: SelectItem[] = [];
+  playerGroupItems: SelectItem[] = [];
   heroCtrl = new FormControl<number | null>(null);
   playerHasPlayedCtrls: FormControl[] = [];
   playerHeroSelectionCtrls: FormControl[] = [];
   playerWonCtrls: FormControl[] = [];
   playersLoaded = false;
   errorMessage: string | null = null;
+
+  searchText: string = '';
+  selectedPlayerGroups: number[] = [];
 
   constructor(
     private playerService: PlayerService,
@@ -54,8 +58,24 @@ export class CreateGameFromTableComponent implements OnInit {
         label: player.name,
       }));
 
+      const uniqueGroups = Array.from(
+        new Set(players.map((player) => player.playerDetails.playerGroup)),
+      );
+      this.playerGroupItems = uniqueGroups.map((group) => ({
+        id: group,
+        label: PlayerGroup[group],
+      }));
+
       // Then set the data source
-      this.dataSource.data = players;
+      this.dataSource.data = players.sort((a, b) => {
+        if (a.playerDetails.playerGroup < b.playerDetails.playerGroup) {
+          return -1;
+        }
+        if (a.playerDetails.playerGroup > b.playerDetails.playerGroup) {
+          return 1;
+        }
+        return 0;
+      });
       this.playersLoaded = true;
     });
     this.heroService.getHeroes$().subscribe((heroes: Hero[]) => {
@@ -238,6 +258,38 @@ export class CreateGameFromTableComponent implements OnInit {
     });
   }
 
+  searchFilter(event: Event) {
+    this.searchText = (event.target as HTMLInputElement).value
+      .trim()
+      .toLowerCase();
+    this.applyCombinedFilter();
+  }
+
+  onPlayerGroupChipsSelected(selected: SelectItem[]) {
+    this.selectedPlayerGroups = selected
+      .map((item) => item.id)
+      .filter((id): id is number => typeof id === 'number');
+    this.applyCombinedFilter();
+  }
+
+  applyCombinedFilter() {
+    this.dataSource.filterPredicate = (player: Player, filter: string) => {
+      // Filter by player group
+      const groupMatch =
+        this.selectedPlayerGroups.length === 0 ||
+        this.selectedPlayerGroups.includes(player.playerDetails.playerGroup);
+
+      // Filter by search text (name)
+      const searchMatch =
+        !this.searchText || player.name.toLowerCase().includes(this.searchText);
+
+      return groupMatch && searchMatch;
+    };
+
+    // Trigger filter (value can be anything, just to re-run the predicate)
+    this.dataSource.filter = Math.random().toString();
+  }
+
   private subscribeToPlayedChanges(): void {
     this.playerService
       .getPlayers$()
@@ -287,19 +339,10 @@ export class CreateGameFromTableComponent implements OnInit {
    * Resets all form controls after a game has been successfully created
    */
   private resetForm(): void {
-    // Reset all "played" controls to false
     this.playerHasPlayedCtrls.forEach((control) => control.setValue(false));
-
-    // Reset all hero selection controls to null
     this.playerHeroSelectionCtrls.forEach((control) => control.setValue(null));
-
-    // Reset all "won" controls to false
     this.playerWonCtrls.forEach((control) => control.setValue(false));
-
-    // Reset error message
     this.errorMessage = null;
-
-    // Reset displayed columns back to basic
     this.updateDisplayedColumns();
   }
 }

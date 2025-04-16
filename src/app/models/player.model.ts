@@ -26,4 +26,11 @@ export interface PlayerDetails {
   totalGames: number;
   gamesWon: number;
   gamesLost: number;
+  playerGroup: PlayerGroup;
+}
+
+export enum PlayerGroup {
+  Kulalii = 0,
+  Poznati = 1,
+  Randoms = 2,
 }

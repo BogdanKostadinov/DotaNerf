@@ -61,3 +61,20 @@
 .missing-hero {
   background-color: rgba(255, 0, 0, 0.1);
 }
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+  margin-bottom: -1.35rem;
+}
+
+.mat-mdc-row:hover {
+  background: var(--divider-color);
+}
+
+.mat-mdc-row,
+.mat-mdc-header-row {
+  height: 36px !important;
+  min-height: 36px !important;
+  font-size: 14px;
+}

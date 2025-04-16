@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -40,6 +41,7 @@ import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { PlayerEditComponent } from './player-edit/player-edit.component';
 import { TableComponent } from './player-stats-table/player-stats-table.component';
 import { SelectWithSearchComponent } from './shared/select-with-search/select-with-search.component';
+import { SharedChipComponent } from './shared/shared-chip-component/shared-chip.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 
 @NgModule({
@@ -56,6 +58,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     CreateGameConfirmationWindowComponent,
     ImageUploadComponent,
     CreateGameFromTableComponent,
+    SharedChipComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -84,6 +87,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatCheckboxModule,
+    MatChipsModule,
   ],
   providers: [provideHttpClient(withFetch()), provideAnimationsAsync()],
   bootstrap: [AppComponent],
