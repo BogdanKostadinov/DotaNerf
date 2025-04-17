@@ -39,7 +39,8 @@ import { GameTableComponent } from './game-display/game-table/game-table.compone
 import { PlayerStatPanelComponent } from './game-display/player-stat-panel/player-stat-panel.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { PlayerEditComponent } from './player-edit/player-edit.component';
-import { TableComponent } from './player-stats-table/player-stats-table.component';
+import { PlayerGamesComponent } from './player-games/player-games.component';
+import { PlayersComponent } from './player-stats-table/player-stats-table.component';
 import { SelectWithSearchComponent } from './shared/select-with-search/select-with-search.component';
 import { SharedChipComponent } from './shared/shared-chip-component/shared-chip.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
@@ -47,7 +48,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 @NgModule({
   declarations: [
     AppComponent,
-    TableComponent,
+    PlayersComponent,
     ToolbarComponent,
     PlayerEditComponent,
     CreateGameComponent,
@@ -59,6 +60,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     ImageUploadComponent,
     CreateGameFromTableComponent,
     SharedChipComponent,
+    PlayerGamesComponent,
   ],
   imports: [
     BrowserAnimationsModule,

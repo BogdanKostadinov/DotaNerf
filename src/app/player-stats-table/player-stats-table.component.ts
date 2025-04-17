@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Player } from '../models/player.model';
 import { PlayerService } from '../services/player.service';
 
@@ -10,7 +11,7 @@ import { PlayerService } from '../services/player.service';
   templateUrl: './player-stats-table.component.html',
   styleUrl: './player-stats-table.component.scss',
 })
-export class TableComponent implements OnInit {
+export class PlayersComponent implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'winrate', 'totalGames', 'score'];
   dataSource = new MatTableDataSource<Player>([]);
   clickedRows = new Set<Player>();
@@ -19,7 +20,11 @@ export class TableComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private playerService: PlayerService) {}
+  constructor(
+    private playerService: PlayerService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     this.loadPlayerData();
@@ -48,6 +53,12 @@ export class TableComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  navigateToPlayerGames(playerId: string): void {
+    this.router.navigate([`${this.router.url}/${playerId}`], {
+      relativeTo: this.activatedRoute,
+    });
   }
 
   private setupSortAndPagination(): void {

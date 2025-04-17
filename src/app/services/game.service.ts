@@ -25,6 +25,20 @@ export class GameService {
       );
   }
 
+  getPlayerGames$(playerId: string): Observable<GameDetails[]> {
+    return this.http
+      .get<GameDetails[]>(this.url + '/player/' + playerId)
+      .pipe(
+        map((games) =>
+          games.sort(
+            (a, b) =>
+              new Date(b.dateCreated).getTime() -
+              new Date(a.dateCreated).getTime(),
+          ),
+        ),
+      );
+  }
+
   getGame$(id: string): Observable<Game> {
     return this.http.get<Game>(this.url + '/' + id);
   }
