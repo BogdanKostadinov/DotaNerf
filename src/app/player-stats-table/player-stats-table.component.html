@@ -81,7 +81,7 @@
       <tr
         mat-row
         *matRowDef="let row; columns: displayedColumns"
-        (click)="clickedRows.add(row)"
+        (click)="navigateToPlayerGames(row.id)"
       ></tr>
 
       <tr class="mat-row" *matNoDataRow>
