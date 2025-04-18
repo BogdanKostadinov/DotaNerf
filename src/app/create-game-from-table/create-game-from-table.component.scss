@@ -1,37 +1,11 @@
-.demo-table {
+.game-table {
   width: 100%;
-}
-
-.mat-column-demo-position {
-  width: 32px;
-  border-right: 1px solid currentColor;
-  padding-right: 24px;
-  text-align: center;
-}
-
-.mat-column-demo-name {
-  padding-left: 16px;
-  font-size: 20px;
-}
-
-.mat-column-demo-weight {
-  font-style: italic;
-}
-
-.mat-column-demo-symbol {
-  width: 32px;
-  text-align: center;
-  font-weight: bold;
 }
 
 .button-container {
   margin: 16px 0;
   display: flex;
   justify-content: flex-end;
-}
-
-.mat-elevation-z8 {
-  width: 100%;
 }
 
 .loading-container {
@@ -77,4 +51,24 @@
   height: 36px !important;
   min-height: 36px !important;
   font-size: 14px;
+}
+
+.mat-column-name {
+  width: 20px;
+  max-width: 20px;
+}
+
+.mat-column-played {
+  width: 10px;
+  max-width: 10px;
+}
+
+.mat-column-playerWon {
+  width: 10px;
+  max-width: 10px;
+}
+
+.mat-column-heroPlayed {
+  width: 50px;
+  max-width: 50px;
 }
