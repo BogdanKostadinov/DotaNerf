@@ -1,23 +1,4 @@
-<mat-accordion class="example-headers-align" multi>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title> {{ player.name }} </mat-panel-title>
-      <mat-panel-description> Player statistics </mat-panel-description>
-    </mat-expansion-panel-header>
-    <ng-container *ngIf="player.playerStats[0] !== undefined">
-      <p>Hero played: {{ player.playerStats[0].heroPlayed.name }}</p>
-
-      <!-- Can be added later -->
-      <!-- <p>
-        K/D/A:
-        {{
-          player.playerStats[0].kills +
-            '/' +
-            player.playerStats[0].deaths +
-            '/' +
-            player.playerStats[0].assists
-        }}
-      </p> -->
-    </ng-container>
-  </mat-expansion-panel>
-</mat-accordion>
+<div class="player-card">
+  <div class="name">{{ player.name }}</div>
+  <div class="hero">{{ player.playerStats[0].heroPlayed.name }}</div>
+</div>
