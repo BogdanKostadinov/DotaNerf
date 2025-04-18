@@ -44,6 +44,8 @@ import { PlayersComponent } from './player-stats-table/player-stats-table.compon
 import { SelectWithSearchComponent } from './shared/select-with-search/select-with-search.component';
 import { SharedChipComponent } from './shared/shared-chip-component/shared-chip.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
+import { NoDataComponent } from './shared/no-data/no-data.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +63,8 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     CreateGameFromTableComponent,
     SharedChipComponent,
     PlayerGamesComponent,
+    LoadingSpinnerComponent,
+    NoDataComponent,
   ],
   imports: [
     BrowserAnimationsModule,

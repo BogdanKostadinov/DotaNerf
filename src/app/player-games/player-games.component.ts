@@ -11,6 +11,8 @@ import { GameService } from '../services/game.service';
 })
 export class PlayerGamesComponent {
   games$: Observable<GameDetails[]>;
+  loadingDataLabel: string = 'Loading player games...';
+
   constructor(
     private gameService: GameService,
     private route: ActivatedRoute,

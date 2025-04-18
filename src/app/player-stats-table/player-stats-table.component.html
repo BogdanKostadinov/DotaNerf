@@ -1,17 +1,13 @@
 <div class="table-container">
   <!-- Define templates for different states -->
   <ng-template #loadingTemplate>
-    <div class="loading-container">
-      <mat-spinner diameter="40"></mat-spinner>
-      <span>Loading players stats...</span>
-    </div>
+    <app-loading-spinner
+      [loadingDataLabel]="'Loading players stats...'"
+    ></app-loading-spinner>
   </ng-template>
 
   <ng-template #noDataTemplate>
-    <div class="no-data-container">
-      <mat-icon>people_outline</mat-icon>
-      <span>No player statistics available yet.</span>
-    </div>
+    <app-no-data></app-no-data>
   </ng-template>
 
   <ng-template #contentTemplate>

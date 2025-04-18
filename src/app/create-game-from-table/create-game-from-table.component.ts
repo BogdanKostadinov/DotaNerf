@@ -27,9 +27,9 @@ export class CreateGameFromTableComponent implements OnInit {
   playerItems: SelectItem[] = [];
   playerGroupItems: SelectItem[] = [];
   heroCtrl = new FormControl<number | null>(null);
-  playerHasPlayedCtrls: FormControl[] = [];
-  playerHeroSelectionCtrls: FormControl[] = [];
-  playerWonCtrls: FormControl[] = [];
+  playerHasPlayedCtrls: Map<string, FormControl> = new Map();
+  playerHeroSelectionCtrls: Map<string, FormControl> = new Map();
+  playerWonCtrls: Map<string, FormControl> = new Map();
   playersLoaded = false;
   errorMessage: string | null = null;
 
@@ -45,13 +45,17 @@ export class CreateGameFromTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.playerService.getPlayers$().subscribe((players: Player[]) => {
-      this.playerHasPlayedCtrls = players.map(
-        () => new FormControl<boolean>(false),
-      );
-      this.playerHeroSelectionCtrls = players.map(
-        () => new FormControl<number | null>(null),
-      );
-      this.playerWonCtrls = players.map(() => new FormControl<boolean>(false));
+      players.forEach((player) => {
+        this.playerHasPlayedCtrls.set(
+          player.id,
+          new FormControl<boolean>(false),
+        );
+        this.playerHeroSelectionCtrls.set(
+          player.id,
+          new FormControl<number | null>(null),
+        );
+        this.playerWonCtrls.set(player.id, new FormControl<boolean>(false));
+      });
 
       this.playerItems = players.map((player) => ({
         id: player.id,
@@ -84,35 +88,38 @@ export class CreateGameFromTableComponent implements OnInit {
     this.subscribeToPlayedChanges();
   }
 
-  getPlayedControl(index: number): FormControl {
-    // Add a safety check
-    if (index >= 0 && index < this.playerHasPlayedCtrls.length) {
-      return this.playerHasPlayedCtrls[index];
+  getPlayedControl(playerId: string): FormControl {
+    const control = this.playerHasPlayedCtrls.get(playerId);
+    if (!control) {
+      this.playerHasPlayedCtrls.set(playerId, new FormControl(false));
+      return this.playerHasPlayedCtrls.get(playerId)!;
     }
-    // Return a default control if index is out of bounds
-    return new FormControl(false);
+    return control;
   }
 
-  getHeroControl(index: number): FormControl {
-    // Add a safety check
-    if (index >= 0 && index < this.playerHeroSelectionCtrls.length) {
-      return this.playerHeroSelectionCtrls[index];
+  getHeroControl(playerId: string): FormControl {
+    const control = this.playerHeroSelectionCtrls.get(playerId);
+    if (!control) {
+      this.playerHeroSelectionCtrls.set(
+        playerId,
+        new FormControl<number | null>(null),
+      );
+      return this.playerHeroSelectionCtrls.get(playerId)!;
     }
-    // Return a default control if index is out of bounds
-    return new FormControl<number | null>(null);
+    return control;
   }
 
-  getPlayerWonControl(index: number): FormControl {
-    // Add a safety check
-    if (index >= 0 && index < this.playerWonCtrls.length) {
-      return this.playerWonCtrls[index];
+  getPlayerWonControl(playerId: string): FormControl {
+    const control = this.playerWonCtrls.get(playerId);
+    if (!control) {
+      this.playerWonCtrls.set(playerId, new FormControl<boolean | null>(null));
+      return this.playerWonCtrls.get(playerId)!;
     }
-    // Return a default control if index is out of bounds
-    return new FormControl<number | null>(null);
+    return control;
   }
 
-  isPlayed(index: number): boolean {
-    const control = this.getPlayedControl(index);
+  isPlayed(playerId: string): boolean {
+    const control = this.getPlayedControl(playerId);
     return control.value === true;
   }
 
@@ -164,10 +171,10 @@ export class CreateGameFromTableComponent implements OnInit {
   getTeamPlayers(isWinningTeam: boolean): any[] {
     const players: any[] = [];
 
-    this.dataSource.data.forEach((player, index) => {
-      if (this.isPlayed(index)) {
-        const isWinner = this.getPlayerWonControl(index).value;
-        const heroId = this.getHeroControl(index).value;
+    this.dataSource.data.forEach((player) => {
+      if (this.isPlayed(player.id)) {
+        const isWinner = this.getPlayerWonControl(player.id).value;
+        const heroId = this.getHeroControl(player.id).value;
 
         if (isWinner === isWinningTeam && heroId !== null) {
           players.push({
@@ -295,7 +302,9 @@ export class CreateGameFromTableComponent implements OnInit {
       .getPlayers$()
       .pipe(
         switchMap(() => {
-          const playedObservables = this.playerHasPlayedCtrls.map((control) =>
+          const playedObservables = Array.from(
+            this.playerHasPlayedCtrls.values(),
+          ).map((control) =>
             control.valueChanges.pipe(startWith(control.value)),
           );
 
@@ -308,7 +317,7 @@ export class CreateGameFromTableComponent implements OnInit {
   }
 
   private updateDisplayedColumns(): void {
-    const anyPlayerPlayed = this.playerHasPlayedCtrls.some(
+    const anyPlayerPlayed = Array.from(this.playerHasPlayedCtrls.values()).some(
       (control) => control.value === true,
     );
 
@@ -323,9 +332,9 @@ export class CreateGameFromTableComponent implements OnInit {
   private getPlayersWithMissingHeroes(): Player[] {
     const playersWithMissingHeroes: Player[] = [];
 
-    this.dataSource.data.forEach((player, index) => {
-      if (this.isPlayed(index)) {
-        const heroId = this.getHeroControl(index).value;
+    this.dataSource.data.forEach((player) => {
+      if (this.isPlayed(player.id)) {
+        const heroId = this.getHeroControl(player.id).value;
         if (heroId === null) {
           playersWithMissingHeroes.push(player);
         }
