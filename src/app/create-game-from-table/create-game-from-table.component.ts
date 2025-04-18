@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { combineLatest, startWith, switchMap } from 'rxjs';
+import { combineLatest, startWith, Subject, switchMap, takeUntil } from 'rxjs';
 import { CreateGameConfirmationWindowComponent } from '../create-game/create-game-confirmation-window/create-game-confirmation-window.component';
 import { CreateGameDTO, TeamName } from '../models/game.model';
 import { Hero } from '../models/hero.model';
@@ -17,7 +17,7 @@ import { SelectItem } from '../shared/select-with-search/select-with-search.comp
   templateUrl: './create-game-from-table.component.html',
   styleUrl: './create-game-from-table.component.scss',
 })
-export class CreateGameFromTableComponent implements OnInit {
+export class CreateGameFromTableComponent implements OnInit, OnDestroy {
   basicColumns: string[] = ['name', 'played'];
   allColumns: string[] = ['name', 'played', 'playerWon', 'heroPlayed'];
 
@@ -35,6 +35,7 @@ export class CreateGameFromTableComponent implements OnInit {
 
   searchText: string = '';
   selectedPlayerGroups: number[] = [];
+  destroy$ = new Subject<void>();
 
   constructor(
     private playerService: PlayerService,
@@ -44,50 +45,66 @@ export class CreateGameFromTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.playerService.getPlayers$().subscribe((players: Player[]) => {
-      players.forEach((player) => {
-        this.playerHasPlayedCtrls.set(
-          player.id,
-          new FormControl<boolean>(false),
+    this.playerService
+      .getPlayers$()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((players: Player[]) => {
+        players.forEach((player) => {
+          // Check if controls already exist before creating new ones
+          if (!this.playerHasPlayedCtrls.has(player.id)) {
+            this.playerHasPlayedCtrls.set(
+              player.id,
+              new FormControl<boolean>(false),
+            );
+          }
+          if (!this.playerHeroSelectionCtrls.has(player.id)) {
+            this.playerHeroSelectionCtrls.set(
+              player.id,
+              new FormControl<number | null>(null),
+            );
+          }
+          if (!this.playerWonCtrls.has(player.id)) {
+            this.playerWonCtrls.set(player.id, new FormControl<boolean>(false));
+          }
+        });
+
+        this.playerItems = players.map((player) => ({
+          id: player.id,
+          label: player.name,
+        }));
+
+        const uniqueGroups = Array.from(
+          new Set(players.map((player) => player.playerDetails.playerGroup)),
         );
-        this.playerHeroSelectionCtrls.set(
-          player.id,
-          new FormControl<number | null>(null),
-        );
-        this.playerWonCtrls.set(player.id, new FormControl<boolean>(false));
+        this.playerGroupItems = uniqueGroups.map((group) => ({
+          id: group,
+          label: PlayerGroup[group],
+        }));
+
+        // Then set the data source
+        this.dataSource.data = players.sort((a, b) => {
+          if (a.playerDetails.playerGroup < b.playerDetails.playerGroup) {
+            return -1;
+          }
+          if (a.playerDetails.playerGroup > b.playerDetails.playerGroup) {
+            return 1;
+          }
+          return 0;
+        });
+        this.playersLoaded = true;
+        this.subscribeToPlayedChanges();
       });
-
-      this.playerItems = players.map((player) => ({
-        id: player.id,
-        label: player.name,
-      }));
-
-      const uniqueGroups = Array.from(
-        new Set(players.map((player) => player.playerDetails.playerGroup)),
-      );
-      this.playerGroupItems = uniqueGroups.map((group) => ({
-        id: group,
-        label: PlayerGroup[group],
-      }));
-
-      // Then set the data source
-      this.dataSource.data = players.sort((a, b) => {
-        if (a.playerDetails.playerGroup < b.playerDetails.playerGroup) {
-          return -1;
-        }
-        if (a.playerDetails.playerGroup > b.playerDetails.playerGroup) {
-          return 1;
-        }
-        return 0;
+    this.heroService
+      .getHeroes$()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((heroes: Hero[]) => {
+        this.heroItems = heroes.map((h) => ({ id: h.id, label: h.name }));
       });
-      this.playersLoaded = true;
-    });
-    this.heroService.getHeroes$().subscribe((heroes: Hero[]) => {
-      this.heroItems = heroes.map((h) => ({ id: h.id, label: h.name }));
-    });
-    this.subscribeToPlayedChanges();
   }
-
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
   getPlayedControl(playerId: string): FormControl {
     const control = this.playerHasPlayedCtrls.get(playerId);
     if (!control) {
