@@ -7,6 +7,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import {
   combineLatest,
@@ -14,6 +15,7 @@ import {
   startWith,
   Subject,
   switchMap,
+  take,
   takeUntil,
 } from 'rxjs';
 import { CreateGameDTO, TeamName } from '../../models/game.model';
@@ -21,11 +23,13 @@ import { Hero } from '../../models/hero.model';
 import { Player, PlayerGroup } from '../../models/player.model';
 import { HeroService } from '../../services/hero.service';
 import { SelectItem } from '../../shared/select-with-search/select-with-search.component';
+import * as GameActions from '../../store/actions/game.actions';
 import { createGame } from '../../store/actions/game.actions';
 import * as PlayerActions from '../../store/actions/player.actions';
 import { AppState } from '../../store/app.state';
 import { selectAllPlayers } from '../../store/selectors/player.selectors';
 import { CreateGameConfirmationWindowComponent } from '../create-game-confirmation-window/create-game-confirmation-window.component';
+import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-create-game-from-table',
@@ -59,6 +63,8 @@ export class CreateGameFromTableComponent implements OnInit, OnDestroy {
     private heroService: HeroService,
     private dialog: MatDialog,
     private store: Store<AppState>,
+    private actions$: Actions,
+    private snackbar: SnackbarService,
   ) {
     this.players$ = this.store.select(selectAllPlayers);
   }
@@ -246,7 +252,20 @@ export class CreateGameFromTableComponent implements OnInit, OnDestroy {
     };
 
     this.store.dispatch(createGame({ game: gamePayload }));
-    this.resetForm();
+    this.actions$
+      .pipe(
+        ofType(GameActions.createGameSuccess, GameActions.createGameFailure),
+        take(1),
+        takeUntil(this.destroy$),
+      )
+      .subscribe((action) => {
+        if (action.type === GameActions.createGameSuccess.type) {
+          this.resetForm();
+          this.snackbar.success('Game successfully created!');
+        } else {
+          this.snackbar.error('Failed to create game. Please try again.');
+        }
+      });
   }
 
   openConfirmationDialog(): void {
