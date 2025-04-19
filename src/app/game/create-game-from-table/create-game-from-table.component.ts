@@ -3,14 +3,14 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { combineLatest, startWith, Subject, switchMap, takeUntil } from 'rxjs';
-import { CreateGameConfirmationWindowComponent } from '../create-game/create-game-confirmation-window/create-game-confirmation-window.component';
-import { CreateGameDTO, TeamName } from '../models/game.model';
-import { Hero } from '../models/hero.model';
-import { Player, PlayerGroup } from '../models/player.model';
-import { GameService } from '../services/game.service';
-import { HeroService } from '../services/hero.service';
-import { PlayerService } from '../services/player.service';
-import { SelectItem } from '../shared/select-with-search/select-with-search.component';
+import { CreateGameDTO, TeamName } from '../../models/game.model';
+import { Hero } from '../../models/hero.model';
+import { Player, PlayerGroup } from '../../models/player.model';
+import { GameService } from '../../services/game.service';
+import { HeroService } from '../../services/hero.service';
+import { PlayerService } from '../../services/player.service';
+import { SelectItem } from '../../shared/select-with-search/select-with-search.component';
+import { CreateGameConfirmationWindowComponent } from '../create-game-confirmation-window/create-game-confirmation-window.component';
 
 @Component({
   selector: 'app-create-game-from-table',

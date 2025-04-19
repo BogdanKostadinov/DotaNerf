@@ -3,8 +3,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Player } from '../models/player.model';
-import { PlayerService } from '../services/player.service';
+import { Player } from '../../models/player.model';
+import { PlayerService } from '../../services/player.service';
 
 @Component({
   selector: 'app-player-stats-table',
