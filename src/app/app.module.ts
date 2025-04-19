@@ -50,7 +50,7 @@ import { SharedChipComponent } from './shared/shared-chip-component/shared-chip.
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { reducers } from './store/app.state';
 import { GameEffects } from './store/effects/game.effects';
-import { gameFeatureKey, gamesReducer } from './store/reducers/game.reducer';
+import { PlayerEffects } from './store/effects/player.effects';
 
 @NgModule({
   declarations: [
@@ -100,9 +100,8 @@ import { gameFeatureKey, gamesReducer } from './store/reducers/game.reducer';
     MatCheckboxModule,
     MatChipsModule,
     StoreModule.forRoot(reducers),
-    StoreModule.forFeature(gameFeatureKey, gamesReducer),
     EffectsModule.forRoot([]),
-    EffectsModule.forFeature([GameEffects]),
+    EffectsModule.forFeature([GameEffects, PlayerEffects]),
   ],
   providers: [provideHttpClient(withFetch()), provideAnimationsAsync()],
   bootstrap: [AppComponent],

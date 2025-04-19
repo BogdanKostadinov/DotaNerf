@@ -1,26 +1,41 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
-import { combineLatest, startWith, Subject, switchMap, takeUntil } from 'rxjs';
+import {
+  combineLatest,
+  Observable,
+  startWith,
+  Subject,
+  switchMap,
+  takeUntil,
+} from 'rxjs';
 import { CreateGameDTO, TeamName } from '../../models/game.model';
 import { Hero } from '../../models/hero.model';
 import { Player, PlayerGroup } from '../../models/player.model';
-import { GameService } from '../../services/game.service';
 import { HeroService } from '../../services/hero.service';
-import { PlayerService } from '../../services/player.service';
 import { SelectItem } from '../../shared/select-with-search/select-with-search.component';
 import { createGame } from '../../store/actions/game.actions';
+import * as PlayerActions from '../../store/actions/player.actions';
 import { AppState } from '../../store/app.state';
+import { selectAllPlayers } from '../../store/selectors/player.selectors';
 import { CreateGameConfirmationWindowComponent } from '../create-game-confirmation-window/create-game-confirmation-window.component';
 
 @Component({
   selector: 'app-create-game-from-table',
   templateUrl: './create-game-from-table.component.html',
   styleUrl: './create-game-from-table.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateGameFromTableComponent implements OnInit, OnDestroy {
+  players$: Observable<Player[]>;
+
   basicColumns: string[] = ['name', 'played'];
   allColumns: string[] = ['name', 'played', 'playerWon', 'heroPlayed'];
 
@@ -41,16 +56,16 @@ export class CreateGameFromTableComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
 
   constructor(
-    private playerService: PlayerService,
     private heroService: HeroService,
-    private gameService: GameService,
     private dialog: MatDialog,
     private store: Store<AppState>,
-  ) {}
+  ) {
+    this.players$ = this.store.select(selectAllPlayers);
+  }
 
   ngOnInit(): void {
-    this.playerService
-      .getPlayers$()
+    this.store.dispatch(PlayerActions.loadPlayers());
+    this.players$
       .pipe(takeUntil(this.destroy$))
       .subscribe((players: Player[]) => {
         players.forEach((player) => {
@@ -86,7 +101,7 @@ export class CreateGameFromTableComponent implements OnInit, OnDestroy {
         }));
 
         // Then set the data source
-        this.dataSource.data = players.sort((a, b) => {
+        this.dataSource.data = [...players].sort((a, b) => {
           if (a.playerDetails.playerGroup < b.playerDetails.playerGroup) {
             return -1;
           }
@@ -313,9 +328,9 @@ export class CreateGameFromTableComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToPlayedChanges(): void {
-    this.playerService
-      .getPlayers$()
+    this.players$
       .pipe(
+        takeUntil(this.destroy$),
         switchMap(() => {
           const playedObservables = Array.from(
             this.playerHasPlayedCtrls.values(),

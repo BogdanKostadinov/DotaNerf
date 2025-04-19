@@ -3,8 +3,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { Player } from '../../models/player.model';
-import { PlayerService } from '../../services/player.service';
+import * as PlayerActions from '../../store/actions/player.actions';
+import { AppState } from '../../store/app.state';
+import { selectAllPlayers } from '../../store/selectors/player.selectors';
 
 @Component({
   selector: 'app-player-stats-table',
@@ -12,6 +16,7 @@ import { PlayerService } from '../../services/player.service';
   styleUrl: './player-stats-table.component.scss',
 })
 export class PlayersComponent implements OnInit {
+  players$: Observable<Player[]>;
   displayedColumns: string[] = ['id', 'name', 'winrate', 'totalGames', 'score'];
   dataSource = new MatTableDataSource<Player>([]);
   clickedRows = new Set<Player>();
@@ -21,19 +26,22 @@ export class PlayersComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
-    private playerService: PlayerService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-  ) {}
+    private store: Store<AppState>,
+  ) {
+    this.players$ = this.store.select(selectAllPlayers);
+  }
 
   ngOnInit(): void {
+    this.store.dispatch(PlayerActions.loadPlayers());
     this.loadPlayerData();
   }
 
   loadPlayerData(): void {
-    this.playerService.getPlayers$().subscribe({
+    this.players$.subscribe({
       next: (players: Player[]) => {
-        this.dataSource.data = players.sort(
+        this.dataSource.data = [...players].sort(
           (a, b) => b.playerDetails.totalGames - a.playerDetails.totalGames,
         );
         this.isLoading = false;

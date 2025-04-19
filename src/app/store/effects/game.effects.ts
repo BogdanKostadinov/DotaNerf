@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
 import { catchError, map, mergeMap, of } from 'rxjs';
 import { GameService } from '../../services/game.service';
 import * as GameActions from '../actions/game.actions';
@@ -9,7 +8,6 @@ import * as GameActions from '../actions/game.actions';
 export class GameEffects {
   constructor(
     private actions$: Actions,
-    private store: Store,
     private gameService: GameService,
   ) {}
 
