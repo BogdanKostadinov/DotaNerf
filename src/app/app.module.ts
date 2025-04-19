@@ -28,6 +28,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -46,6 +48,9 @@ import { NoDataComponent } from './shared/no-data/no-data.component';
 import { SelectWithSearchComponent } from './shared/select-with-search/select-with-search.component';
 import { SharedChipComponent } from './shared/shared-chip-component/shared-chip.component';
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
+import { reducers } from './store/app.state';
+import { GameEffects } from './store/effects/game.effects';
+import { gameFeatureKey, gamesReducer } from './store/reducers/game.reducer';
 
 @NgModule({
   declarations: [
@@ -94,6 +99,10 @@ import { ToolbarComponent } from './shared/toolbar/toolbar.component';
     MatProgressSpinnerModule,
     MatCheckboxModule,
     MatChipsModule,
+    StoreModule.forRoot(reducers),
+    StoreModule.forFeature(gameFeatureKey, gamesReducer),
+    EffectsModule.forRoot([]),
+    EffectsModule.forFeature([GameEffects]),
   ],
   providers: [provideHttpClient(withFetch()), provideAnimationsAsync()],
   bootstrap: [AppComponent],

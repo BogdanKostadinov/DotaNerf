@@ -24,7 +24,6 @@ export class GameService {
         ),
       );
   }
-
   getPlayerGames$(playerId: string): Observable<GameDetails[]> {
     return this.http
       .get<GameDetails[]>(this.url + '/player/' + playerId)
@@ -38,12 +37,10 @@ export class GameService {
         ),
       );
   }
-
   getGame$(id: string): Observable<Game> {
     return this.http.get<Game>(this.url + '/' + id);
   }
-
-  createGame$(game: CreateGameDTO): Observable<Game> {
-    return this.http.post<Game>(this.url, game);
+  createGame$(game: CreateGameDTO): Observable<GameDetails> {
+    return this.http.post<GameDetails>(this.url, game);
   }
 }
