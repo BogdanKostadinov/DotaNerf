@@ -34,12 +34,12 @@ export class CreateGameComponent {
     private gameService: GameService,
     private dialog: MatDialog,
   ) {
-    this.playerService.getPlayers$().subscribe((players) => {
-      this.playerItems = players.map((player) => ({
-        id: player.id,
-        label: player.name,
-      }));
-    });
+    // this.playerService.getPlayers$().subscribe((players) => {
+    //   this.playerItems = players.map((player) => ({
+    //     id: player.id,
+    //     label: player.name,
+    //   }));
+    // });
     this.heroService.getHeroes$().subscribe((heroes) => {
       this.heroItems = heroes.map((hero) => ({
         id: hero.id,
