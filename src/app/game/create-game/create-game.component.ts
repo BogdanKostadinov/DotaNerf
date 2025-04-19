@@ -7,12 +7,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateGameDTO } from '../models/game.model';
-import { GameService } from '../services/game.service';
-import { HeroService } from '../services/hero.service';
-import { PlayerService } from '../services/player.service';
-import { SelectItem } from '../shared/select-with-search/select-with-search.component';
-import { CreateGameConfirmationWindowComponent } from './create-game-confirmation-window/create-game-confirmation-window.component';
+import { CreateGameDTO } from '../../models/game.model';
+import { GameService } from '../../services/game.service';
+import { HeroService } from '../../services/hero.service';
+import { PlayerService } from '../../services/player.service';
+import { SelectItem } from '../../shared/select-with-search/select-with-search.component';
+import { CreateGameConfirmationWindowComponent } from '../create-game-confirmation-window/create-game-confirmation-window.component';
 
 @Component({
   selector: 'app-create-game',

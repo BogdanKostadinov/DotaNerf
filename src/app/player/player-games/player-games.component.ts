@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { GameDetails } from '../models/game.model';
-import { GameService } from '../services/game.service';
+import { GameDetails } from '../../models/game.model';
+import { GameService } from '../../services/game.service';
 
 @Component({
   selector: 'app-player-games',

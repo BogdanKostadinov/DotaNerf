@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CreateGameFromTableComponent } from './create-game-from-table/create-game-from-table.component';
-import { GameDisplayComponent } from './game-display/game-display.component';
-import { PlayerGamesComponent } from './player-games/player-games.component';
-import { PlayersComponent } from './player-stats-table/player-stats-table.component';
+import { CreateGameFromTableComponent } from './game/create-game-from-table/create-game-from-table.component';
+import { GameDisplayComponent } from './game/game-display/game-display.component';
+import { PlayerGamesComponent } from './player/player-games/player-games.component';
+import { PlayersComponent } from './player/player-stats-table/player-stats-table.component';
 
 const routes: Routes = [
   // { path: 'create-game', component: CreateGameComponent },

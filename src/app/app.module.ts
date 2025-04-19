@@ -28,24 +28,29 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CreateGameFromTableComponent } from './create-game-from-table/create-game-from-table.component';
-import { CreateGameConfirmationWindowComponent } from './create-game/create-game-confirmation-window/create-game-confirmation-window.component';
-import { CreateGameComponent } from './create-game/create-game.component';
-import { GameDisplayComponent } from './game-display/game-display.component';
-import { GameTableComponent } from './game-display/game-table/game-table.component';
-import { PlayerStatPanelComponent } from './game-display/player-stat-panel/player-stat-panel.component';
+import { CreateGameConfirmationWindowComponent } from './game/create-game-confirmation-window/create-game-confirmation-window.component';
+import { CreateGameFromTableComponent } from './game/create-game-from-table/create-game-from-table.component';
+import { CreateGameComponent } from './game/create-game/create-game.component';
+import { GameDisplayComponent } from './game/game-display/game-display.component';
+import { GameTableComponent } from './game/game-table/game-table.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
-import { PlayerEditComponent } from './player-edit/player-edit.component';
-import { PlayerGamesComponent } from './player-games/player-games.component';
-import { PlayersComponent } from './player-stats-table/player-stats-table.component';
-import { SelectWithSearchComponent } from './shared/select-with-search/select-with-search.component';
-import { SharedChipComponent } from './shared/shared-chip-component/shared-chip.component';
-import { ToolbarComponent } from './toolbar/toolbar.component';
+import { PlayerEditComponent } from './player/player-edit/player-edit.component';
+import { PlayerGamesComponent } from './player/player-games/player-games.component';
+import { PlayerStatPanelComponent } from './player/player-stat-panel/player-stat-panel.component';
+import { PlayersComponent } from './player/player-stats-table/player-stats-table.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { NoDataComponent } from './shared/no-data/no-data.component';
+import { SelectWithSearchComponent } from './shared/select-with-search/select-with-search.component';
+import { SharedChipComponent } from './shared/shared-chip-component/shared-chip.component';
+import { ToolbarComponent } from './shared/toolbar/toolbar.component';
+import { reducers } from './store/app.state';
+import { GameEffects } from './store/effects/game.effects';
+import { gameFeatureKey, gamesReducer } from './store/reducers/game.reducer';
 
 @NgModule({
   declarations: [
@@ -94,6 +99,10 @@ import { NoDataComponent } from './shared/no-data/no-data.component';
     MatProgressSpinnerModule,
     MatCheckboxModule,
     MatChipsModule,
+    StoreModule.forRoot(reducers),
+    StoreModule.forFeature(gameFeatureKey, gamesReducer),
+    EffectsModule.forRoot([]),
+    EffectsModule.forFeature([GameEffects]),
   ],
   providers: [provideHttpClient(withFetch()), provideAnimationsAsync()],
   bootstrap: [AppComponent],

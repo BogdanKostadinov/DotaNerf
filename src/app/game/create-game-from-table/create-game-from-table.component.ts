@@ -2,15 +2,18 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { Store } from '@ngrx/store';
 import { combineLatest, startWith, Subject, switchMap, takeUntil } from 'rxjs';
-import { CreateGameConfirmationWindowComponent } from '../create-game/create-game-confirmation-window/create-game-confirmation-window.component';
-import { CreateGameDTO, TeamName } from '../models/game.model';
-import { Hero } from '../models/hero.model';
-import { Player, PlayerGroup } from '../models/player.model';
-import { GameService } from '../services/game.service';
-import { HeroService } from '../services/hero.service';
-import { PlayerService } from '../services/player.service';
-import { SelectItem } from '../shared/select-with-search/select-with-search.component';
+import { CreateGameDTO, TeamName } from '../../models/game.model';
+import { Hero } from '../../models/hero.model';
+import { Player, PlayerGroup } from '../../models/player.model';
+import { GameService } from '../../services/game.service';
+import { HeroService } from '../../services/hero.service';
+import { PlayerService } from '../../services/player.service';
+import { SelectItem } from '../../shared/select-with-search/select-with-search.component';
+import { createGame } from '../../store/actions/game.actions';
+import { AppState } from '../../store/app.state';
+import { CreateGameConfirmationWindowComponent } from '../create-game-confirmation-window/create-game-confirmation-window.component';
 
 @Component({
   selector: 'app-create-game-from-table',
@@ -42,6 +45,7 @@ export class CreateGameFromTableComponent implements OnInit, OnDestroy {
     private heroService: HeroService,
     private gameService: GameService,
     private dialog: MatDialog,
+    private store: Store<AppState>,
   ) {}
 
   ngOnInit(): void {
@@ -226,14 +230,8 @@ export class CreateGameFromTableComponent implements OnInit, OnDestroy {
       },
     };
 
-    this.gameService.createGame$(gamePayload).subscribe({
-      next: () => {
-        this.resetForm();
-      },
-      error: (error) => {
-        console.error('Error creating game:', error);
-      },
-    });
+    this.store.dispatch(createGame({ game: gamePayload }));
+    this.resetForm();
   }
 
   openConfirmationDialog(): void {
