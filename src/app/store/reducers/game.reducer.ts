@@ -2,7 +2,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 import * as Actions from '../actions/game.actions';
 import { GameState } from '../app.state';
 
-export const gameFeatureKey = 'game';
+export const gameFeatureKey = 'games';
 export const initialGameState: GameState = {
   games: [],
 };
@@ -14,6 +14,14 @@ const _gameReducer = createReducer(
     games: games,
   })),
   on(Actions.loadGamesFailure, (state, { error }) => ({
+    ...state,
+    error: error,
+  })),
+  on(Actions.loadGameSuccess, (state, { game }) => ({
+    ...state,
+    games: state.games.map((g) => (g.id === game.id ? game : g)),
+  })),
+  on(Actions.loadGameFailure, (state, { error }) => ({
     ...state,
     error: error,
   })),

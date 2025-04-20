@@ -46,4 +46,20 @@ tr.element-row:not(.expanded-row):active {
 
 .expand-column {
   text-align: right;
+  max-width: 15px;
+}
+
+.text-right {
+  text-align: right;
+  justify-content: flex-end;
+}
+
+th.mat-column-edit {
+  text-align: right;
+  justify-content: flex-end;
+}
+
+td.mat-column-edit {
+  text-align: right;
+  padding-right: 0; 
 }
