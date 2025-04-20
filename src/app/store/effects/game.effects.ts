@@ -22,6 +22,17 @@ export class GameEffects {
       ),
     ),
   );
+  getGame$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(GameActions.loadGame),
+      mergeMap((action) =>
+        this.gameService.getGame$(action.gameId).pipe(
+          map((game) => GameActions.loadGameSuccess({ game })),
+          catchError((error) => of(GameActions.loadGameFailure({ error }))),
+        ),
+      ),
+    ),
+  );
 
   addGame$ = createEffect(() =>
     this.actions$.pipe(

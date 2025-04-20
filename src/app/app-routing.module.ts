@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CreateGameFromTableComponent } from './game/create-game-from-table/create-game-from-table.component';
 import { GameDisplayComponent } from './game/game-display/game-display.component';
+import { GameEditComponent } from './game/game-edit/game-edit.component';
+import { gameResolver } from './game/resolvers/game.resolver';
 import { PlayerGamesComponent } from './player/player-games/player-games.component';
 import { PlayersComponent } from './player/player-stats-table/player-stats-table.component';
 
@@ -11,6 +13,11 @@ const routes: Routes = [
   { path: 'players', component: PlayersComponent },
   { path: 'players/:id', component: PlayerGamesComponent },
   { path: 'games', component: GameDisplayComponent },
+  {
+    path: 'games/:id',
+    component: GameEditComponent,
+    resolve: { game: gameResolver },
+  },
   { path: 'game', component: CreateGameFromTableComponent },
   { path: '**', redirectTo: 'players', pathMatch: 'full' },
 ];

@@ -7,6 +7,7 @@ import {
 } from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GameDetails } from '../../models/game.model';
 
 @Component({
@@ -27,15 +28,24 @@ import { GameDetails } from '../../models/game.model';
 export class GameTableComponent implements OnInit {
   @Input() games: GameDetails[] = [];
   dataSource = new MatTableDataSource<GameDetails>([]);
-  columnsToDisplay = ['dateCreated'];
+  columnsToDisplay = ['dateCreated', 'edit'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement!: GameDetails | null;
+
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     this.dataSource.data = this.games;
   }
-
   isNaN(value: any): boolean {
     return Number.isNaN(value);
+  }
+  navigateToGame(gameId: string) {
+    this.router.navigate([`${this.router.url}/${gameId}`], {
+      relativeTo: this.activatedRoute,
+    });
   }
 }

@@ -1,0 +1,57 @@
+<ng-container *ngIf="game$ | async as game">
+  <div class="game-edit-container">
+    <h2 class="game-title">Edit Game</h2>
+
+    <!-- Team 1 Container -->
+    <div class="teams-container">
+      <div class="team-card radiant">
+        <div class="team-header">
+          <h3>Team 1</h3>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="players-list">
+          <div
+            class="player-item"
+            *ngFor="let player of game.radiantTeam.players"
+          >
+            <div class="player-name">{{ player.name }}</div>
+            <div class="small-select">
+              <app-select-with-search
+                [items]="heroItems"
+                [label]="'Select hero'"
+                [control]="getHeroControl(player.id)"
+              ></app-select-with-search>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team 2 Container -->
+      <div class="team-card dire">
+        <div class="team-header">
+          <h3>Team 2</h3>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="players-list">
+          <div class="player-item" *ngFor="let player of game.direTeam.players">
+            <div class="player-name">{{ player.name }}</div>
+            <div class="small-select">
+              <app-select-with-search
+                [items]="heroItems"
+                [label]="'Select hero'"
+                [control]="getHeroControl(player.id)"
+              ></app-select-with-search>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button mat-raised-button (click)="goBack()">Go back</button>
+      <button mat-raised-button color="primary" (click)="updateGame()">
+        Update game
+      </button>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,65 @@
+:host {
+  display: block;
+}
+
+.game-edit-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.game-title {
+  text-align: center;
+}
+
+.teams-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.team-card {
+  width: 45%;
+  min-width: 300px;
+  border: 1px solid var(--mat-divider);
+  border-radius: 2px;
+  border-color: var(--mat-divider);
+  padding: 10px;
+}
+
+.team-header {
+  text-align: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.players-list {
+  padding: 10px 0;
+}
+
+.player-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.player-name {
+  font-weight: 500;
+  font-size: 16px;
+  flex: 1;
+  padding-right: 15px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
+
+.small-select {
+  width: 300px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}

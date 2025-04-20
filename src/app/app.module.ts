@@ -9,12 +9,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { localStorageSync } from 'ngrx-store-localstorage';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CreateGameConfirmationWindowComponent } from './game/create-game-confirmation-window/create-game-confirmation-window.component';
 import { CreateGameFromTableComponent } from './game/create-game-from-table/create-game-from-table.component';
 import { CreateGameComponent } from './game/create-game/create-game.component';
 import { GameDisplayComponent } from './game/game-display/game-display.component';
+import { GameEditComponent } from './game/game-edit/game-edit.component';
 import { GameTableComponent } from './game/game-table/game-table.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { PlayerEditComponent } from './player/player-edit/player-edit.component';
@@ -30,6 +32,13 @@ import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { reducers } from './store/app.state';
 import { GameEffects } from './store/effects/game.effects';
 import { PlayerEffects } from './store/effects/player.effects';
+
+export function localStorageSyncReducer(reducer: any) {
+  return localStorageSync({
+    keys: ['games'],
+    rehydrate: true,
+  })(reducer);
+}
 
 @NgModule({
   declarations: [
@@ -49,6 +58,7 @@ import { PlayerEffects } from './store/effects/player.effects';
     PlayerGamesComponent,
     LoadingSpinnerComponent,
     NoDataComponent,
+    GameEditComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -56,7 +66,9 @@ import { PlayerEffects } from './store/effects/player.effects';
     BrowserModule,
     AppRoutingModule,
     MaterialModule,
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot(reducers, {
+      metaReducers: [localStorageSyncReducer],
+    }),
     EffectsModule.forRoot([]),
     EffectsModule.forFeature([GameEffects, PlayerEffects]),
   ],
