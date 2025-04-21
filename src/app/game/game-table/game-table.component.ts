@@ -5,9 +5,10 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { GameDetails } from '../../models/game.model';
 
 @Component({
@@ -32,20 +33,20 @@ export class GameTableComponent implements OnInit {
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement!: GameDetails | null;
 
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-  ) {}
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.dataSource.data = this.games;
+    setTimeout(() => {
+      this.dataSource.data = this.games;
+      this.dataSource.paginator = this.paginator;
+    });
   }
   isNaN(value: any): boolean {
     return Number.isNaN(value);
   }
   navigateToGame(gameId: string) {
-    this.router.navigate([`${this.router.url}/${gameId}`], {
-      relativeTo: this.activatedRoute,
-    });
+    this.router.navigate([`games/${gameId}`]);
   }
 }

@@ -1,3 +1,7 @@
+<app-shared-chip
+  [chipItems]="playerGroupItems"
+  (chipsSelected)="onPlayerGroupChipsSelected($event)"
+></app-shared-chip>
 <div class="table-container">
   <!-- Define templates for different states -->
   <ng-template #loadingTemplate>
@@ -15,7 +19,7 @@
       <mat-label>Search...</mat-label>
       <input
         matInput
-        (keyup)="applyFilter($event)"
+        (keyup)="searchFilter($event)"
         placeholder="Player name"
         #input
       />

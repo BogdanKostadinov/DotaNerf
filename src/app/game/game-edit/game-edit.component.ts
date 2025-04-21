@@ -75,7 +75,6 @@ export class GameEditComponent implements OnInit, OnDestroy {
       .pipe(
         take(1),
         tap((game) => {
-          console.log('game', game);
           // If game doesn't exist in state, dispatch load action
           if (!game) {
             this.store.dispatch(loadGame({ gameId: this.gameId || '' }));
