@@ -2,7 +2,6 @@ import { Action, createReducer, on } from '@ngrx/store';
 import * as Actions from '../actions/game.actions';
 import { GameState } from '../app.state';
 
-export const gameFeatureKey = 'games';
 export const initialGameState: GameState = {
   games: [],
 };

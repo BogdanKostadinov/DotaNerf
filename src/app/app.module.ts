@@ -9,7 +9,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { localStorageSync } from 'ngrx-store-localstorage';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CreateGameConfirmationWindowComponent } from './game/create-game-confirmation-window/create-game-confirmation-window.component';
@@ -32,13 +31,7 @@ import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { reducers } from './store/app.state';
 import { GameEffects } from './store/effects/game.effects';
 import { PlayerEffects } from './store/effects/player.effects';
-
-export function localStorageSyncReducer(reducer: any) {
-  return localStorageSync({
-    keys: ['games'],
-    rehydrate: true,
-  })(reducer);
-}
+import { hydrationMetaReducer } from './store/meta-reducers/hydration.meta-reducer';
 
 @NgModule({
   declarations: [
@@ -67,7 +60,11 @@ export function localStorageSyncReducer(reducer: any) {
     AppRoutingModule,
     MaterialModule,
     StoreModule.forRoot(reducers, {
-      metaReducers: [localStorageSyncReducer],
+      metaReducers: [hydrationMetaReducer],
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+      },
     }),
     EffectsModule.forRoot([]),
     EffectsModule.forFeature([GameEffects, PlayerEffects]),

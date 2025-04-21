@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { filter, Observable, take, tap } from 'rxjs';
 import { GameDetails } from '../../models/game.model';
 import { HeroService } from '../../services/hero.service';
 import { SelectItem } from '../../shared/select-with-search/select-with-search.component';
@@ -16,8 +16,9 @@ import { selectGameById } from '../../store/selectors/game.selectors';
   styleUrl: './game-edit.component.scss',
 })
 export class GameEditComponent implements OnInit {
-  game$: Observable<GameDetails | undefined>;
+  game$!: Observable<GameDetails | undefined>;
   gameId: string | null = '';
+
   loadingDataLabel: string = 'Loading game...';
   isLoading = true;
   heroControls: Map<string | number, FormControl> = new Map();
@@ -29,9 +30,6 @@ export class GameEditComponent implements OnInit {
     private route: ActivatedRoute,
     private heroService: HeroService,
   ) {
-    this.gameId = this.route.snapshot.paramMap.get('id');
-    this.store.dispatch(loadGame({ gameId: this.gameId || '' }));
-    this.game$ = this.store.select(selectGameById(this.gameId || ''));
     this.heroService.getHeroes$().subscribe((heroes) => {
       this.heroItems = heroes.map((hero) => ({
         id: hero.id,
@@ -39,13 +37,41 @@ export class GameEditComponent implements OnInit {
       }));
     });
   }
+  // TODO FIX HERO SELECTOR
   ngOnInit(): void {
-    this.game$.subscribe((game) => {
-      if (game) {
-        this.isLoading = false;
-        this.initializeHeroControls(game);
-      }
-    });
+    this.gameId = this.route.snapshot.paramMap.get('id') || '';
+
+    if (!this.gameId) {
+      this.router.navigate(['/games']);
+      return;
+    }
+
+    this.store
+      .select(selectGameById(this.gameId))
+      .pipe(
+        take(1),
+        tap((game) => {
+          console.log('game', game);
+          // If game doesn't exist in state, dispatch load action
+          if (!game) {
+            this.store.dispatch(loadGame({ gameId: this.gameId || '' }));
+          } else {
+            this.isLoading = false;
+            this.initializeHeroControls(game);
+          }
+        }),
+      )
+      .subscribe();
+
+    this.game$ = this.store.select(selectGameById(this.gameId)).pipe(
+      filter((game) => !!game),
+      tap((game) => {
+        if (game) {
+          this.isLoading = false;
+          this.initializeHeroControls(game);
+        }
+      }),
+    );
   }
 
   initializeHeroControls(game: GameDetails): void {
