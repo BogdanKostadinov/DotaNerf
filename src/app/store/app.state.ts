@@ -13,9 +13,13 @@ export interface AppState {
 }
 export interface GameState {
   games: GameDetails[];
+  loading: boolean;
+  error: string | null;
 }
 export interface PlayerState {
   players: Player[];
+  loading: boolean;
+  error: string | null;
 }
 export interface HeroState {
   heroes: Hero[];

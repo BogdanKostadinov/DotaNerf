@@ -23,6 +23,7 @@ export const loadGamesFailure = createAction(
   '[Game] Load Games Failure',
   props<{ error: string }>(),
 );
+
 export const loadGame = createAction(
   '[Game] Load Game',
   props<{ gameId: string }>(),
@@ -33,5 +34,18 @@ export const loadGameSuccess = createAction(
 );
 export const loadGameFailure = createAction(
   '[Game] Load Game Failure',
+  props<{ error: string }>(),
+);
+
+export const loadPlayerGames = createAction(
+  '[Game] Load Player Game',
+  props<{ playerId: string }>(),
+);
+export const loadPlayerGamesSuccess = createAction(
+  '[Game] Load Player Game Success',
+  props<{ games: GameDetails[] }>(),
+);
+export const loadPlayerGamesFailure = createAction(
+  '[Game] Load Player Game Failure',
   props<{ error: string }>(),
 );

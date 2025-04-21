@@ -92,7 +92,9 @@
   </ng-template>
 
   <!-- Display appropriate template based on state -->
-  <ng-container *ngIf="isLoading; then loadingTemplate; else contentOrEmpty">
+  <ng-container
+    *ngIf="loading$ | async; then loadingTemplate; else contentOrEmpty"
+  >
   </ng-container>
 
   <ng-template #contentOrEmpty>

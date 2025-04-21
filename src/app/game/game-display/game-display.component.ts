@@ -4,7 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { GameDetails } from '../../models/game.model';
 import { loadGames } from '../../store/actions/game.actions';
 import { AppState } from '../../store/app.state';
-import { selectAllGames } from '../../store/selectors/game.selectors';
+import { selectAllGames, selectGamesLoading } from '../../store/selectors/game.selectors';
 
 @Component({
   selector: 'app-game-display',
@@ -13,10 +13,12 @@ import { selectAllGames } from '../../store/selectors/game.selectors';
 })
 export class GameDisplayComponent implements OnDestroy {
   games$: Observable<GameDetails[]>;
+  loading$: Observable<boolean>;
   destroy$ = new Subject<void>();
 
   constructor(private store: Store<AppState>) {
     this.games$ = this.store.select(selectAllGames);
+    this.loading$ = this.store.select(selectGamesLoading);
     this.store.dispatch(loadGames());
   }
 

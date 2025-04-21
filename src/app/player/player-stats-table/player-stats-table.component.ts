@@ -8,7 +8,10 @@ import { Observable } from 'rxjs';
 import { Player } from '../../models/player.model';
 import * as PlayerActions from '../../store/actions/player.actions';
 import { AppState } from '../../store/app.state';
-import { selectAllPlayers } from '../../store/selectors/player.selectors';
+import {
+  selectAllPlayers,
+  selectPlayersLoading,
+} from '../../store/selectors/player.selectors';
 
 @Component({
   selector: 'app-player-stats-table',
@@ -17,10 +20,10 @@ import { selectAllPlayers } from '../../store/selectors/player.selectors';
 })
 export class PlayersComponent implements OnInit {
   players$: Observable<Player[]>;
+  loading$: Observable<boolean>;
   displayedColumns: string[] = ['id', 'name', 'winrate', 'totalGames', 'score'];
   dataSource = new MatTableDataSource<Player>([]);
   clickedRows = new Set<Player>();
-  isLoading = true;
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -31,6 +34,7 @@ export class PlayersComponent implements OnInit {
     private store: Store<AppState>,
   ) {
     this.players$ = this.store.select(selectAllPlayers);
+    this.loading$ = this.store.select(selectPlayersLoading);
   }
 
   ngOnInit(): void {
@@ -44,7 +48,6 @@ export class PlayersComponent implements OnInit {
         this.dataSource.data = [...players].sort(
           (a, b) => b.playerDetails.totalGames - a.playerDetails.totalGames,
         );
-        this.isLoading = false;
 
         // Try to set up again after data is loaded
         setTimeout(() => {
@@ -53,7 +56,6 @@ export class PlayersComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading player data:', error);
-        this.isLoading = false;
       },
     });
   }
@@ -70,7 +72,7 @@ export class PlayersComponent implements OnInit {
   }
 
   private setupSortAndPagination(): void {
-    if (!this.isLoading && this.sort && this.paginator) {
+    if (this.sort && this.paginator) {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
 
