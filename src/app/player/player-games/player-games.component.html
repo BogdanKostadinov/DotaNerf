@@ -1,8 +1,10 @@
-<ng-container *ngIf="games$ | async as games; else loading">
-  <app-game-table [games]="games"></app-game-table>
-</ng-container>
-<ng-template #loading>
+<ng-container *ngIf="(loading$ | async) === true; else dataReadyTemplate">
   <app-loading-spinner
-    [loadingDataLabel]="loadingDataLabel"
-  ></app-loading-spinner
+    [loadingDataLabel]="'Loading player games...'"
+  ></app-loading-spinner>
+</ng-container>
+
+<ng-template #dataReadyTemplate>
+  <ng-container *ngIf="games$ | async as games">
+    <app-game-table [games]="games"></app-game-table> </ng-container
 ></ng-template>

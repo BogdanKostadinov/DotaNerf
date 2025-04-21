@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { PlayerGameEntry } from '../../models/player.model';
 
 @Component({
@@ -8,5 +8,4 @@ import { PlayerGameEntry } from '../../models/player.model';
 })
 export class PlayerStatPanelComponent {
   @Input() player!: PlayerGameEntry;
-
 }

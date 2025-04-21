@@ -29,7 +29,10 @@ import * as HeroActions from '../../store/actions/hero.actions';
 import * as PlayerActions from '../../store/actions/player.actions';
 import { AppState } from '../../store/app.state';
 import { selectAllHeroes } from '../../store/selectors/hero.selectors';
-import { selectAllPlayers } from '../../store/selectors/player.selectors';
+import {
+  selectAllPlayers,
+  selectPlayersLoading,
+} from '../../store/selectors/player.selectors';
 import { CreateGameConfirmationWindowComponent } from '../create-game-confirmation-window/create-game-confirmation-window.component';
 
 @Component({
@@ -40,6 +43,7 @@ import { CreateGameConfirmationWindowComponent } from '../create-game-confirmati
 })
 export class CreateGameFromTableComponent implements OnInit, OnDestroy {
   players$: Observable<Player[]>;
+  loading$: Observable<boolean>;
 
   basicColumns: string[] = ['name', 'played'];
   allColumns: string[] = ['name', 'played', 'playerWon', 'heroPlayed'];
@@ -53,7 +57,6 @@ export class CreateGameFromTableComponent implements OnInit, OnDestroy {
   playerHasPlayedCtrls: Map<string, FormControl> = new Map();
   playerHeroSelectionCtrls: Map<string, FormControl> = new Map();
   playerWonCtrls: Map<string, FormControl> = new Map();
-  playersLoaded = false;
   errorMessage: string | null = null;
 
   searchText: string = '';
@@ -67,6 +70,7 @@ export class CreateGameFromTableComponent implements OnInit, OnDestroy {
     private snackbar: SnackbarService,
   ) {
     this.players$ = this.store.select(selectAllPlayers);
+    this.loading$ = this.store.select(selectPlayersLoading);
   }
 
   ngOnInit(): void {
@@ -117,7 +121,6 @@ export class CreateGameFromTableComponent implements OnInit, OnDestroy {
           }
           return 0;
         });
-        this.playersLoaded = true;
         this.subscribeToPlayedChanges();
       });
     this.store

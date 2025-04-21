@@ -8,7 +8,10 @@ import { SelectItem } from '../../shared/select-with-search/select-with-search.c
 import { loadGame } from '../../store/actions/game.actions';
 import { loadHeroes } from '../../store/actions/hero.actions';
 import { AppState } from '../../store/app.state';
-import { selectGameById } from '../../store/selectors/game.selectors';
+import {
+  selectGameById,
+  selectGamesLoading,
+} from '../../store/selectors/game.selectors';
 import { selectAllHeroes } from '../../store/selectors/hero.selectors';
 
 @Component({
@@ -18,10 +21,9 @@ import { selectAllHeroes } from '../../store/selectors/hero.selectors';
 })
 export class GameEditComponent implements OnInit, OnDestroy {
   game$!: Observable<GameDetails | undefined>;
+  loading$!: Observable<boolean>;
   gameId: string | null = '';
 
-  loadingDataLabel: string = 'Loading game...';
-  isLoading = true;
   heroControls: Map<string | number, FormControl> = new Map();
   heroItems: SelectItem[] = [];
 
@@ -60,6 +62,7 @@ export class GameEditComponent implements OnInit, OnDestroy {
     return this.heroControls.get(playerId)!;
   }
   loadGame(): void {
+    this.loading$ = this.store.select(selectGamesLoading);
     this.gameId = this.route.snapshot.paramMap.get('id') || '';
 
     if (!this.gameId) {
@@ -77,7 +80,6 @@ export class GameEditComponent implements OnInit, OnDestroy {
           if (!game) {
             this.store.dispatch(loadGame({ gameId: this.gameId || '' }));
           } else {
-            this.isLoading = false;
             this.initializeHeroControls(game);
           }
         }),
@@ -88,7 +90,6 @@ export class GameEditComponent implements OnInit, OnDestroy {
       filter((game) => !!game),
       tap((game) => {
         if (game) {
-          this.isLoading = false;
           this.initializeHeroControls(game);
         }
       }),

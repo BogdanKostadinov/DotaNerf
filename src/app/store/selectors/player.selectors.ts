@@ -7,3 +7,13 @@ export const selectAllPlayers = createSelector(
   selectPlayerState,
   (state: PlayerState) => state.players,
 );
+
+export const selectPlayersLoading = createSelector(
+  selectPlayerState,
+  (state: PlayerState) => state.loading,
+);
+
+export const selectPlayersError = createSelector(
+  selectPlayerState,
+  (state: PlayerState) => state.error,
+);
