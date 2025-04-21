@@ -29,7 +29,7 @@ import { GameDetails } from '../../models/game.model';
 export class GameTableComponent implements OnInit {
   @Input() games: GameDetails[] = [];
   dataSource = new MatTableDataSource<GameDetails>([]);
-  columnsToDisplay = ['dateCreated', 'edit'];
+  columnsToDisplay = ['dateCreated', 'lastModified', 'edit'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement!: GameDetails | null;
 
