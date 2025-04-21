@@ -21,15 +21,16 @@ import {
 import { CreateGameDTO, TeamName } from '../../models/game.model';
 import { Hero } from '../../models/hero.model';
 import { Player, PlayerGroup } from '../../models/player.model';
-import { HeroService } from '../../services/hero.service';
 import { SelectItem } from '../../shared/select-with-search/select-with-search.component';
+import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import * as GameActions from '../../store/actions/game.actions';
 import { createGame } from '../../store/actions/game.actions';
+import * as HeroActions from '../../store/actions/hero.actions';
 import * as PlayerActions from '../../store/actions/player.actions';
 import { AppState } from '../../store/app.state';
+import { selectAllHeroes } from '../../store/selectors/hero.selectors';
 import { selectAllPlayers } from '../../store/selectors/player.selectors';
 import { CreateGameConfirmationWindowComponent } from '../create-game-confirmation-window/create-game-confirmation-window.component';
-import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-create-game-from-table',
@@ -60,7 +61,6 @@ export class CreateGameFromTableComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
 
   constructor(
-    private heroService: HeroService,
     private dialog: MatDialog,
     private store: Store<AppState>,
     private actions$: Actions,
@@ -71,6 +71,7 @@ export class CreateGameFromTableComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(PlayerActions.loadPlayers());
+    this.store.dispatch(HeroActions.loadHeroes());
     this.players$
       .pipe(takeUntil(this.destroy$))
       .subscribe((players: Player[]) => {
@@ -119,8 +120,8 @@ export class CreateGameFromTableComponent implements OnInit, OnDestroy {
         this.playersLoaded = true;
         this.subscribeToPlayedChanges();
       });
-    this.heroService
-      .getHeroes$()
+    this.store
+      .select(selectAllHeroes)
       .pipe(takeUntil(this.destroy$))
       .subscribe((heroes: Hero[]) => {
         this.heroItems = heroes.map((h) => ({ id: h.id, label: h.name }));

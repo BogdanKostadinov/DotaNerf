@@ -1,21 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { filter, Observable, take, tap } from 'rxjs';
+import { filter, Observable, Subject, take, takeUntil, tap } from 'rxjs';
 import { GameDetails } from '../../models/game.model';
-import { HeroService } from '../../services/hero.service';
 import { SelectItem } from '../../shared/select-with-search/select-with-search.component';
 import { loadGame } from '../../store/actions/game.actions';
+import { loadHeroes } from '../../store/actions/hero.actions';
 import { AppState } from '../../store/app.state';
 import { selectGameById } from '../../store/selectors/game.selectors';
+import { selectAllHeroes } from '../../store/selectors/hero.selectors';
 
 @Component({
   selector: 'app-game-edit',
   templateUrl: './game-edit.component.html',
   styleUrl: './game-edit.component.scss',
 })
-export class GameEditComponent implements OnInit {
+export class GameEditComponent implements OnInit, OnDestroy {
   game$!: Observable<GameDetails | undefined>;
   gameId: string | null = '';
 
@@ -24,21 +25,41 @@ export class GameEditComponent implements OnInit {
   heroControls: Map<string | number, FormControl> = new Map();
   heroItems: SelectItem[] = [];
 
+  destroy$ = new Subject<void>();
+
   constructor(
     private store: Store<AppState>,
     private router: Router,
     private route: ActivatedRoute,
-    private heroService: HeroService,
-  ) {
-    this.heroService.getHeroes$().subscribe((heroes) => {
-      this.heroItems = heroes.map((hero) => ({
-        id: hero.id,
-        label: hero.name,
-      }));
+  ) {}
+
+  ngOnInit(): void {
+    this.loadHeroes();
+    this.loadGame();
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  initializeHeroControls(game: GameDetails): void {
+    this.heroControls.clear();
+    game.radiantTeam.players.forEach((player) => {
+      const heroId = player.playerStats[0]?.heroPlayed?.id || null;
+      this.heroControls.set(player.id, new FormControl(heroId));
+    });
+    game.direTeam.players.forEach((player) => {
+      const heroId = player.playerStats[0]?.heroPlayed?.id || null;
+      this.heroControls.set(player.id, new FormControl(heroId));
     });
   }
-  // TODO FIX HERO SELECTOR
-  ngOnInit(): void {
+  getHeroControl(playerId: string | number): FormControl {
+    if (!this.heroControls.has(playerId)) {
+      this.heroControls.set(playerId, new FormControl(null));
+    }
+    return this.heroControls.get(playerId)!;
+  }
+  loadGame(): void {
     this.gameId = this.route.snapshot.paramMap.get('id') || '';
 
     if (!this.gameId) {
@@ -73,28 +94,19 @@ export class GameEditComponent implements OnInit {
       }),
     );
   }
-
-  initializeHeroControls(game: GameDetails): void {
-    this.heroControls.clear();
-    game.radiantTeam.players.forEach((player) => {
-      const heroId = player.playerStats[0]?.heroPlayed?.id || null;
-      this.heroControls.set(player.id, new FormControl(heroId));
-    });
-    game.direTeam.players.forEach((player) => {
-      const heroId = player.playerStats[0]?.heroPlayed?.id || null;
-      this.heroControls.set(player.id, new FormControl(heroId));
-    });
+  loadHeroes(): void {
+    this.store.dispatch(loadHeroes());
+    this.store
+      .select(selectAllHeroes)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((heroes) => {
+        this.heroItems = heroes.map((hero) => ({
+          id: hero.id,
+          label: hero.name,
+        }));
+      });
   }
-
-  getHeroControl(playerId: string | number): FormControl {
-    if (!this.heroControls.has(playerId)) {
-      this.heroControls.set(playerId, new FormControl(null));
-    }
-    return this.heroControls.get(playerId)!;
-  }
-
   updateGame(): void {}
-
   goBack(): void {
     this.router.navigate(['/games']);
   }

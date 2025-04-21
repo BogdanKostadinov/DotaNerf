@@ -40,12 +40,12 @@ export class CreateGameComponent {
     //     label: player.name,
     //   }));
     // });
-    this.heroService.getHeroes$().subscribe((heroes) => {
-      this.heroItems = heroes.map((hero) => ({
-        id: hero.id,
-        label: hero.name,
-      }));
-    });
+    // this.heroService.getHeroes$().subscribe((heroes) => {
+    //   this.heroItems = heroes.map((hero) => ({
+    //     id: hero.id,
+    //     label: hero.name,
+    //   }));
+    // });
   }
 
   ngOnInit(): void {

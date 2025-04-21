@@ -30,6 +30,7 @@ import { SharedChipComponent } from './shared/shared-chip-component/shared-chip.
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { reducers } from './store/app.state';
 import { GameEffects } from './store/effects/game.effects';
+import { HeroEffects } from './store/effects/hero.effects';
 import { PlayerEffects } from './store/effects/player.effects';
 import { hydrationMetaReducer } from './store/meta-reducers/hydration.meta-reducer';
 
@@ -67,7 +68,7 @@ import { hydrationMetaReducer } from './store/meta-reducers/hydration.meta-reduc
       },
     }),
     EffectsModule.forRoot([]),
-    EffectsModule.forFeature([GameEffects, PlayerEffects]),
+    EffectsModule.forFeature([GameEffects, PlayerEffects, HeroEffects]),
   ],
   providers: [provideHttpClient(withFetch()), provideAnimationsAsync()],
   bootstrap: [AppComponent],
