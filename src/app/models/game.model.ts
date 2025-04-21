@@ -10,6 +10,7 @@ export interface GameDetails extends Game {
   radiantTeam: TeamDetails;
   direTeam: TeamDetails;
   dateCreated: Date;
+  lastModified: Date;
 }
 
 export interface CreateGameDTO {
