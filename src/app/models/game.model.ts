@@ -1,4 +1,4 @@
-import { PlayerGameEntry } from './player.model';
+import { PlayerGameEntry, UpdatePlayerGameEntryDTO } from './player.model';
 import { TeamDetails } from './team.model';
 
 export interface Game {
@@ -22,6 +22,15 @@ export interface CreateGameDTO {
   direTeam: {
     name: TeamName;
     players: PlayerGameEntry[];
+  };
+}
+export interface UpdateGameDTO {
+  id: string;
+  radiantTeam: {
+    players: UpdatePlayerGameEntryDTO[];
+  };
+  direTeam: {
+    players: UpdatePlayerGameEntryDTO[];
   };
 }
 

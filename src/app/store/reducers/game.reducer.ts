@@ -74,6 +74,22 @@ const _gameReducer = createReducer(
     loading: false,
     error: error,
   })),
+  on(Actions.updateGame, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(Actions.updateGameSuccess, (state, { game }) => ({
+    ...state,
+    games: state.games.map((g) => (g.id === game.id ? game : g)),
+    loading: false,
+    error: null,
+  })),
+  on(Actions.updateGameFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error: error,
+  })),
 );
 
 export function gamesReducer(

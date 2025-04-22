@@ -14,19 +14,28 @@ export interface PlayerGameEntry {
   playerStats: PlayerStats[];
 }
 
-export interface PlayerStats {
-  heroPlayed: Hero;
-  kills: number;
-  deaths: number;
-  assists: number;
-}
-
 export interface PlayerDetails {
   winrate: number;
   totalGames: number;
   gamesWon: number;
   gamesLost: number;
   playerGroup: PlayerGroup;
+}
+
+export interface PlayerStats {
+  heroPlayed: Hero;
+  kills?: number;
+  deaths?: number;
+  assists?: number;
+}
+
+export interface UpdatePlayerGameEntryDTO {
+  id: string;
+  playerStats: UpdatePlayerStatsDTO;
+}
+
+export interface UpdatePlayerStatsDTO {
+  heroPlayedId: number;
 }
 
 export enum PlayerGroup {

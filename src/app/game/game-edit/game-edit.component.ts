@@ -1,11 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { filter, Observable, Subject, take, takeUntil, tap } from 'rxjs';
-import { GameDetails } from '../../models/game.model';
+import { GameDetails, UpdateGameDTO } from '../../models/game.model';
 import { SelectItem } from '../../shared/select-with-search/select-with-search.component';
-import { loadGame } from '../../store/actions/game.actions';
+import { SnackbarService } from '../../shared/snackbar/snackbar.service';
+import * as GameActions from '../../store/actions/game.actions';
+import { loadGame, updateGame } from '../../store/actions/game.actions';
 import { loadHeroes } from '../../store/actions/hero.actions';
 import { AppState } from '../../store/app.state';
 import {
@@ -33,6 +36,8 @@ export class GameEditComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private router: Router,
     private route: ActivatedRoute,
+    private actions$: Actions,
+    private snackbar: SnackbarService,
   ) {}
 
   ngOnInit(): void {
@@ -85,14 +90,9 @@ export class GameEditComponent implements OnInit, OnDestroy {
       )
       .subscribe();
 
-    this.game$ = this.store.select(selectGameById(this.gameId)).pipe(
-      filter((game) => !!game),
-      tap((game) => {
-        if (game) {
-          this.initializeHeroControls(game);
-        }
-      }),
-    );
+    this.game$ = this.store
+      .select(selectGameById(this.gameId))
+      .pipe(filter((game) => !!game));
   }
   loadHeroes(): void {
     this.store.dispatch(loadHeroes());
@@ -106,7 +106,45 @@ export class GameEditComponent implements OnInit, OnDestroy {
         }));
       });
   }
-  updateGame(): void {}
+  updateGame(): void {
+    this.game$.pipe(take(1)).subscribe((game) => {
+      if (!game) {
+        return;
+      }
+      const updateGameDTO: UpdateGameDTO = {
+        id: game.id,
+        radiantTeam: {
+          players: game.radiantTeam.players.map((player) => ({
+            id: player.id,
+            playerStats: {
+              heroPlayedId: this.getHeroControl(player.id).value,
+            },
+          })),
+        },
+        direTeam: {
+          players: game.direTeam.players.map((player) => ({
+            id: player.id,
+            playerStats: {
+              heroPlayedId: this.getHeroControl(player.id).value,
+            },
+          })),
+        },
+      };
+      this.store.dispatch(updateGame({ game: updateGameDTO }));
+      this.actions$
+        .pipe(
+          ofType(GameActions.updateGameSuccess, GameActions.updateGameFailure),
+          takeUntil(this.destroy$),
+        )
+        .subscribe((action) => {
+          if (action.type === GameActions.updateGameSuccess.type) {
+            this.snackbar.success('Game successfully updated!');
+          } else {
+            this.snackbar.error('Failed to update game. Please try again.');
+          }
+        });
+    });
+  }
   goBack(): void {
     this.router.navigate(['/games']);
   }

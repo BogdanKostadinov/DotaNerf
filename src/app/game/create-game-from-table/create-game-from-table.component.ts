@@ -259,7 +259,6 @@ export class CreateGameFromTableComponent implements OnInit, OnDestroy {
     this.actions$
       .pipe(
         ofType(GameActions.createGameSuccess, GameActions.createGameFailure),
-        take(1),
         takeUntil(this.destroy$),
       )
       .subscribe((action) => {
