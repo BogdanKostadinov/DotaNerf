@@ -1,5 +1,9 @@
 import { createAction, props } from '@ngrx/store';
-import { CreateGameDTO, GameDetails } from '../../models/game.model';
+import {
+  CreateGameDTO,
+  GameDetails,
+  UpdateGameDTO,
+} from '../../models/game.model';
 
 export const createGame = createAction(
   '[Game] Create Game',
@@ -11,6 +15,18 @@ export const createGameSuccess = createAction(
 );
 export const createGameFailure = createAction(
   '[Game] Create Game Failure',
+  props<{ error: string }>(),
+);
+export const updateGame = createAction(
+  '[Game] Update Game',
+  props<{ game: UpdateGameDTO }>(),
+);
+export const updateGameSuccess = createAction(
+  '[Game] Update Game Success',
+  props<{ game: GameDetails }>(),
+);
+export const updateGameFailure = createAction(
+  '[Game] Update Game Failure',
   props<{ error: string }>(),
 );
 

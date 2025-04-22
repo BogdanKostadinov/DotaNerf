@@ -58,11 +58,28 @@ export class GameEffects {
       ),
     ),
   );
-
   addGameSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(GameActions.createGameSuccess),
       map(() => GameActions.loadGames()),
     ),
   );
+
+  updateGame$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(GameActions.updateGame),
+      mergeMap((action) =>
+        this.gameService.updateGame$(action.game).pipe(
+          map((game) => GameActions.updateGameSuccess({ game })),
+          catchError((error) => of(GameActions.updateGameFailure({ error }))),
+        ),
+      ),
+    ),
+  );
+  // updateGameSuccess$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(GameActions.updateGameSuccess),
+  //     map(() => GameActions.loadGames()),
+  //   ),
+  // );
 }
