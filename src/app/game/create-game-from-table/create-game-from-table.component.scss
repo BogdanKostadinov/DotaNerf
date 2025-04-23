@@ -73,3 +73,11 @@
   width: 50px;
   max-width: 50px;
 }
+
+mat-paginator {
+  flex-shrink: 0;
+  bottom: 0;
+  z-index: 1;
+  background-color: var(--surface);
+  color: var(--text-primary);
+}

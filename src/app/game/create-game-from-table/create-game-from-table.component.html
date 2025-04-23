@@ -96,6 +96,8 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
+  <mat-paginator [pageSizeOptions]="[15, 20, 25]" showFirstLastButtons>
+  </mat-paginator>
 </ng-template>
 
 <ng-container *ngIf="(loading$ | async) === true; else dataReadyTemplate">
