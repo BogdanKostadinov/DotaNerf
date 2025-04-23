@@ -3,9 +3,11 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -15,7 +17,6 @@ import {
   startWith,
   Subject,
   switchMap,
-  take,
   takeUntil,
 } from 'rxjs';
 import { CreateGameDTO, TeamName } from '../../models/game.model';
@@ -62,6 +63,8 @@ export class CreateGameFromTableComponent implements OnInit, OnDestroy {
   searchText: string = '';
   selectedPlayerGroups: number[] = [];
   destroy$ = new Subject<void>();
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     private dialog: MatDialog,
@@ -120,6 +123,9 @@ export class CreateGameFromTableComponent implements OnInit, OnDestroy {
             return 1;
           }
           return 0;
+        });
+        setTimeout(() => {
+          this.dataSource.paginator = this.paginator;
         });
         this.subscribeToPlayedChanges();
       });
