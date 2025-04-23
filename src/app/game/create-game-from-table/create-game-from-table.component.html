@@ -1,21 +1,27 @@
 <ng-template #dataReadyTemplate>
   <div class="button-container">
-    <button
-      mat-raised-button
-      color="primary"
-      (click)="openConfirmationDialog()"
-      [disabled]="!canCreateGame()"
-    >
-      Create Game
-    </button>
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
+    <div class="left-content">
+      <app-shared-chip
+        [chipItems]="playerGroupItems"
+        (chipsSelected)="onPlayerGroupChipsSelected($event)"
+      ></app-shared-chip>
+    </div>
+    <div class="middle-content">
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+    </div>
+    <div class="right-content">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="openConfirmationDialog()"
+        [disabled]="!canCreateGame()"
+      >
+        Create Game
+      </button>
     </div>
   </div>
-  <app-shared-chip
-    [chipItems]="playerGroupItems"
-    (chipsSelected)="onPlayerGroupChipsSelected($event)"
-  ></app-shared-chip>
   <mat-form-field class="search-field">
     <mat-label>Search...</mat-label>
     <input
