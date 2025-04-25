@@ -38,7 +38,7 @@
           <mat-icon>edit</mat-icon>
           <span>Edit game</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="requestDeleteGame(element.id)">
           <mat-icon>delete</mat-icon>
           <span>Delete game</span>
         </button>

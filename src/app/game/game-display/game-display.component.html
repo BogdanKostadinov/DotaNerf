@@ -9,6 +9,7 @@
     <app-game-table
       *ngIf="games.length > 0; else noDataTemplate"
       [games]="games"
+      (requestDeleteGameEvent)="requestDeleteGame($event)"
     ></app-game-table>
 
     <ng-template #noDataTemplate>

@@ -6,5 +6,8 @@
 
 <ng-template #dataReadyTemplate>
   <ng-container *ngIf="games$ | async as games">
-    <app-game-table [games]="games"></app-game-table> </ng-container
+    <app-game-table
+      [games]="games"
+      (requestDeleteGameEvent)="requestDeleteGame($event)"
+    ></app-game-table> </ng-container
 ></ng-template>
