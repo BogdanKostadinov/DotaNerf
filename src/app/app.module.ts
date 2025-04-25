@@ -33,6 +33,7 @@ import { GameEffects } from './store/effects/game.effects';
 import { HeroEffects } from './store/effects/hero.effects';
 import { PlayerEffects } from './store/effects/player.effects';
 import { hydrationMetaReducer } from './store/meta-reducers/hydration.meta-reducer';
+import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { hydrationMetaReducer } from './store/meta-reducers/hydration.meta-reduc
     LoadingSpinnerComponent,
     NoDataComponent,
     GameEditComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     BrowserAnimationsModule,

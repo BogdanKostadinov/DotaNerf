@@ -5,7 +5,14 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -34,6 +41,7 @@ export class GameTableComponent implements OnInit {
   expandedElement!: GameDetails | null;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @Output() requestDeleteGameEvent = new EventEmitter<string>();
 
   constructor(private router: Router) {}
 
@@ -48,5 +56,8 @@ export class GameTableComponent implements OnInit {
   }
   navigateToGame(gameId: string) {
     this.router.navigate([`games/${gameId}`]);
+  }
+  requestDeleteGame(gameId: string) {
+    this.requestDeleteGameEvent.emit(gameId);
   }
 }
