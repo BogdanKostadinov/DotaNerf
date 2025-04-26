@@ -90,6 +90,22 @@ const _gameReducer = createReducer(
     loading: false,
     error: error,
   })),
+  on(Actions.deleteGame, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(Actions.deleteGameSuccess, (state, { gameId }) => ({
+    ...state,
+    games: state.games.filter((g) => g.id !== gameId),
+    loading: false,
+    error: null,
+  })),
+  on(Actions.deleteGameFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error: error,
+  })),
 );
 
 export function gamesReducer(
