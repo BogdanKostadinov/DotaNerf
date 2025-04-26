@@ -76,10 +76,18 @@ export class GameEffects {
       ),
     ),
   );
-  // updateGameSuccess$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(GameActions.updateGameSuccess),
-  //     map(() => GameActions.loadGames()),
-  //   ),
-  // );
+
+  deleteGame$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(GameActions.deleteGame),
+      mergeMap((action) =>
+        this.gameService.deleteGame$(action.gameId).pipe(
+          map(() => GameActions.deleteGameSuccess({ gameId: action.gameId })),
+          catchError((error) =>
+            of(GameActions.deleteGameFailure({ error })),
+          ),
+        ),
+      ),
+    ),
+  );
 }

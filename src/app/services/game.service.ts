@@ -50,4 +50,7 @@ export class GameService {
   updateGame$(updateGameDTO: UpdateGameDTO): Observable<GameDetails> {
     return this.http.put<GameDetails>(this.url, updateGameDTO);
   }
+  deleteGame$(gameId: string): Observable<void> {
+    return this.http.delete<void>(this.url + '/' + gameId);
+  }
 }

@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { GameDetails } from '../../models/game.model';
 import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
-import { loadGames } from '../../store/actions/game.actions';
+import { deleteGame, loadGames } from '../../store/actions/game.actions';
 import { AppState } from '../../store/app.state';
 import {
   selectAllGames,
@@ -46,7 +46,7 @@ export class GameDisplayComponent implements OnDestroy {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         // Dispatch the delete game action here
-        // this.store.dispatch(deleteGame({ gameId }));
+        this.store.dispatch(deleteGame({ gameId }));
       }
     });
   }
