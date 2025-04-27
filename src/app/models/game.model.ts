@@ -11,6 +11,7 @@ export interface GameDetails extends Game {
   direTeam: TeamDetails;
   dateCreated: Date;
   lastModified: Date;
+  duration: string;
 }
 
 export interface CreateGameDTO {
