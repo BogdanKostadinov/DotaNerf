@@ -16,6 +16,7 @@ export interface GameDetails extends Game {
 
 export interface CreateGameDTO {
   winningTeam: TeamName;
+  duration: string;
   radiantTeam: {
     name: TeamName;
     players: PlayerGameEntry[];
