@@ -245,12 +245,13 @@ export class CreateGameFromTableComponent implements OnInit, OnDestroy {
     return players;
   }
 
-  createGame(): void {
+  createGame(gameDuration: string): void {
     const radiantPlayers = this.getTeamPlayers(true);
     const direPlayers = this.getTeamPlayers(false);
 
     const gamePayload: CreateGameDTO = {
       winningTeam: TeamName.Radiant,
+      duration: gameDuration,
       radiantTeam: {
         name: TeamName.Radiant,
         players: radiantPlayers,
@@ -318,7 +319,7 @@ export class CreateGameFromTableComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.createGame();
+        this.createGame(result.gameDuration);
       }
     });
   }

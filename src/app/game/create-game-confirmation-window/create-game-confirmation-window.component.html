@@ -1,6 +1,17 @@
 <h2 mat-dialog-title>{{ data.title }}</h2>
 <mat-dialog-content class="mat-typography">
   <h3>{{ data.message }}</h3>
+  <mat-form-field appearance="fill">
+    <mat-label>Game duration (HH:MM:SS)</mat-label>
+    <input matInput [formControl]="timeControl" placeholder="00:00:00" 
+           [pattern]="timePattern" required>
+    <mat-error *ngIf="timeControl.hasError('pattern')">
+      Please enter a valid game duration in HH:MM:SS format
+    </mat-error>
+    <mat-error *ngIf="timeControl.hasError('required')">
+      Game duration is required
+    </mat-error>
+  </mat-form-field>
   <div class="teams-container">
     <div class="team-list" [class.winning-team]="data.winningTeam === '0'">
       <h4 class="team-title">Radiant Team</h4>
@@ -30,6 +41,7 @@
     mat-raised-button
     color="primary"
     cdkFocusInitial
+    [disabled]="timeControl.invalid"
   >
     Save
   </button>
