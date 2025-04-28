@@ -30,10 +30,16 @@ tr.element-row:not(.expanded-row):active {
   gap: 40px;
 }
 
-.radiant-team,
 .dire-team {
   flex: 1;
-  border: 1px solid #ccc;
+  border: 1px solid var(--error);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.radiant-team {
+  flex: 1;
+  border: 1px solid var(--success);
   border-radius: 8px;
   padding: 10px;
 }
