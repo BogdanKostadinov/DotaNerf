@@ -1,4 +1,7 @@
-<app-toolbar></app-toolbar>
-<main class="container">
+<app-toolbar *ngIf="!isLoginPage"></app-toolbar>
+<main
+  class="container"
+  [ngClass]="{ 'login-page': isLoginPage, padded: !isLoginPage }"
+>
   <router-outlet></router-outlet>
 </main>

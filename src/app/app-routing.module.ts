@@ -5,6 +5,7 @@ import { GameDisplayComponent } from './game/game-display/game-display.component
 import { GameEditComponent } from './game/game-edit/game-edit.component';
 import { PlayerGamesComponent } from './player/player-games/player-games.component';
 import { PlayersComponent } from './player/player-stats-table/player-stats-table.component';
+import { LoginPageComponent } from './shared/login-page/login-page.component';
 
 const routes: Routes = [
   // { path: 'create-game', component: CreateGameComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
     component: GameEditComponent,
   },
   { path: 'game', component: CreateGameFromTableComponent },
+  { path: 'login', component: LoginPageComponent },
   { path: '**', redirectTo: 'players', pathMatch: 'full' },
 ];
 
