@@ -6,8 +6,16 @@
 
 <ng-template #dataReadyTemplate>
   <ng-container *ngIf="games$ | async as games">
-    <app-game-table
-      [games]="games"
-      (requestDeleteGameEvent)="requestDeleteGame($event)"
-    ></app-game-table> </ng-container
-></ng-template>
+    <div class="content-container">
+      <div class="table-container">
+        <app-game-table
+          [games]="games"
+          (requestDeleteGameEvent)="requestDeleteGame($event)"
+        ></app-game-table>
+      </div>
+      <div class="chart-container">
+        <app-chart [data]="games" [playerId]="playerId"></app-chart>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
