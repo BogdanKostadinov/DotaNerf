@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { AgChartsModule } from 'ag-charts-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CreateGameConfirmationWindowComponent } from './game/create-game-confirmation-window/create-game-confirmation-window.component';
@@ -19,10 +20,13 @@ import { GameEditComponent } from './game/game-edit/game-edit.component';
 import { GameTableComponent } from './game/game-table/game-table.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { PlayerEditComponent } from './player/player-edit/player-edit.component';
+import { ChartComponent } from './player/player-games/chart/chart.component';
 import { PlayerGamesComponent } from './player/player-games/player-games.component';
 import { PlayerStatPanelComponent } from './player/player-stat-panel/player-stat-panel.component';
 import { PlayersComponent } from './player/player-stats-table/player-stats-table.component';
+import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
+import { LoginPageComponent } from './shared/login-page/login-page.component';
 import { MaterialModule } from './shared/modules/material.module';
 import { NoDataComponent } from './shared/no-data/no-data.component';
 import { SelectWithSearchComponent } from './shared/select-with-search/select-with-search.component';
@@ -33,8 +37,6 @@ import { GameEffects } from './store/effects/game.effects';
 import { HeroEffects } from './store/effects/hero.effects';
 import { PlayerEffects } from './store/effects/player.effects';
 import { hydrationMetaReducer } from './store/meta-reducers/hydration.meta-reducer';
-import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
-import { LoginPageComponent } from './shared/login-page/login-page.component';
 
 @NgModule({
   declarations: [
@@ -57,9 +59,11 @@ import { LoginPageComponent } from './shared/login-page/login-page.component';
     GameEditComponent,
     ConfirmationDialogComponent,
     LoginPageComponent,
+    ChartComponent,
   ],
   imports: [
     BrowserAnimationsModule,
+    AgChartsModule,
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
