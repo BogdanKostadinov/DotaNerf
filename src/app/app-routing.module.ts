@@ -6,6 +6,7 @@ import { GameEditComponent } from './game/game-edit/game-edit.component';
 import { PlayerGamesComponent } from './player/player-games/player-games.component';
 import { PlayersComponent } from './player/player-stats-table/player-stats-table.component';
 import { LoginPageComponent } from './shared/login-page/login-page.component';
+import { RegisterPageComponent } from './shared/register-page/register-page.component';
 
 const routes: Routes = [
   // { path: 'create-game', component: CreateGameComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   },
   { path: 'game', component: CreateGameFromTableComponent },
   { path: 'login', component: LoginPageComponent },
+  { path: 'register', component: RegisterPageComponent },
   { path: '**', redirectTo: 'players', pathMatch: 'full' },
 ];
 

@@ -37,6 +37,7 @@ import { GameEffects } from './store/effects/game.effects';
 import { HeroEffects } from './store/effects/hero.effects';
 import { PlayerEffects } from './store/effects/player.effects';
 import { hydrationMetaReducer } from './store/meta-reducers/hydration.meta-reducer';
+import { RegisterPageComponent } from './shared/register-page/register-page.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { hydrationMetaReducer } from './store/meta-reducers/hydration.meta-reduc
     ConfirmationDialogComponent,
     LoginPageComponent,
     ChartComponent,
+    RegisterPageComponent,
   ],
   imports: [
     BrowserAnimationsModule,
