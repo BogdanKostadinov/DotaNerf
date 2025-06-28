@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { CreateUserDTO } from '../../models/user.model';
+import { UserService } from '../../services/user.service';
+import { SnackbarService } from '../snackbar/snackbar.service';
 
 @Component({
   selector: 'app-register-page',
@@ -11,9 +15,15 @@ export class RegisterPageComponent {
   hidePassword = true;
   hideConfirm = true;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private snackBarService: SnackbarService,
+    private router: Router,
+  ) {
     this.registerForm = this.fb.group({
-      username: ['', Validators.required],
+      email: ['', Validators.required],
+      userName: ['', Validators.required],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
     });
@@ -26,6 +36,29 @@ export class RegisterPageComponent {
         this.checkPasswordMatch();
       }
     });
+  }
+
+  registerUser() {
+    if (this.registerForm.valid) {
+      const user: CreateUserDTO = {
+        email: this.registerForm.get('email')?.value,
+        userName: this.registerForm.get('userName')?.value,
+        password: this.registerForm.get('password')?.value,
+      };
+
+      this.userService.createUser(user).subscribe({
+        next: (response) => {
+          this.registerForm.reset();
+          this.snackBarService.success(
+            `User ${response.userName} registered successfully!`,
+          );
+          this.router.navigate(['/players']);
+        },
+        error: (error) => {
+          console.error('Error registering user:', error);
+        },
+      });
+    }
   }
 
   private checkPasswordMatch() {
