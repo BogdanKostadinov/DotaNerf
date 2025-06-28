@@ -16,7 +16,7 @@ export class UserService {
   }
 
   createUser(user: CreateUserDTO): Observable<User> {
-    return this.http.post<User>(`${this.url}/register`, user);
+    return this.http.post<User>(`${this.url}/create`, user);
   }
 
   getUser(id: string): Observable<User> {
