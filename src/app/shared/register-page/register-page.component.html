@@ -15,7 +15,10 @@
           />
           <mat-icon matPrefix>email</mat-icon>
           <mat-error *ngIf="registerForm.get('email')?.hasError('required')">
-            Email is required
+            Email is required.
+          </mat-error>
+          <mat-error *ngIf="registerForm.get('email')?.hasError('emailExists')">
+            Email already exists.
           </mat-error>
         </mat-form-field>
 

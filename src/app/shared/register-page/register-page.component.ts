@@ -1,6 +1,13 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  AsyncValidatorFn,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
+import { map, of } from 'rxjs';
 import { CreateUserDTO } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import { SnackbarService } from '../snackbar/snackbar.service';
@@ -22,7 +29,7 @@ export class RegisterPageComponent {
     private router: Router,
   ) {
     this.registerForm = this.fb.group({
-      email: ['', Validators.required],
+      email: ['', Validators.required, [this.emailExistsValidator()]],
       userName: ['', Validators.required],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
@@ -59,6 +66,20 @@ export class RegisterPageComponent {
         },
       });
     }
+  }
+
+  emailExistsValidator(): AsyncValidatorFn {
+    return (control: AbstractControl) => {
+      if (!control.value) {
+        return of(null);
+      }
+      return this.userService.getUsers().pipe(
+        map((users) => {
+          const exists = users.some((user) => user.email === control.value);
+          return exists ? { emailExists: true } : null;
+        }),
+      );
+    };
   }
 
   private checkPasswordMatch() {
