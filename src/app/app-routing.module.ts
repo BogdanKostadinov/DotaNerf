@@ -5,13 +5,14 @@ import { GameDisplayComponent } from './game/game-display/game-display.component
 import { GameEditComponent } from './game/game-edit/game-edit.component';
 import { PlayerGamesComponent } from './player/player-games/player-games.component';
 import { PlayersComponent } from './player/player-stats-table/player-stats-table.component';
+import { AuthGuard } from './shared/auth-guard/auth.guard';
 import { LoginPageComponent } from './shared/login-page/login-page.component';
 import { RegisterPageComponent } from './shared/register-page/register-page.component';
 
 const routes: Routes = [
   // { path: 'create-game', component: CreateGameComponent },
   // { path: 'image-upload', component: ImageUploadComponent },
-  { path: 'players', component: PlayersComponent },
+  { path: 'players', component: PlayersComponent, canActivate: [AuthGuard] },
   { path: 'players/:id', component: PlayerGamesComponent },
   { path: 'games', component: GameDisplayComponent },
   {

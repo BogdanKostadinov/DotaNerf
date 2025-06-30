@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { CreateUserDTO, User } from '../models/user.model';
+import {
+  AuthenticationService,
+  AuthResponse,
+} from './authentication/authentication.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,10 +13,15 @@ import { CreateUserDTO, User } from '../models/user.model';
 export class UserService {
   private url = 'https://localhost:7174/users';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthenticationService,
+  ) {}
 
-  login(email: string, password: string): Observable<User> {
-    return this.http.post<User>(`${this.url}/login`, { email, password });
+  login(email: string, password: string): Observable<AuthResponse> {
+    return this.http
+      .post<AuthResponse>(`${this.url}/login`, { email, password })
+      .pipe(tap((response) => this.authService.setAuth(response)));
   }
 
   createUser(user: CreateUserDTO): Observable<User> {

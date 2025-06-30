@@ -1,4 +1,5 @@
 import {
+  HTTP_INTERCEPTORS,
   HttpClientModule,
   provideHttpClient,
   withFetch,
@@ -24,11 +25,13 @@ import { ChartComponent } from './player/player-games/chart/chart.component';
 import { PlayerGamesComponent } from './player/player-games/player-games.component';
 import { PlayerStatPanelComponent } from './player/player-stat-panel/player-stat-panel.component';
 import { PlayersComponent } from './player/player-stats-table/player-stats-table.component';
+import { AuthInterceptor } from './services/authentication/auth.interceptor';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { LoginPageComponent } from './shared/login-page/login-page.component';
 import { MaterialModule } from './shared/modules/material.module';
 import { NoDataComponent } from './shared/no-data/no-data.component';
+import { RegisterPageComponent } from './shared/register-page/register-page.component';
 import { SelectWithSearchComponent } from './shared/select-with-search/select-with-search.component';
 import { SharedChipComponent } from './shared/shared-chip-component/shared-chip.component';
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
@@ -37,7 +40,6 @@ import { GameEffects } from './store/effects/game.effects';
 import { HeroEffects } from './store/effects/hero.effects';
 import { PlayerEffects } from './store/effects/player.effects';
 import { hydrationMetaReducer } from './store/meta-reducers/hydration.meta-reducer';
-import { RegisterPageComponent } from './shared/register-page/register-page.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +82,11 @@ import { RegisterPageComponent } from './shared/register-page/register-page.comp
     EffectsModule.forRoot([]),
     EffectsModule.forFeature([GameEffects, PlayerEffects, HeroEffects]),
   ],
-  providers: [provideHttpClient(withFetch()), provideAnimationsAsync()],
+  providers: [
+    provideHttpClient(withFetch()),
+    provideAnimationsAsync(),
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
